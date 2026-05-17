@@ -1,0 +1,314 @@
+[
+  {
+    "id": "vocal_1",
+    "location": "vocal",
+    "description": "Vm9rYWwlMjBrbyVDMyVBN3UlMjBoZXJrZXNpbiUyMGklQzMlQTdpbmRlJTIwJUM1JTlGdW51JTIwcyVDMyVCNnlsJUMzJUJDeW9yJTNBJTIwJ1Nlc2luJTIwdGVrbmlrJTIwb2xhcmFrJTIwaXlpJTIwb2xhYmlsaXIlMjBhbWElMjBydWh1biUyMGVrc2lrLiclMjBPZGElMjBzZXNzaXpsZSVDNSU5Rml5b3Iu",
+    "choices": [
+      {
+        "text": "QWMlQzQlQjF5JUM0JUIxJTIwa3VsbGFuJUM0JUIxcCUyMGRhaGElMjBnJUMzJUJDJUMzJUE3bCVDMyVCQyUyMHMlQzMlQjZ5bGVtZXllJTIwJUMzJUE3YWwlQzQlQjElQzUlOUYu",
+        "effects": {
+          "talent": 20,
+          "health": -15,
+          "resilience": 10,
+          "success": 15
+        },
+        "message": "U2VzaW4lMjBnJUMzJUJDJUMzJUE3bGVuZGklMjBhbWElMjBrZW5kaW5pJTIwa2FuJUM0JUIxdGxhbWFrJTIwaSVDMyVBN2luJTIwa2VuZGluaSUyMHpvcmxhZCVDNCVCMW4u"
+      },
+      {
+        "text": "S28lQzMlQTdhJTIwa2F0JUM0JUIxbCVDNCVCMXAlMjBmYXJrbCVDNCVCMSUyMGJpciUyMHlvcnVtJTIwZGVuZXllY2UlQzQlOUZpbmklMjBzJUMzJUI2eWxlLg==",
+        "effects": {
+          "resilience": 15,
+          "success": 10,
+          "talent": 10
+        },
+        "message": "RWxlJUM1JTlGdGlyaXlpJTIwcG96aXRpZiUyMGthciVDNSU5RiVDNCVCMWxhbWFuJTIwa28lQzMlQTd1biUyMGhvJUM1JTlGdW5hJTIwZ2l0dGkuJTIwQmElQzUlOUZhciVDNCVCMW4lMjBhcnR0JUM0JUIxLg=="
+      }
+    ]
+  },
+  {
+    "id": "vocal_2",
+    "location": "vocal",
+    "description": "U2VzJTIwdGVsbGVyaW4lMjBhJUM1JTlGJUM0JUIxciVDNCVCMSUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGbWFrdGFuJTIwJUMzJUI2dCVDMyVCQ3IlQzMlQkMlMjBrYW5hbWFrJTIwJUMzJUJDemVyZS4lMjBEb2t0b3IlMjAna2VzaW4lMjBkaW5sZW5tZSclMjBkZWRpJTIwYW1hJTIweWFyJUM0JUIxbiUyMGthcml5ZXJpbiUyMGklQzMlQTdpbiUyMGtyaXRpayUyMGJpciUyMHlhcCVDNCVCMW1jJUM0JUIxJTIwc2VuaSUyMGRpbmxlbWV5ZSUyMGdlbGVjZWsu",
+    "choices": [
+      {
+        "text": "QWMlQzQlQjElMjBrZXNpY2lsZXJsZSUyMHNlc2klMjBiYXN0JUM0JUIxciVDNCVCMXAlMjB5YXAlQzQlQjFtYyVDNCVCMXlhJTIwJUM1JTlGYXJrJUM0JUIxJTIwcyVDMyVCNnlsZS4=",
+        "effects": {
+          "talent": 25,
+          "success": 30,
+          "health": -40,
+          "resilience": -15
+        },
+        "message": "WWFwJUM0JUIxbWMlQzQlQjElMjBiYXklQzQlQjFsZCVDNCVCMSElMjBBbWElMjBzZXMlMjB0ZWxsZXJpbiUyMGthbCVDNCVCMWMlQzQlQjElMjBoYXNhciUyMGFsZCVDNCVCMSUyQyUyMGthbiUyMHQlQzMlQkNrJUMzJUJDcmQlQzMlQkNuLg=="
+      },
+      {
+        "text": "RG9rdG9ydSUyMGRpbmxlJTJDJTIwcGVyZm9ybWFucyVDNCVCMSUyMGlwdGFsJTIwZXQu",
+        "effects": {
+          "health": 25,
+          "success": -35,
+          "talent": -10,
+          "resilience": 10
+        },
+        "message": "U2ElQzQlOUZsJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGt1cnRhcmQlQzQlQjFuJTIwYW1hJTIwJUM1JTlGaXJrZXQlMjBzYW5hJTIwJ2slQzQlQjFyJUM0JUIxbGdhbiUyMHZlJTIwaXN0ZWtzaXonJTIwZGFtZ2FzJUM0JUIxJTIwdnVyZHUu"
+      }
+    ]
+  },
+  {
+    "id": "vocal_3",
+    "location": "vocal",
+    "description": "UHJvdmElMjBzJUM0JUIxcmFzJUM0JUIxbmRhJTIwdm9rYWwlMjBrbyVDMyVBN3UlMjBkaSVDNCU5RmVyJTIwYmlyJTIwc3RhanllcmklMjBhbGslQzQlQjElQzUlOUZsJUM0JUIxeW9yJTNBJTIwJyVDNCVCMCVDNSU5RnRlJTIwYnUhJTIwQnVudSUyMHNlbmRlbiUyMGRlJTIwZyVDMyVCNnJtZWslMjBpc3RpeW9ydW0uJyUyME8lMjBzdGFqeWVyJTIwc2VuaW4lMjBnZWxpJUM1JTlGdGlyZGklQzQlOUZpbiUyMGJpciUyMHRla25pJUM0JTlGaSUyMGt1bGxhbiVDNCVCMXlvciUyMCVFMiU4MCU5NCUyMHZlJTIwa2ltc2UlMjBiaWxtaXlvci4=",
+    "choices": [
+      {
+        "text": "U2Vzc2l6Y2UlMjBnJUMzJUI2emxlbWxlJTIwdmUlMjBrZW5kaSUyMHZlcnNpeW9udW51JTIwYmlyJTIwYWQlQzQlQjFtJTIwaWxlcmklMjB0YSVDNSU5RiVDNCVCMS4=",
+        "effects": {
+          "talent": 25,
+          "resilience": 15,
+          "success": 10
+        },
+        "message": "SyVDNCVCMXNrYW4lQzMlQTdsJUM0JUIxJUM0JTlGJUM0JUIxJTIwZW5lcmppeWUlMjBkJUMzJUI2biVDMyVCQyVDNSU5RnQlQzMlQkNyZCVDMyVCQ24uJTIwS28lQzMlQTclMjBidW51JTIwZmFyayUyMGV0dGku"
+      },
+      {
+        "text": "S28lQzMlQTdhJTIwbyUyMHRla25pJUM0JTlGaW4lMjBhc2wlQzQlQjFuZGElMjBzZW5pbmxlJTIwYmElQzUlOUZsYWQlQzQlQjElQzQlOUYlQzQlQjFuJUM0JUIxJTIwcyVDMyVCNnlsZS4=",
+        "effects": {
+          "resilience": -15,
+          "success": -20,
+          "health": -10
+        },
+        "message": "SyVDMyVCQyVDMyVBNyVDMyVCQ2slMjBnJUMzJUI2ciVDMyVCQ25tZXllJTIwJUMzJUE3YWwlQzQlQjElQzUlOUZtYWslMjBzZW5pJTIwayVDMyVCQyVDMyVBNyVDMyVCQ2x0dCVDMyVCQy4lMjBLbyVDMyVBNyUyMGJ1bnUlMjByZWthYmV0JUMzJUE3aSUyMGJ1bGR1Lg=="
+      }
+    ]
+  },
+  {
+    "id": "vocal_4",
+    "location": "vocal",
+    "description": "QnVnJUMzJUJDbiUyMHNvbG8lMjBiaXIlMjBwYXIlQzMlQTdhJTIwcyVDMyVCNnlsZW1lbmklMjBpc3RlZGlsZXIuJTIwUHJvdmElMjBiYSVDNSU5RmxhbWFkYW4lMjAlQzMlQjZuY2UlMjBmYXJrJTIwZWRpeW9yc3VuJTIwa2klMjByYWtpYmluJTIwc2FuYSUyMGFpdCUyMG5vdGxhciVDNCVCMSUyMGthciVDNCVCMSVDNSU5RnQlQzQlQjFyJUM0JUIxeW9yLiUyME5lJTIweWFwYWNha3MlQzQlQjFuJTNG",
+    "choices": [
+      {
+        "text": "RHVydW11JTIwa28lQzMlQTdhJTIwYmlsZGlyJTJDJTIwc2Vzc2l6JTIwa2FsbWEu",
+        "effects": {
+          "success": 15,
+          "resilience": 10,
+          "health": -5
+        },
+        "message": "SGFrbCVDNCVCMWwlQzQlQjElQzQlOUYlQzQlQjFuJTIwb3J0YXlhJTIwJUMzJUE3JUM0JUIxa3QlQzQlQjEuJTIwUmFraWJpbiUyMHV5YXIlQzQlQjFsZCVDNCVCMS4lMjBBbWElMjBnJUMzJUJDdmVuJTIwemVkZWxlbmRpLg=="
+      },
+      {
+        "text": "Tm90bGFyJTIwb2xtYWRhbiUyMHMlQzMlQjZ5bGUlMkMlMjBlemJlcmUlMjBnJUMzJUJDdmVuLg==",
+        "effects": {
+          "talent": 20,
+          "resilience": 25,
+          "success": 20
+        },
+        "message": "QmFzayVDNCVCMSUyMGFsdCVDNCVCMW5kYSUyMHBhcmxheWFyYWslMjBoZW0lMjBrbyVDMyVBN3UlMjBoZW0lMjByYWtpYmluaSUyMGhheXJldGUlMjBkJUMzJUJDJUM1JTlGJUMzJUJDcmQlQzMlQkNuLg=="
+      }
+    ]
+  },
+  {
+    "id": "vocal_5",
+    "location": "vocal",
+    "description": "Vm9rYWwlMjBkZXJzaW5kZSUyMGtvJUMzJUE3JTIwc2VuZGVuJTIwYmlyJTIwJUM1JTlGYXJrJUM0JUIxbiVDNCVCMW4lMjBlbiUyMGR1eWd1c2FsJTIwayVDNCVCMXNtJUM0JUIxbiVDNCVCMSUyMGtlbmRpJTIwYW4lQzQlQjFubGElMjBiYSVDNCU5RmxheWFyYWslMjBzJUMzJUI2eWxlbWVuaSUyMGlzdGl5b3IuJTIwJ0dlciVDMyVBN2VrJTIwYmlyJTIwJUM1JTlGZXlpJTIwZCVDMyVCQyVDNSU5RiVDMyVCQ24nJTIwZGl5b3IuJTIwTyUyMGFuJTIwYWtsJUM0JUIxbmElMjBnZWxlY2VrJTIwJUM1JTlGZXklMjBoZW0lMjBlbiUyMGRlcmluJTIwYWMlQzQlQjFuJTIwaGVtJTIwZGUlMjBvbnUlMjBoZXJrZXNsZSUyMHBheWxhJUM1JTlGbWFrJTIwaXN0ZW1lZGklQzQlOUZpbiUyMGJpciUyMCVDNSU5RmV5Lg==",
+    "choices": [
+      {
+        "text": "S29ya3V5YSUyMHJhJUM0JTlGbWVuJTIwbyUyMGFuJUM0JUIxJTIwZCVDMyVCQyVDNSU5RiVDMyVCQ24lMjB2ZSUyMCVDNSU5RmFyayVDNCVCMXlhJTIwZG9sZHVyLg==",
+        "effects": {
+          "talent": 30,
+          "health": -10,
+          "resilience": 15
+        },
+        "message": "U2VzaW4lMjBzYWxvbnUlMjBkb2xkdXJkdS4lMjBLbyVDMyVBNyUyMGRvbnVwJTIwa2FsZCVDNCVCMS4lMjBLJUM0JUIxciVDNCVCMWxnYW4lMjBvbG1hayUyMGVuJTIwYiVDMyVCQ3klQzMlQkNrJTIwZyVDMyVCQ2MlQzMlQkNuZCVDMyVCQy4="
+      },
+      {
+        "text": "WSVDMyVCQ3pleXNlbCUyMGJpciUyMCVDNSU5RmV5JTIwZCVDMyVCQyVDNSU5RiVDMyVCQ24lMjB2ZSUyMCd5ZXRlcmluY2UlMjBpeWknJTIwYmlyJTIwcGVyZm9ybWFucyUyMHZlci4=",
+        "effects": {
+          "talent": -10,
+          "success": -15,
+          "resilience": 5
+        },
+        "message": "RyVDMyVCQ3ZlbmRlJTIwa2FsZCVDNCVCMW4uJTIwQW1hJTIwJ3BvdGFuc2l5ZWxpbmluJTIweWFyJUM0JUIxcyVDNCVCMW4lQzQlQjElMjBiaWxlJTIwZyVDMyVCNnN0ZXJtZWRpbiclMjB5b3J1bXVudSUyMGFsZCVDNCVCMW4u"
+      }
+    ]
+  },
+  {
+    "id": "vocal_6",
+    "location": "vocal",
+    "description": "S28lQzMlQTclMjBidWclQzMlQkNuJTIwdCVDMyVCQ20lMjBzdGFqeWVybGVyZSUyMGElQzMlQTclQzQlQjFrbGFkJUM0JUIxJTNBJTIwJ1lhciVDNCVCMW5raSUyMGRlJUM0JTlGZXJsZW5kaXJtZWRlJTIwZW4lMjBpeWklMjB2b2thbCUyMGJpcmluY2klMjBzYWhuZSUyMHBvemlzeW9udW51JTIwYWxhY2FrLiclMjBBayVDNSU5RmFtJTIwcHJvdmElMjB5YXBhcmtlbiUyMHNlc2luJTIwdHV0bXV5b3IuJTIwQmVsa2klMjBkaW5sZW5pcnNlbiUyMHlhciVDNCVCMW4lMjBkYWhhJTIwaXlpJTIwcyVDMyVCNnlsZXJzaW4lMkMlMjBhbWElMjByYWtpcGxlciUyMGJ1JTIwZ2VjZSUyMGRlJTIwJUMzJUE3YWwlQzQlQjElQzUlOUYlQzQlQjF5b3Iu",
+    "choices": [
+      {
+        "text": "QnUlMjBnZWNlJTIwdXl1JTJDJTIweWFyJUM0JUIxbiUyMGRpbmxlbm1pJUM1JTlGJTIwc2VzbGUlMjBnJUMzJUJDdmVuLg==",
+        "effects": {
+          "health": 20,
+          "talent": 10,
+          "resilience": 10,
+          "success": -10
+        },
+        "message": "QWslQzQlQjFsbCVDNCVCMWNhJTIwYmlyJTIwa2FyYXIuJTIwU2VzaW4lMjB5YXIlQzQlQjFuJTIwcGFybGFrJTIwJUMzJUE3JUM0JUIxa3QlQzQlQjElMjB2ZSUyMGtvJUMzJUE3JTIwYnVudSUyMGZhcmslMjBldHRpLg=="
+      },
+      {
+        "text": "U2VzaW5pJTIwem9ybGF5YXJhayUyMGJ1JTIwZ2VjZSUyMGFudHJlbm1hbiUyMHlhcC4=",
+        "effects": {
+          "health": -25,
+          "talent": -15,
+          "success": -20
+        },
+        "message": "U2VzaW4lMjBzYWJhaGElMjBrYWRhciUyMGl5aWNlJTIwYm96dWxkdS4lMjBEZSVDNCU5RmVybGVuZGlybWV5ZSUyMGdpZGVtZXllY2VrJTIwZHVydW1kYXlkJUM0JUIxbi4="
+      }
+    ]
+  },
+  {
+    "id": "vocal_7",
+    "location": "vocal",
+    "description": "QmlyJTIwZCVDMyVCQ2V0JTIwZGUlQzQlOUZlcmxlbmRpcm1lc2luZGVzaW4uJTIwUGFydG5lcmluJTIwJUMzJUE3b2slMjBzZXZkaSVDNCU5RmluJTIwYmlyJTIwYXJrYWRhJUM1JTlGJUM0JUIxbiUyMGFtYSUyMHMlQzMlQkNyZWtsaSUyMGRldG9uZSUyMG9sdXlvci4lMjBFJUM0JTlGZXIlMjBvbnUlMjBiYXN0JUM0JUIxcmFjYWslMjBrYWRhciUyMGclQzMlQkMlQzMlQTdsJUMzJUJDJTIwcyVDMyVCNnlsZXJzZW4lMjBzZW4lMjAlQzMlQjZuZSUyMCVDMyVBNyVDNCVCMWthcnMlQzQlQjFuJTIwYW1hJTIwbyUyMGVsZW5pci4lMjBFJUM0JTlGZXIlMjBvbmElMjB1eXVtJTIwc2ElQzQlOUZsYXJzYW4lMjBpa2luaXppbiUyMGRlJTIwbm90dSUyMGQlQzMlQkMlQzUlOUZlY2VrLg==",
+    "choices": [
+      {
+        "text": "S2VuZGklMjBwZXJmb3JtYW5zJUM0JUIxbiVDNCVCMSUyMHppcnZleWUlMjB0YSVDNSU5RiVDNCVCMSUyQyUyMGFya2FkYSVDNSU5RiVDNCVCMW4lQzQlQjElMjBnZXJpZGUlMjBiJUM0JUIxcmFrLg==",
+        "effects": {
+          "success": 25,
+          "talent": 15,
+          "resilience": -20,
+          "health": -10
+        },
+        "message": "U2VuJTIwcGFybGFkJUM0JUIxbiUyMGFtYSUyMGFya2FkYSVDNSU5RiVDNCVCMW4lQzQlQjFuJTIwZyVDMyVCNnp5YSVDNSU5RmxhciVDNCVCMSUyMGklQzMlQTdpbmRlJTIwZWxlbm1lc2luaSUyMGl6bGVtZWslMjB6b3J1bmRhJTIwa2FsZCVDNCVCMW4uJTIwJUM1JTlFaXJrZXQlMjBzZW5pJTIwJ2FjJUM0JUIxbWFzJUM0JUIxeiUyMGJpciUyMHByb2Zlc3lvbmVsJyUyMG9sYXJhayUyMG5vdCUyMGV0dGku"
+      },
+      {
+        "text": "U2VzaW5pJTIwayVDNCVCMXMlMjB2ZSUyMG9uYSUyMGRlc3RlayUyMG9sbWF5YSUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGJTJDJTIwdXl1bXUlMjBib3ptYS4=",
+        "effects": {
+          "resilience": 25,
+          "success": -20,
+          "talent": -10,
+          "health": 10
+        },
+        "message": "QXJrYWRhJUM1JTlGJUM0JUIxbiVDNCVCMSUyMGt1cnRhcmFtYWQlQzQlQjFuJTJDJTIwJUMzJUJDc3RlbGlrJTIwaiVDMyVCQ3JpJTIwc2VuaW4lMjBkZSUyMCd5ZXRlcnNpeiUyMHZlJTIwcyVDMyVCNm4lQzMlQkNrJyUyMG9sZHUlQzQlOUZ1bmElMjBrYXJhciUyMHZlcmRpLiUyMFNhZGFrYXRpbiUyMHNhbmElMjBwYWhhbCVDNCVCMXlhJTIwcGF0bGFkJUM0JUIxLg=="
+      }
+    ]
+  },
+  {
+    "id": "vocal_8",
+    "location": "vocal",
+    "description": "JUM1JTlFaXJrZXRpbiUyMGVuJTIwcG9wJUMzJUJDbGVyJTIwdmUlMjAneSVDMyVCQ3olQzMlQkMnJTIwb2xhbiUyMHN0YWp5ZXJpbiUyMHNlc2klMjBrJUM0JUIxcyVDNCVCMWxkJUM0JUIxLiUyMFklQzMlQjZuZXRpbSUyQyUyMHlhciVDNCVCMW5raSUyMGRlbW8lMjBrYXlkJUM0JUIxbmRhJTIwb251biUyMHllcmluZSUyMHNlbmluJTIwJUM1JTlGYXJrJUM0JUIxJTIwcyVDMyVCNnlsZW1lbmklMjBhbWElMjBvbnVuJTIwYWQlQzQlQjFuJUM0JUIxbiUyMHlheiVDNCVCMWxtYXMlQzQlQjFuJUM0JUIxJTIwaXN0aXlvci4lMjBCdSUyMHNlbmluJTIwaSVDMyVBN2luJTIwYiVDMyVCQ3klQzMlQkNrJTIwYmlyJTIwZiVDNCVCMXJzYXQlMjBhbWElMjBraW1zZSUyMHNlbmluJTIwcyVDMyVCNnlsZWRpJUM0JTlGaW5pJTIwYmlsbWV5ZWNlay4=",
+    "choices": [
+      {
+        "text": "S2FidWwlMjBldC4lMjAlQzUlOUVpcmtldGluJTIwZyVDMyVCNnolQzMlQkNuZSUyMGdpciUyMHZlJTIwZ2l6bGklMjBrYWhyYW1hbiUyMG9sLg==",
+        "effects": {
+          "success": 30,
+          "resilience": -30,
+          "talent": 20,
+          "health": -15
+        },
+        "message": "S2F5JUM0JUIxdCUyMG0lQzMlQkNrZW1tZWwlMjBvbGR1LiUyMCVDNSU5RWlya2V0JTIwc2FuYSUyMGJvciVDMyVBN2xhbmQlQzQlQjElMjBhbWElMjByYWR5b2RhJTIwa2VuZGklMjBzZXNpbmklMjBkdXl1cCUyMGJhJUM1JTlGa2ElMjBiaXJpbmluJTIwYWxrJUM0JUIxJUM1JTlGbGFubWFzJUM0JUIxbiVDNCVCMSUyMGl6bGVtZWslMjBydWh1bnUlMjB5YXJhbCVDNCVCMXlvci4="
+      },
+      {
+        "text": "UmVkZGV0LiUyMCdLZW5kaSUyMHNlc2ltaSUyMGJhJUM1JTlGa2FzJUM0JUIxbmElMjBraXJhbGFtYW0nJTIwZGUu",
+        "effects": {
+          "resilience": 30,
+          "success": -25,
+          "talent": 5
+        },
+        "message": "R3VydXJ1bnUlMjBrb3J1ZHVuJTIwYW1hJTIwJUMzJUJDc3QlMjB5JUMzJUI2bmV0aW0lMjBzZW5pJTIwJ3V5dW1zdXolMjB2ZSUyMHpvciUyMGJpciUyMGthcmFrdGVyJyUyMG9sYXJhayUyMGthcmElMjBsaXN0ZXllJTIwYWxkJUM0JUIxLiUyMEYlQzQlQjFyc2F0JTIwZWxsZXJpbmRlbiUyMGtheSVDNCVCMXAlMjBnaXR0aS4="
+      }
+    ]
+  },
+  {
+    "id": "vocal_9",
+    "location": "vocal",
+    "description": "Vm9rYWwlMjBrbyVDMyVBN3UlMjB0YXJ6JUM0JUIxbiVDNCVCMSUyMHRhbWFtZW4lMjBkZSVDNCU5RmklQzUlOUZ0aXJtZWslMjBpc3RpeW9yLiUyMCdEbyVDNCU5RmFsJTIwdCVDNCVCMW4lQzQlQjFzJUM0JUIxJTIwJUMzJUE3b2slMjAlQzMlQTdpJUM0JTlGJTJDJTIwZGFoYSUyMHlhcGF5JTIwdmUlMjB0aWNhcmklMjBiaXIlMjBzZXMlMjB0b251JTIwa3VsbGFubWFsJUM0JUIxcyVDNCVCMW4nJTIwZGl5b3IuJTIwQnUlMjBzZW5pbiUyMHNhbmF0JUMzJUE3JUM0JUIxJTIwa2ltbGklQzQlOUZpbmUlMjB0YW1hbWVuJTIwYXlrJUM0JUIxciVDNCVCMSUyMGFtYSUyMHBpeWFzYW4lQzQlQjFuJTIwaXN0ZWRpJUM0JTlGaSUyMGJ1Lg==",
+    "choices": [
+      {
+        "text": "JUM0JUIwc3RlbmVuJTIwdGljYXJpJTIwc2VzaSUyMCVDMyVBNyVDNCVCMWthciUyQyUyMCVDMyVCNnpnJUMzJUJDbmwlQzMlQkMlQzQlOUYlQzMlQkNuZGVuJTIwdmF6Z2UlQzMlQTcu",
+        "effects": {
+          "success": 25,
+          "talent": -15,
+          "resilience": -20,
+          "health": 5
+        },
+        "message": "WWVuaSUyMHRhcnolQzQlQjFubGElMjBsaXN0ZWxlcmUlMjBnaXJlYmlsaXJzaW4lMjBiZWxraSUyMGFtYSUyMGF5bmF5YSUyMGJha3QlQzQlQjElQzQlOUYlQzQlQjFuZGElMjBkdXlkdSVDNCU5RnVuJTIwc2VzJTIwYXJ0JUM0JUIxayUyMHNhbmElMjBhaXQlMjBkZSVDNCU5RmlsLiUyMEJpciUyMCVDMyVCQ3IlQzMlQkNuJTIwaGFsaW5lJTIwZ2VsZGluLg=="
+      },
+      {
+        "text": "S2VuZGklMjB0YXJ6JUM0JUIxbmRhJTIwJUM0JUIxc3JhciUyMGV0JTJDJTIwdGVrbGlmaSUyMGdlcmklMjAlQzMlQTdldmlyLg==",
+        "effects": {
+          "resilience": 30,
+          "talent": 20,
+          "success": -20
+        },
+        "message": "U2FuYXQlQzMlQTclQzQlQjElMjBvbnVydW51JTIwa29ydWR1bi4lMjBLbyVDMyVBNyUyMHNhbmElMjAndmFraXQlMjBrYXliJUM0JUIxJyUyMG11YW1lbGVzaSUyMHlhcG1heWElMjBiYSVDNSU5RmxhZCVDNCVCMSUyMGFuY2FrJTIwc2VzaW4lMjBoYWxhJTIwc2VuaW4lMjBydWh1bnUlMjB0YSVDNSU5RiVDNCVCMXlvci4="
+      }
+    ]
+  },
+  {
+    "id": "vocal_10",
+    "location": "vocal",
+    "description": "JUMzJTk2bmVtbGklMjBiaXIlMjBrYXklQzQlQjF0JTIwJUMzJUI2bmNlc2klMjByYWtpYmluaW4lMjBzZW5pbiUyMHN1eXVuYSUyQyUyMHNlc2luaSUyMGt1cnV0YW4lMjBiaXIlMjBtYWRkZSUyMGthdHQlQzQlQjElQzQlOUYlQzQlQjFuJUM0JUIxJTIwZmFyayUyMGV0dGluLiUyMEthbiVDNCVCMXQlQzQlQjFuJTIweW9rJTIwYW1hJTIwbyUyMG1hZGRleWklMjBpJUMzJUE3ZXJzZSUyMGtlbmRpc2klMjAlQzMlQTdvayUyMGl5aSUyMHMlQzMlQjZ5bGV5ZWNlayUyMCVDMyVBNyVDMyVCQ25rJUMzJUJDJTIwc2VuaW4lMjBwZXJmb3JtYW5zJUM0JUIxbiUyMGQlQzMlQkMlQzUlOUZlY2VrLiUyMCVDMyU5Nm4lQzMlQkNuZGUlMjBvbnVuJTIwYmFyZGElQzQlOUYlQzQlQjElMjBkdXJ1eW9yLg==",
+    "choices": [
+      {
+        "text": "QmFyZGFrbGFyJUM0JUIxJTIwZ2l6bGljZSUyMGRlJUM0JTlGaSVDNSU5RnRpciUyQyUyMG8lMjBrZW5kaSUyMGthemQlQzQlQjElQzQlOUYlQzQlQjElMjBrdXl1eWElMjBkJUMzJUJDJUM1JTlGcyVDMyVCQ24u",
+        "effects": {
+          "success": 20,
+          "resilience": -35,
+          "health": -10
+        },
+        "message": "TyUyMGRldG9uZSUyMG9sdXJrZW4lMjBzZW4lMjBtJUMzJUJDa2VtbWVsJTIwcyVDMyVCNnlsZWRpbi4lMjAlQzQlQjBudGlrYW0lQzQlQjFuJTIwYWMlQzQlQjElMjBvbGR1JTIwYW1hJTIwb251biUyMG1haHZvbG11JUM1JTlGJTIwaGFsaW5pJTIwZyVDMyVCNnIlQzMlQkNuY2UlMjBrZW5kaW5pJTIwYmlyJTIwc3UlQzMlQTdsdSUyMGdpYmklMjBoaXNzZXR0aW4u"
+      },
+      {
+        "text": "QmFyZGElQzQlOUYlQzQlQjElMjBkJUMzJUI2ayUyMHZlJTIwaGklQzMlQTdiaXIlMjAlQzUlOUZleSUyMHMlQzMlQjZ5bGVtZWRlbiUyMGtheWRhJTIwZ2lyLg==",
+        "effects": {
+          "resilience": 35,
+          "talent": 10,
+          "health": 5,
+          "success": -10
+        },
+        "message": "WmVocmUlMjB6ZWhpcmxlJTIwa2FyJUM1JTlGJUM0JUIxbCVDNCVCMWslMjB2ZXJtZWRpbi4lMjBCZWxraSUyMGJ1JTIweSVDMyVCQ3pkZW4lMjBwZXJmb3JtYW5zJUM0JUIxbiUyMGJpciUyMHQlQzQlQjFrJTIwcyVDMyVCNm4lQzMlQkNrJTIwa2FsZCVDNCVCMSUyMGFtYSUyMGthcmFrdGVyaW5kZW4lMjAlQzMlQjZkJUMzJUJDbiUyMHZlcm1lZGluLg=="
+      }
+    ]
+  },
+  {
+    "id": "vocal_11",
+    "location": "vocal",
+    "description": "S2F5JUM0JUIxdCUyMHMlQzQlQjFyYXMlQzQlQjFuZGElMjBwcm9kdWNlciUyMHNhbmElMjBiYSVDNCU5RiVDNCVCMXIlQzQlQjF5b3IlM0ElMjAnRGFoYSUyMGZhemxhJTIwYWMlQzQlQjEhJTIwRGFoYSUyMGZhemxhJTIwZHV5Z3UhJTIwRSVDNCU5RmVyJTIwJUMzJUE3b2N1a2x1JUM0JTlGdW5kYWtpJTIwbyUyMGslQzMlQjZ0JUMzJUJDJTIwYW4lQzQlQjF5JUM0JUIxJTIwaGF0JUM0JUIxcmxhbWF6c2FuJTIwYnUlMjAlQzUlOUZhcmslQzQlQjElMjAlQzMlQTclQzMlQjZwJTIwb2xhY2FrISclMjBTZW5pJTIwdHJhdm1hbGFyJUM0JUIxbiVDNCVCMSUyMGRlJUM1JTlGbWV5ZSUyMHpvcmx1eW9yLg==",
+    "choices": [
+      {
+        "text": "VHJhdm1hbiVDNCVCMSUyMGElQzMlQTclQzQlQjElQzQlOUZhJTIwJUMzJUE3JUM0JUIxa2FyJTIwdmUlMjBoJUM0JUIxJUMzJUE3ayVDNCVCMXJhJTIwaCVDNCVCMSVDMyVBN2slQzQlQjFyYSUyMHMlQzMlQjZ5bGUu",
+        "effects": {
+          "talent": 35,
+          "health": -30,
+          "success": 25,
+          "resilience": -15
+        },
+        "message": "WSVDNCVCMWwlQzQlQjFuJTIwa2F5ZCVDNCVCMSUyMCVDMyVBNyVDNCVCMWt0JUM0JUIxLiUyMEhlcmtlcyUyMGElQzQlOUZsJUM0JUIxeW9yLiUyMEFtYSUyMHNlbiUyMHN0JUMzJUJDZHlvZGFuJTIwJUMzJUE3JUM0JUIxa3QlQzQlQjElQzQlOUYlQzQlQjFuZGElMjBydWhzYWwlMjBvbGFyYWslMjBwYXJhbXBhciVDMyVBN2F5ZCVDNCVCMW4uJTIwQWMlQzQlQjFuJTIwcGF6YXJsYW5hYmlsaXIlMjBiaXIlMjBtZXRhJTIwb2xkdS4="
+      },
+      {
+        "text": "UHJvZmVzeW9uZWwlMjBrYWwlMkMlMjBzYWRlY2UlMjB0ZWtuaWslMjBvbGFyYWslMjBpeWklMjBzJUMzJUI2eWxlbWV5aSUyMGRlbmUu",
+        "effects": {
+          "resilience": 20,
+          "success": -15,
+          "health": 15,
+          "talent": -10
+        },
+        "message": "UnVoJTIwc2ElQzQlOUZsJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGtvcnVkdW4lMjBhbWElMjBwcm9kdWNlciUyMCdyb2JvdCUyMGdpYmlzaW4nJTIwZGl5ZXJlayUyMGtheWQlQzQlQjElMjB5YXIlQzQlQjFkYSUyMGtlc3RpLiUyMEthcml5ZXJpbmRlJTIwYiVDMyVCQ3klQzMlQkNrJTIwYmlyJTIwZiVDNCVCMXJzYXQlMjB0ZXBpbG1pJUM1JTlGJTIwb2xkdS4="
+      }
+    ]
+  },
+  {
+    "id": "vocal_12",
+    "location": "vocal",
+    "description": "QmlyJTIwc29sbyUyMHBlcmZvcm1hbnMlMjBzJUM0JUIxcmFzJUM0JUIxbmRhJTIwc2VzaW4lMjBhbmlkZW4lMjAlQzMlQTdhdGxhZCVDNCVCMSUyMChkZXRvbmUlMjBvbGR1bikuJTIwS2FtZXJhbGFyJTIwdmUlMjBqJUMzJUJDcmklMjBrYXIlQzUlOUYlQzQlQjFzJUM0JUIxbmRhcyVDNCVCMW4uJTIwWWElMjAlQzUlOUZhcmslQzQlQjF5JUM0JUIxJTIwZHVyZHVydXAlMjAlQzMlQjZ6JUMzJUJDciUyMGRpbGV5ZWNla3NpbiUyMHlhJTIwZGElMjBoaSVDMyVBN2JpciUyMCVDNSU5RmV5JTIwb2xtYW0lQzQlQjElQzUlOUYlMjBnaWJpJTIwZGV2YW0lMjBlZGlwJTIwcHJvZmVzeW9uZWwlMjBnJUMzJUI2ciVDMyVCQ25lY2Vrc2luLg==",
+    "choices": [
+      {
+        "text": "RHVyZHVyJTIwdmUlMjBkJUMzJUJDciVDMyVCQ3N0JUMzJUE3ZSUyMCdUZWtyYXIlMjBiYSVDNSU5RmxheWFiaWxpciUyMG1peWltJTNGJyUyMGRpeWUlMjBzb3Iu",
+        "effects": {
+          "resilience": 15,
+          "success": -30,
+          "health": -5
+        },
+        "message": "RCVDMyVCQ3IlQzMlQkNzdGwlQzMlQkMlQzQlOUYlQzMlQkNuJTIwdGFrZGlyJTIwZWRpbGRpJTIwYW1hJTIwJ2NhbmwlQzQlQjElMjBwZXJmb3JtYW5zJTIwYmFzayVDNCVCMXMlQzQlQjFuJUM0JUIxJTIwa2FsZCVDNCVCMXJhbSVDNCVCMXlvciclMjBub3R1JTIwZCVDMyVCQyVDNSU5RiVDMyVCQ2xkJUMzJUJDLiUyMCVDNSU5RWFucyVDNCVCMW4lMjBhemFsZCVDNCVCMS4="
+      },
+      {
+        "text": "SGklQzMlQTdiaXIlMjAlQzUlOUZleSUyMG9sbWFtJUM0JUIxJUM1JTlGJTIwZ2liaSUyMGRldmFtJTIwZXQlMkMlMjBnJUMzJUJDbCVDMyVCQ21zZW1lbmklMjBib3ptYS4=",
+        "effects": {
+          "success": 15,
+          "resilience": 25,
+          "talent": 10,
+          "health": -10
+        },
+        "message": "SiVDMyVCQ3JpJTIwaGF0YW4lQzQlQjElMjBmYXJrJTIwZXR0aSUyMGFtYSUyMGtyaXolMjB5JUMzJUI2bmV0aW1pbmklMjAlQzMlQTdvayUyMGJlJUM0JTlGZW5kaS4lMjAnU2FobmUlMjBpJUMzJUE3aW4lMjBkbyVDNCU5Rm11JUM1JTlGJTJDJTIwc2FycyVDNCVCMWxtJUM0JUIxeW9yJyUyMGRlZGlsZXIu"
+      }
+    ]
+  }
+]

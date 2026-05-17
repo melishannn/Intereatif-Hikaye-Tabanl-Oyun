@@ -1,0 +1,137 @@
+[
+  {
+    "id": "interview_1",
+    "location": "interview",
+    "description": "Q2FubCVDNCVCMSUyMHlheSVDNCVCMW5kYXMlQzQlQjFuLiUyME11aGFiaXIlMjBzb3J1eW9yJTNBJTIwJyVDNCVCMG5zYW5sYXIlQzQlQjFuJTIwc2VuaSUyMHNldm1lc2klMjBpJUMzJUE3aW4lMjBzJUMzJUJDcmVrbGklMjBmYXJrbCVDNCVCMSUyMGtpJUM1JTlGaWxpa2xlcmUlMjBiJUMzJUJDciVDMyVCQ24lQzMlQkN5b3JzdW4uJTIwR2VyJUMzJUE3ZWslMjBzZW4lMjBoYW5naXNpJTNGJw==",
+    "choices": [
+      {
+        "text": "JyVDNCVCMG5zYW4lMjBiYXplbiUyMGhheWF0dGElMjBrYWxtYWslMjBpJUMzJUE3aW4lMjByb2wlMjB5YXBhci4nJTIwZGUu",
+        "effects": {
+          "success": 15,
+          "resilience": 10,
+          "health": -5
+        },
+        "message": "QmF6JUM0JUIxbGFyJUM0JUIxJTIwc2VuaSUyMHNhbWltaSUyMGJ1bGR1JTJDJTIwYmF6JUM0JUIxbGFyJUM0JUIxJTIwaXNlJTIwc2FodGUlMjBvbGR1JUM0JTlGdW51JTIwZCVDMyVCQyVDNSU5RiVDMyVCQ25kJUMzJUJDLg=="
+      },
+      {
+        "text": "J0JlbmklMjB0YW4lQzQlQjFtJUM0JUIxeW9yc3VudXouJyUyMGRleWlwJTIwciVDMyVCNnBvcnRhaiVDNCVCMSUyMGJpdGlyLg==",
+        "effects": {
+          "resilience": 20,
+          "success": -2
+        },
+        "message": "S2VuZGklMjBzJUM0JUIxbiVDNCVCMXJsYXIlQzQlQjFuJUM0JUIxJTIwa29ydWR1biUyMGFtYSUyMGludGVybmV0JTIwc2VuaSUyMHBhcmFtcGFyJUMzJUE3YSUyMGV0dGku"
+      }
+    ]
+  },
+  {
+    "id": "interview_2",
+    "location": "interview",
+    "description": "QmlyJTIweW9ydW1jdSUyMHlheSVDNCVCMW5kYSUyMCVDNSU5RiVDMyVCNnlsZSUyMGRpeW9yJTNBJTIwJ0JlbmNlJTIwaW5zYW5sYXIlMjBzZW5pJTIweWV0ZW5lJUM0JTlGaW4lMjBpJUMzJUE3aW4lMjBkZSVDNCU5RmlsJTJDJTIwYWMlQzQlQjFuYWNhayUyMGJpcmklMjBvbGR1JUM0JTlGdW4lMjBpJUMzJUE3aW4lMjBkZXN0ZWtsaXlvci4n",
+    "choices": [
+      {
+        "text": "RyVDMyVCQ2wlQzMlQkNtc2V5aXAlMjB0ZSVDNSU5RmVrayVDMyVCQ3IlMjBldC4=",
+        "effects": {
+          "success": 20,
+          "health": -15
+        },
+        "message": "UHJvZmVzeW9uZWwlMjBrYWxkJUM0JUIxbiUyMGFtYSUyMGd1cnVydW4lMjBjaWRkaSUyMHlhcmElMjBhbGQlQzQlQjEu"
+      },
+      {
+        "text": "J0VtcGF0aXlpJTIwayVDMyVCQyVDMyVBNyVDMyVCQ21zZXllbiUyMGluc2FubGFyJTIwZGFoYSUyMGFjJUM0JUIxbmFzJUM0JUIxLiclMjBkZS4=",
+        "effects": {
+          "resilience": 15,
+          "success": -2
+        },
+        "message": "QmF6JUM0JUIxbGFyJUM0JUIxJTIwc2VuaSUyMGFsayVDNCVCMSVDNSU5RmxhZCVDNCVCMSUyQyUyMGJheiVDNCVCMWxhciVDNCVCMSUyMGtpYmlybGklMjBidWxkdS4="
+      }
+    ]
+  },
+  {
+    "id": "interview_3",
+    "location": "interview",
+    "description": "Q2FubCVDNCVCMSUyMHlheSVDNCVCMW5kYSUyMHNhbmElMjBzb3J1eW9ybGFyJTNBJTIwJ0JheiVDNCVCMSUyMGluc2FubGFyJTIwYmElQzUlOUZhciVDNCVCMXMlQzQlQjF6JTIwb2xtYXklQzQlQjElMjBoYWslMjBlZGl5b3IlMjBtdSUzRiclMjBTb3J1JTIwdHV6YWslMjBnaWJpJTIwYW1hJTIwbWlseW9ubGFyJTIwaXpsaXlvci4=",
+    "choices": [
+      {
+        "text": "J0V2ZXQuJTIwJUMzJTg3YWwlQzQlQjElQzUlOUZtYXlhbiUyMGluc2FubGFyJTIwYmF6ZW4lMjBzb251JUMzJUE3bGFyJUM0JUIxbmElMjBrYXRsYW5tYWwlQzQlQjEuJyUyMGRlLg==",
+        "effects": {
+          "success": -2,
+          "resilience": -10
+        },
+        "message": "UyVDMyVCNnpsZXJpbiUyMGJhJUM0JTlGbGFtJUM0JUIxbmRhbiUyMGtvcGFyJUM0JUIxbGQlQzQlQjEuJTIwQmlyJTIwZ2VjZWRlJTIwbmVmcmV0JTIwb2JqZXNpbmUlMjBkJUMzJUI2biVDMyVCQyVDNSU5RnQlQzMlQkNuLg=="
+      },
+      {
+        "text": "J0tpbXNlJTIwYmElQzUlOUZhciVDNCVCMXMlQzQlQjF6bCVDNCVCMSVDNCU5RiVDNCVCMSUyMGhhayUyMGV0bWV6LiclMjBkZS4=",
+        "effects": {
+          "success": 10,
+          "resilience": -15
+        },
+        "message": "JUM0JUIwbnNhbmxhciUyMGNldmFiJUM0JUIxbiVDNCVCMSUyMGclQzMlQkN2ZW5saSUyMHZlJTIwc2FodGUlMjBidWxkdS4lMjAnTlBDJTIwZ2liaSUyMGtvbnUlQzUlOUZ1eW9yJyUyMHlvcnVtbGFyJUM0JUIxJTIweWF5JUM0JUIxbGQlQzQlQjEu"
+      }
+    ]
+  },
+  {
+    "id": "interview_4",
+    "location": "interview",
+    "description": "TXVoYWJpciUyMHNvcnV5b3IlM0ElMjAnJUM0JUIwbnNhbmxhciVDNCVCMW4lMjBzZW5pJTIweWFubCVDNCVCMSVDNSU5RiUyMGFubGFtYXMlQzQlQjFuZGFuJTIwbSVDNCVCMSUyMGtvcmt1eW9yc3VuJTJDJTIweW9rc2ElMjBnZXIlQzMlQTdla3RlbiUyMGQlQzMlQkMlQzUlOUYlQzMlQkNuZCVDMyVCQ2tsZXJpbmklMjAlQzMlQjYlQzQlOUZyZW5tZWt0ZW4lMjBtaSUzRic=",
+    "choices": [
+      {
+        "text": "J0dlciVDMyVBN2VrJTIwZCVDMyVCQyVDNSU5RiVDMyVCQ25jZWxlcmluaSUyMCVDMyVCNiVDNCU5RnJlbm1la3RlbiUyMGtvcmt1eW9ydW0uJyUyMGRlLg==",
+        "effects": {
+          "resilience": 15,
+          "success": -2,
+          "health": -10
+        },
+        "message": "U2F2dW5tYXMlQzQlQjF6bCVDNCVCMSVDNCU5RiVDNCVCMW4lMjBiYXolQzQlQjFsYXIlQzQlQjFuJUM0JUIxJTIwZXRraWxlZGklMjBhbWElMjAlQzMlQTdvJUM0JTlGdSUyMHNlbmklMjB6YXklQzQlQjFmJTIwYnVsZHUu"
+      },
+      {
+        "text": "JyVDNCVCMG5zYW5sYXIlQzQlQjFuJTIwZCVDMyVCQyVDNSU5RiVDMyVCQ25jZWxlcmklMjBiZW5pJTIwaWxnaWxlbmRpcm1peW9yLiclMjBkZS4=",
+        "effects": {
+          "success": 5,
+          "resilience": -15
+        },
+        "message": "RyVDMyVCQyVDMyVBN2wlQzMlQkMlMjBnJUMzJUI2ciVDMyVCQ25tZXllJTIwJUMzJUE3YWwlQzQlQjElQzUlOUZ0JUM0JUIxbiUyMGFtYSUyMGluc2FubGFyJTIwc2VuaSUyMHlhcGF5JTIwdmUlMjB1a2FsYSUyMGJ1bGR1Lg=="
+      }
+    ]
+  },
+  {
+    "id": "interview_5",
+    "location": "interview",
+    "description": "UiVDMyVCNnBvcnRhamRhJTIwc3VudWN1JTIwayVDNCVCMSVDNSU5RmslQzQlQjFydCVDNCVCMXlvciUzQSUyMCdBaWxlbiUyMHNlbmluJTIwaWRvbCUyMG9sbWFuJUM0JUIxJTIwaGklQzMlQTclMjBkZXN0ZWtsZW1lZGkuJTIwQnVudSUyMHRlayUyMGJhJUM1JTlGJUM0JUIxbmElMkMlMjBvbmxhcmElMjBpbmF0JTIwYmElQzUlOUZhcm1hayUyMG5hcyVDNCVCMWwlMjBiaXIlMjBkdXlndSUzRiUyMEFjJUM0JUIxJTIwdmVyaXlvciUyMG11JTNGJw==",
+    "choices": [
+      {
+        "text": "J0FpbGVtJTIwYmFuYSUyMGluYW5tYWQlQzQlQjElQzQlOUYlQzQlQjElMjBpJUMzJUE3aW4lMjBidSUyMGthZGFyJTIwaCVDNCVCMXJzbGFuZCVDNCVCMW0uJyUyMGRpeWVyZWslMjBkJUMzJUJDciVDMyVCQ3N0JTIwb2wu",
+        "effects": {
+          "talent": 15,
+          "resilience": -25,
+          "success": 10
+        },
+        "message": "JUM0JUIwJUMzJUE3aW5kZWtpJTIweWFyYXklQzQlQjElMjBhJUMzJUE3dCVDNCVCMW4uJTIwTWFnYXppbiUyMG1hbiVDNSU5RmV0bGVyaW5kZXNpbi4lMjAlQzQlQjBsZ2klMjBhcnR0JUM0JUIxJTIwYW1hJTIwcnVoc2FsJTIwb2xhcmFrJTIwJUMzJUE3JUMzJUI2a3QlQzMlQkNuLg=="
+      },
+      {
+        "text": "J0FpbGVtJTIwYmVuaSUyMGhlcCUyMGRlc3Rla2xlZGkuJyUyMGRpeWVyZWslMjBnJUMzJUJDbCVDMyVCQ21zZSUyMHZlJTIweWFsYW4lMjBzJUMzJUI2eWxlLg==",
+        "effects": {
+          "success": 15,
+          "health": -10,
+          "resilience": -15
+        },
+        "message": "RyVDMyVCQ3ZlbmxpJTIweW9sdSUyMHNlJUMzJUE3dGluJTIwYW1hJTIwa2FtZXJhJTIwa2FwYW4lQzQlQjFuY2ElMjB5YWxhbiVDNCVCMW4lMjBhJUM0JTlGJUM0JUIxcmwlQzQlQjElQzQlOUYlQzQlQjElMjBvbXV6bGFyJUM0JUIxbmElMjAlQzMlQTclQzMlQjZrdCVDMyVCQy4="
+      }
+    ]
+  },
+  {
+    "id": "interview_6",
+    "location": "interview",
+    "description": "Q2FubCVDNCVCMSUyMHlheSVDNCVCMW5kYSUyMGJpciUyMGl6bGV5aWNpJTIwc29ydXN1JTIwZ2VsaXlvciUzQSUyMCdTZW5pJTIwZW4lMjAlQzMlQTdvayUyMGVsZSVDNSU5RnRpcmVuJTIwc3RhanllciUyMGhha2slQzQlQjFuZGElMjBuZSUyMGQlQzMlQkMlQzUlOUYlQzMlQkNuJUMzJUJDeW9yc3VuJTNGJTIwU29zeWFsJTIwbWVkeWFkYSUyMCVDMyVBN29rJTIwa29udSVDNSU5RnVsZHUuJyUyMEFkJUM0JUIxJTIwZ2UlQzMlQTdlbiUyMGtpJUM1JTlGaSUyMGF5biVDNCVCMSUyMG9kYWRhJTIwc2VuaW5sZSUyMG90dXJ1eW9yLg==",
+    "choices": [
+      {
+        "text": "J0hlciUyMGVsZSVDNSU5RnRpcmlkZW4lMjAlQzMlQjYlQzQlOUZyZW5lY2VrJTIwYmlyJTIwJUM1JTlGZXklMjB2YXJkJUM0JUIxci4nJTIwZGl5ZXJlayUyMG4lQzMlQjZ0ciUyMGthbC4=",
+        "effects": {
+          "success": 10,
+          "resilience": 15,
+          "talent": 5
+        },
+        "message": "T2xndW4lMjBkYXZyYW5kJUM0JUIxbi4lMjAlQzQlQjBraXNpJTIwZGUlMjByYWhhdCUyMG5lZmVzJTIwYWxkJUM0JUIxLiUyMFJha2liaW4lMjBzYW5hJTIwZmFya2wlQzQlQjElMjBiYWttYXlhJTIwYmElQzUlOUZsYWQlQzQlQjEu"
+      }
+    ]
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "entities": {
+    "LeaderboardEntry": {
+      "title": "Leaderboard Entry",
+      "description": "An entry in the global leaderboard for the idol game",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the player"
+        },
+        "score": {
+          "type": "number",
+          "description": "The final score of the player"
+        },
+        "status": {
+          "type": "string",
+          "description": "The ending reason or status of the player"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of when the score was recorded"
+        }
+      },
+      "required": ["name", "score", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "leaderboard/{entryId}": {
+      "schema": {
+        "$ref": "#/entities/LeaderboardEntry"
+      },
+      "description": "Global leaderboard of all players"
+    }
+  }
+}
