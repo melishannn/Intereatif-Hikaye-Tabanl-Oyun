@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { VocalMinigame } from "./components/VocalMinigame";
+import { DanceMinigame } from "./components/DanceMinigame";
+
 import {
   Heart,
   Activity,
@@ -27,6 +30,7 @@ import {
   Share2,
   Vibrate,
   VibrateOff,
+  Sparkles,
 } from "lucide-react";
 import {
   Stats,
@@ -38,6 +42,7 @@ import {
 } from "./types";
 import {
   NAMES,
+  GENDERS,
   HAIR_COLORS,
   CLOTHING_STYLES,
   VOCAL_TONES,
@@ -50,6 +55,7 @@ import {
   LOCATIONS,
   COMMENT_TEMPLATES,
   MOCK_USERS,
+  FAN_REPLY_ALTERNATIVES,
 } from "./data";
 import { LYNCH_REASONS } from "./data/lynchReasons";
 import { randomItem } from "./lib/utils";
@@ -71,7 +77,10 @@ type GameState =
   | "GAMEOVER"
   | "WIN"
   | "SOCIAL_MEDIA"
-  | "CINEMATIC";
+  | "CINEMATIC"
+  | "MINIGAME_VOCAL"
+  | "MINIGAME_DANCE"
+  | "LOCATION_VIEW";
 
 // Endings Definition
 const ENDINGS = {
@@ -135,6 +144,7 @@ const ENDINGS = {
 
 export default function App() {
   const [gameState, setGameState] = useState<GameState>("START");
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [stats, setStats] = useState<Stats>(() => ({
     health: Math.floor(Math.random() * 31) + 70, // 70-100
     resilience: Math.floor(Math.random() * 41) + 50, // 50-90
@@ -146,8 +156,14 @@ export default function App() {
   const [currentQuote, setCurrentQuote] = useState<BookQuote | null>(null);
   const [lynchReason, setLynchReason] = useState<string | null>(null);
   const [eventMessage, setEventMessage] = useState<string>("");
+  // const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false); // Removed
+  // const [avatarStyle, setAvatarStyle] = useState("portrait"); // Removed
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [tasksCompletedInLevel, setTasksCompletedInLevel] = useState(0);
   const [level, setLevel] = useState(1);
+  const [fanGifts, setFanGifts] = useState<{name: string, icon: string}[]>([]);
+  const [isGeneratingLetter, setIsGeneratingLetter] = useState(false);
+  const [letters, setLetters] = useState<{text: string, user: string}[]>([]);
   const [socialComments, setSocialComments] = useState<SocialComment[]>([]);
   const [activeLynchComments, setActiveLynchComments] = useState<
     { id: number; text: string; x: number; y: number; scale: number }[]
@@ -193,6 +209,7 @@ export default function App() {
   const [postCinematicCallback, setPostCinematicCallback] = useState<(() => void) | null>(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isVibrationEnabled, setIsVibrationEnabled] = useState(true);
+  const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
   const [audio] = useState(() => {
     const a = new Audio();
     a.volume = 0;
@@ -221,6 +238,7 @@ export default function App() {
   );
 
   useEffect(() => {
+    if (!db) return;
     const q = query(collection(db, "leaderboard"), where("score", ">=", 0), orderBy("score", "desc"), limit(10));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const board = snapshot.docs.map((doc) => ({
@@ -235,6 +253,28 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
+  const toggleLike = (id: string) => {
+    setFanCountSafe((prev) => prev + 10);
+    setSocialComments((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, liked: !c.liked, likes: c.liked ? (c.likes || 1) - 1 : (c.likes || 0) + 1 } : c)),
+    );
+  };
+
+  const handleReply = (id: string, isPositive: boolean) => {
+    setFanCountSafe((prev) => prev + (isPositive ? 30 : 10));
+    setSocialComments((prev) =>
+      prev.map((c) =>
+        c.id === id
+          ? {
+              ...c,
+              replied: true,
+              fanReply: randomItem(FAN_REPLY_ALTERNATIVES),
+            }
+          : c,
+      ),
+    );
+  };
+
   const endGame = (
     isWin: boolean,
     reasonText: string,
@@ -247,12 +287,14 @@ export default function App() {
       calculatedScore !== undefined ? calculatedScore : scoreRef.current,
     );
     
-    addDoc(collection(db, "leaderboard"), {
-      name: (playerName || "Anonim").substring(0, 100),
-      score: Math.min(Math.max(0, Math.round(finalScore)), 1000000),
-      status: reasonText.substring(0, 200),
-      createdAt: serverTimestamp(),
-    }).catch((err) => handleFirestoreError(err, OperationType.CREATE, "leaderboard"));
+    if (db) {
+        addDoc(collection(db, "leaderboard"), {
+          name: (playerName || "Anonim").substring(0, 100),
+          score: Math.min(Math.max(0, Math.round(finalScore)), 1000000),
+          status: reasonText.substring(0, 200),
+          createdAt: serverTimestamp(),
+        }).catch((err) => handleFirestoreError(err, OperationType.CREATE, "leaderboard"));
+    }
 
     if (calculatedScore !== undefined) {
       setScoreSafe(Math.max(0, calculatedScore));
@@ -413,24 +455,13 @@ export default function App() {
   };
 
   const getTraitImagePath = (label: string, value: string) => {
-    const categoryMap: Record<string, string> = {
-      "Saç Rengi": "hairColor",
-      "Giyim Tarzı": "clothing_style",
-      "Vokal Tınısı": "vocal_tones",
-      "Dans Stili": "danceStyle",
-      "Fiziksel Özellik": "physcial_traits",
-    };
-
-    const category = categoryMap[label];
-    if (!category || !TRAIT_IMAGE_MAP[label] || !TRAIT_IMAGE_MAP[label][value])
-      return undefined;
-
-    return `/assets/${category}/${TRAIT_IMAGE_MAP[label][value]}`;
+    return undefined;
   };
 
   const initializeRandomCharacter = () => {
     const char: Character = {
       name: randomItem(NAMES),
+      gender: randomItem(GENDERS),
       hairColor: randomItem(HAIR_COLORS),
       clothingStyle: randomItem(CLOTHING_STYLES),
       physicalTrait: randomItem(PHYSICAL_TRAITS),
@@ -458,6 +489,8 @@ export default function App() {
 
     setCharacter({ ...character, [key]: arr[newIndex] });
   };
+
+  // const generateAvatar = async () => { ... } // Removed
 
   const startJourney = () => {
     if (!character) return;
@@ -736,36 +769,48 @@ export default function App() {
     }, 0);
   };
 
-  const goToLocation = async (locId: string) => {
-    if (tasksCompletedInLevel >= 4 && locId !== "stage") return;
+  const eventModules: Record<string, () => Promise<{ EVENTS: GameEvent[] }>> = {
+    stage: () => import('./data/events/stage'),
+    interview: () => import('./data/events/interview'),
+    room: () => import('./data/events/room'),
+    dance: () => import('./data/events/dance'),
+    vocal: () => import('./data/events/vocal'),
+    common: () => import('./data/events/common'),
+  };
 
-    if (locId === "stage" && tasksCompletedInLevel < 4) {
-      setShowWarning("Sahneye çıkmak için en az 4 görev tamamlamalısın!");
-      setTimeout(() => setShowWarning(null), 3000);
-      return;
-    }
-
-    let lynchChance = Math.min(0.2, 0.05 + level * 0.03);
-    if (stats.resilience < 30 || stats.health < 30)
-      lynchChance = Math.min(0.35, lynchChance + 0.15);
-    else if (stats.success > 80) lynchChance = Math.min(0.3, lynchChance + 0.1);
-
-    if (level >= 1 && locId !== "stage" && Math.random() < lynchChance) {
-      const reason = randomItem(LYNCH_REASONS);
-      triggerLynch(reason);
-      return;
-    }
-
-    const loadEvents = async (locId: string): Promise<GameEvent[]> => {
-      try {
-        const module = await import(`./data/events/${locId}`);
-        return module.EVENTS;
-      } catch (e) {
-        console.error(`Failed to load events for ${locId}`, e);
-        return [];
+  const loadEvents = async (locId: string): Promise<GameEvent[]> => {
+    try {
+      if (locId === 'interview') {
+        const { collection, getDocs } = await import('firebase/firestore');
+        const { db } = await import('./firebase');
+        const { handleFirestoreError, OperationType } = await import('./firebaseUtils');
+        
+        try {
+          if (db) {
+              const { query, where } = await import('firebase/firestore');
+              const q = query(collection(db, 'events'), where('location', '==', 'interview'));
+              const snapshot = await getDocs(q);
+              return snapshot.docs.map((d) => d.data() as GameEvent);
+          }
+          return [];
+        } catch (error) {
+          handleFirestoreError(error, OperationType.GET, 'events');
+          return [];
+        }
       }
-    };
 
+      const fn = eventModules[locId];
+      if (!fn) return [];
+      const module = await fn();
+      return module.EVENTS;
+    } catch (e) {
+      console.error(`Failed to load events for ${locId}`, e);
+      return [];
+    }
+  };
+
+  const triggerLocationEvent = async (locId: string) => {
+    setIsLoadingEvent(true);
     if (locId === "stage") {
       const stageEvents = await loadEvents("stage");
       let appropriateEvents = stageEvents.filter((e) => {
@@ -783,31 +828,16 @@ export default function App() {
       );
       if (possibleEvents.length === 0) {
         possibleEvents = appropriateEvents;
+        setUsedEventIds((prev) =>
+          prev.filter((id) => !appropriateEvents.some((e) => e.id === id)),
+        );
       }
 
       const stageEvent = randomItem(possibleEvents);
       setUsedEventIds((prev) => [...prev, stageEvent.id]);
       setCurrentEvent(stageEvent);
-      setGameState("EVENT");
-      return;
-    }
-
-    if (
-      (locId === "interview" || locId === "room") &&
-      character &&
-      Math.random() < 0.7
-    ) {
-      setIsLoadingEvent(true);
-      setGameState("EVENT");
-      const locEvents = await loadEvents(locId);
-      let possibleEvents = locEvents.filter(
-        (e) => !usedEventIds.includes(e.id),
-      );
-      if (possibleEvents.length === 0) possibleEvents = locEvents;
-      const evt = randomItem(possibleEvents);
-      setUsedEventIds((prev) => [...prev, evt.id]);
-      setCurrentEvent(evt);
       setIsLoadingEvent(false);
+      setGameState("EVENT");
       return;
     }
 
@@ -826,8 +856,46 @@ export default function App() {
       const randomEvent = randomItem(possibleEvents);
       setUsedEventIds((prev) => [...prev, randomEvent.id]);
       setCurrentEvent(randomEvent);
+      setIsLoadingEvent(false);
       setGameState("EVENT");
+    } else {
+      setIsLoadingEvent(false);
+      setShowWarning("Bu konum için soru bulunamadı.");
+      setTimeout(() => setShowWarning(null), 3000);
     }
+  };
+
+  const goToLocation = async (locId: string) => {
+    console.log("Navigating to:", locId, "tasksCompletedInLevel:", tasksCompletedInLevel);
+    if (tasksCompletedInLevel >= 4 && locId !== "stage") {
+      console.log("Navigation blocked by tasksCompletedInLevel >= 4");
+      return;
+    }
+
+    if (locId === "stage" && tasksCompletedInLevel < 4) {
+      setShowWarning("Sahneye çıkmak için en az 4 görev tamamlamalısın!");
+      setTimeout(() => setShowWarning(null), 3000);
+      return;
+    }
+
+    let lynchChance = Math.min(0.2, 0.05 + level * 0.03);
+    if (stats.resilience < 30 || stats.health < 30)
+      lynchChance = Math.min(0.35, lynchChance + 0.15);
+    else if (stats.success > 80) lynchChance = Math.min(0.3, lynchChance + 0.1);
+
+    if (level >= 1 && locId !== "stage" && Math.random() < lynchChance) {
+      const reason = randomItem(LYNCH_REASONS);
+      triggerLynch(reason);
+      return;
+    }
+
+    if (locId !== "stage" && locId !== "common") {
+      setSelectedLocation(locId);
+      setGameState("LOCATION_VIEW");
+      return;
+    }
+
+    await triggerLocationEvent(locId);
   };
 
   useEffect(() => {
@@ -1178,7 +1246,7 @@ export default function App() {
       });
       applyStatChanges(adjustedEffects, choiceText, choiceSocialFeedback);
       setEventMessage(finalMessage);
-      setTasksCompletedInLevel((t) => t + 1);
+      setTasksCompletedInLevel((t) => Math.min(4, t + 1));
 
       let negativeImpact = 0;
       Object.keys(adjustedEffects).forEach((key) => {
@@ -1250,29 +1318,33 @@ export default function App() {
   };
 
   const takeBreak = () => {
-    if (recoveryCount.health >= 2) {
-      endGame(false, "FİZİKSEL ÇÖKÜŞ", scoreRef.current);
-      return;
-    }
-    const stats = getRecoveryStats("health");
     setRecoveryCount((prev) => ({ ...prev, health: prev.health + 1 }));
-    applyStatChanges(stats.effects);
-    setFanCountSafe((prev) => prev - Math.max(0, stats.fanLoss));
-    setEventMessage(stats.message);
+    applyStatChanges({
+      health: 100,
+      resilience: 20,
+      success: -25,
+      talent: -5,
+    });
+    setFanCountSafe((prev) => Math.max(0, prev - 2000));
+    setEventMessage(
+      "Aşırı yorgunluktan dolayı hastaneye kaldırıldın. Serumlar ve yoğun tedaviyle sağlığın tamamen doldu! Ancak haftalarca sahneden uzak kaldığın için sözleşmelerin iptal edildi ve başarı puanından sert bir düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'"
+    );
     setIsResting(false);
     setGameState("RESULT");
   };
 
   const takeMentalBreak = () => {
-    if (recoveryCount.resilience >= 2) {
-      endGame(false, "PSİKOLOJİK ÇÖKÜŞ", scoreRef.current);
-      return;
-    }
-    const stats = getRecoveryStats("resilience");
     setRecoveryCount((prev) => ({ ...prev, resilience: prev.resilience + 1 }));
-    applyStatChanges(stats.effects);
-    setFanCountSafe((prev) => prev - Math.max(0, stats.fanLoss));
-    setEventMessage(stats.message);
+    applyStatChanges({
+      resilience: 100,
+      health: 20,
+      success: -25,
+      talent: -5,
+    });
+    setFanCountSafe((prev) => Math.max(0, prev - 2000));
+    setEventMessage(
+      "Ağır bir sinir krizi geçirdin ve mecburi olarak ruhsal inzivaya çekildin. Zihnin tamamen arındı ve psikolojin %100 yenilendi! Ancak bu süreçte dedikodular alıp başını gitti ve markan ciddi zarar gördü.\n\n💡 Kafaya Takmama Sanatı: 'Zihnini susturmak her şeyden önemlidir. Dünyayı kaçırdığını sanırsın ama aslında kendini bulursun.'"
+    );
     setIsMentalBreakdown(false);
     setGameState("RESULT");
   };
@@ -1430,12 +1502,97 @@ export default function App() {
 
   return (
     <>
-      <button
-        onClick={toggleMute}
-        className="fixed top-6 right-6 z-[110] p-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-slate-800 transition-all shadow-lg"
-      >
-        {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-      </button>
+      <div className="fixed top-6 right-6 z-[110] flex gap-3">
+        <button
+          onClick={() => setIsVibrationEnabled(!isVibrationEnabled)}
+          className="p-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-slate-800 transition-all shadow-lg"
+          title={isVibrationEnabled ? "Titreşimi Kapat" : "Titreşimi Aç"}
+        >
+          {isVibrationEnabled ? <Vibrate size={20} /> : <VibrateOff size={20} />}
+        </button>
+        <button
+          onClick={toggleMute}
+          className="p-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-slate-800 transition-all shadow-lg"
+          title={isMuted ? "Sesi Aç" : "Sesi Kapat"}
+        >
+          {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+      </div>
+
+      {isAvatarModalOpen && character && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-slate-900 border border-purple-500/30 rounded-3xl p-6 md:p-8 max-w-sm w-full relative shadow-[0_0_50px_rgba(168,85,247,0.15)] flex flex-col items-center"
+          >
+            <button
+              onClick={() => setIsAvatarModalOpen(false)}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white bg-slate-800 rounded-full transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <h3 className="text-xl font-bold text-white mb-6 text-center">Avatarını Güncelle</h3>
+            
+            <div className="w-full flex flex-col items-center gap-4">
+              <div 
+                className={`relative w-48 h-48 rounded-2xl overflow-hidden bg-slate-800 border-2 border-purple-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.2)] ${character.imageUrl ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                onClick={() => character.imageUrl && window.open(character.imageUrl, '_blank')}
+                title="Büyütmek için tıkla"
+              >
+                {character.imageUrl ? (
+                  <img src={character.imageUrl} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <div className="text-slate-500 flex flex-col items-center text-center p-4">
+                    <User size={48} className="mb-2 opacity-50" />
+                  </div>
+                )}
+{/* Removed isGeneratingAvatar overlay */}              </div>
+              
+              <div className="w-full space-y-2 mt-4">
+
+
+{/* AI ile Avatar Oluştur removed */}
+                <div className="relative">
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                           setCharacter({...character, imageUrl: e.target?.result as string});
+                           setSocialComments(prev => [
+                            {
+                              id: `avatar-${Date.now()}`,
+                              user: "fanclub_president",
+                              text: "AMAN TANRIM! Yeni profil fotoğrafını gördünüz mü? Mükemmel görünüyor! 😍🔥",
+                              likes: Math.floor(Math.random() * 500) + 1000,
+                              isPositive: true,
+                              time: "Şimdi"
+                            },
+                            ...prev
+                          ]);
+                          alert("Profil güncellendi! Hayranların fark etti.");
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    title="Kendi fotoğrafını yükle"
+                  />
+                  <button className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold text-purple-200 transition-all flex items-center justify-center gap-2 text-sm border border-slate-600">
+                    <Camera size={16} />
+                    Kendi Fotoğrafını Yükle
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+          </motion.div>
+        </div>
+      )}
 
       <div
         onClick={() => {
@@ -1480,6 +1637,11 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               className="max-w-2xl bg-slate-900/80 backdrop-blur-xl p-6 md:p-10 rounded-3xl border border-purple-500/20 shadow-2xl shadow-purple-900/20"
             >
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="w-24 h-24 mb-6 rounded-full mx-auto border-2 border-purple-500/50"
+              />
               <h1
                 className="text-4xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-200 to-amber-200"
                 style={{ textShadow: "0 4px 20px rgba(236,72,153,0.2)" }}
@@ -1507,6 +1669,45 @@ export default function App() {
               >
                 Karakterini Yarat ve Başla
               </button>
+              
+              <button
+                onClick={() => setIsLeaderboardOpen(true)}
+                className="mt-4 px-6 py-2 bg-slate-800 text-purple-200 rounded-full font-semibold border border-purple-500/30 hover:bg-slate-700 transition"
+              >
+                Puan Tablosu
+              </button>
+
+              {isLeaderboardOpen && (
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
+                  <div className="bg-slate-900 border border-purple-500/30 p-6 rounded-3xl w-full max-w-md shadow-2xl">
+                    <h2 className="text-2xl font-bold text-white mb-4 text-center">Puan Tablosu</h2>
+                    <div className="space-y-3 mb-6 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
+                      {leaderboard.length > 0 ? leaderboard.map((entry, idx) => (
+                        <div key={idx} className="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl border border-white/5">
+                           <div className="flex items-center gap-3">
+                             <span className={`font-bold ${idx === 0 ? "text-amber-400" : idx === 1 ? "text-slate-300" : idx === 2 ? "text-amber-700" : "text-slate-500"}`}>
+                               #{idx + 1}
+                             </span>
+                             <div className="flex flex-col">
+                               <span className="text-purple-100 font-bold text-sm">{entry.name}</span>
+                               <span className="text-slate-400 text-[10px]">{entry.status}</span>
+                             </div>
+                           </div>
+                           <span className="text-purple-300 font-mono font-bold text-sm">{entry.score} Puan</span>
+                        </div>
+                      )) : (
+                        <div className="text-center text-slate-500 text-sm py-4">Henüz puan tablosunda kimse yok.</div>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => setIsLeaderboardOpen(false)}
+                      className="w-full py-3 bg-purple-600 hover:bg-purple-500 transition-colors text-white rounded-full font-bold shadow-lg shadow-purple-600/20"
+                    >
+                      Kapat
+                    </button>
+                  </div>
+                </div>
+              )}
 
               <div className="mt-8 flex flex-col items-center gap-2">
                 <a
@@ -1535,7 +1736,7 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="w-full max-w-5xl relative z-10 flex flex-col items-center pb-24"
+              className="w-full max-w-5xl relative z-10 flex flex-col items-center pb-40"
             >
               <div className="text-center mb-8 md:mb-12">
                 <h2 className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-cyan-300 tracking-widest uppercase mb-4 drop-shadow-[0_0_15px_rgba(216,180,254,0.3)]">
@@ -1546,16 +1747,78 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full mb-8">
-                <InteractiveTraitCard
-                  label="İsim"
-                  value={character.name}
-                  onNext={() => updateCharacterTrait("name", NAMES, 1)}
-                  onPrev={() => updateCharacterTrait("name", NAMES, -1)}
-                  icon={Type}
-                />
-                <InteractiveTraitCard
-                  label="Fiziksel Özellik"
+              <div className="flex flex-col md:flex-row gap-8 w-full mb-8">
+                {/* Sol Taraf: Avatar */}
+                <div className="w-full md:w-1/3 flex flex-col items-center gap-4">
+                  <div 
+                    className={`relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden bg-slate-800 border-2 border-purple-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.2)] ${character.imageUrl ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
+                    onClick={() => character.imageUrl && window.open(character.imageUrl, '_blank')}
+                    title="Büyütmek için tıkla"
+                  >
+                    {character.imageUrl ? (
+                      <img src={character.imageUrl} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    ) : (
+                      <div className="text-slate-500 flex flex-col items-center text-center p-4">
+                        <User size={48} className="mb-2 opacity-50" />
+                        <span className="text-sm">Avatar henüz oluşturulmadı</span>
+                      </div>
+                    )}
+                    {/* Removed isGeneratingAvatar overlay */}
+                  </div>
+                  
+                  <div className="w-full max-w-[256px] space-y-2">
+                    {/* Removed select and generate button */}
+
+                    <div className="relative">
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (e) => setCharacter({...character, imageUrl: e.target?.result as string});
+                            reader.readAsDataURL(file);
+                          }
+                        }}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        title="Kendi fotoğrafını yükle"
+                      />
+                      <button className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold text-purple-200 transition-all flex items-center justify-center gap-2 text-sm border border-slate-600">
+                        <Camera size={16} />
+                        Kendi Fotoğrafını Yükle
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-xs text-slate-400 text-center px-4">Özel fotoğrafını yükleyebilir veya yapay zekaya ürettirebilirsin!</p>
+                </div>
+
+                {/* Sağ Taraf: Özellikler */}
+                <div className="w-full md:w-2/3 grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                  <div className="holo-panel flex flex-col items-center justify-center p-3 md:p-6 relative group overflow-hidden hover:border-purple-500/50 transition-all shadow-lg hover:shadow-purple-500/20 rounded-2xl md:rounded-3xl bg-slate-900/50 backdrop-blur-md border border-white/5 col-span-2 lg:col-span-1">
+                    <span className="text-purple-300 font-bold text-[11px] md:text-xs tracking-widest uppercase mb-3 md:mb-4 text-center z-10">İsim</span>
+                    <input 
+                      type="text" 
+                      value={character.name}
+                      onChange={(e) => setCharacter({...character, name: e.target.value})}
+                      className="w-full bg-slate-800/80 border border-slate-700 text-white font-bold text-center py-2 px-3 rounded-xl focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 z-10"
+                      placeholder="Kendi İsmin"
+                    />
+                    <div className="flex gap-2 mt-4 z-10">
+                      <button onClick={() => updateCharacterTrait("name", NAMES, -1)} className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors text-purple-300"><ChevronLeft size={16} /></button>
+                      <button onClick={() => updateCharacterTrait("name", NAMES, 1)} className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors text-purple-300"><ChevronRight size={16} /></button>
+                    </div>
+                  </div>
+
+                  <InteractiveTraitCard
+                    label="Cinsiyet"
+                    value={character.gender}
+                    onNext={() => updateCharacterTrait("gender", GENDERS, 1)}
+                    onPrev={() => updateCharacterTrait("gender", GENDERS, -1)}
+                    icon={User}
+                  />
+                  <InteractiveTraitCard
+                    label="Fiziksel Özellik"
                   value={character.physicalTrait}
                   onNext={() =>
                     updateCharacterTrait("physicalTrait", PHYSICAL_TRAITS, 1)
@@ -1563,10 +1826,6 @@ export default function App() {
                   onPrev={() =>
                     updateCharacterTrait("physicalTrait", PHYSICAL_TRAITS, -1)
                   }
-                  imagePath={getTraitImagePath(
-                    "Fiziksel Özellik",
-                    character.physicalTrait,
-                  )}
                   icon={User}
                 />
                 <InteractiveTraitCard
@@ -1578,10 +1837,6 @@ export default function App() {
                   onPrev={() =>
                     updateCharacterTrait("hairColor", HAIR_COLORS, -1)
                   }
-                  imagePath={getTraitImagePath(
-                    "Saç Rengi",
-                    character.hairColor,
-                  )}
                 />
                 <InteractiveTraitCard
                   label="Kişilik Özelliği"
@@ -1603,10 +1858,6 @@ export default function App() {
                   onPrev={() =>
                     updateCharacterTrait("vocalTone", VOCAL_TONES, -1)
                   }
-                  imagePath={getTraitImagePath(
-                    "Vokal Tınısı",
-                    character.vocalTone,
-                  )}
                   icon={Mic}
                 />
                 <InteractiveTraitCard
@@ -1618,10 +1869,6 @@ export default function App() {
                   onPrev={() =>
                     updateCharacterTrait("danceStyle", DANCE_STYLES, -1)
                   }
-                  imagePath={getTraitImagePath(
-                    "Dans Stili",
-                    character.danceStyle,
-                  )}
                   icon={Activity}
                 />
                 <InteractiveTraitCard
@@ -1633,10 +1880,6 @@ export default function App() {
                   onPrev={() =>
                     updateCharacterTrait("clothingStyle", CLOTHING_STYLES, -1)
                   }
-                  imagePath={getTraitImagePath(
-                    "Giyim Tarzı",
-                    character.clothingStyle,
-                  )}
                   icon={Activity}
                 />
                 <InteractiveTraitCard
@@ -1656,6 +1899,7 @@ export default function App() {
                   icon={User}
                 />
               </div>
+              </div>
 
               <div className="fixed md:sticky bottom-6 z-50 flex justify-center w-full px-4">
                 <button
@@ -1674,8 +1918,17 @@ export default function App() {
             {gameState === "HUB" && (
               <div className="bg-slate-900/40 backdrop-blur-md rounded-3xl p-4 md:p-8 border border-white/5 shadow-inner shadow-white/5 mb-6 md:mb-8">
                 <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                  <div className="shrink-0 w-16 h-16 md:w-24 md:h-24 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-400 flex items-center justify-center text-2xl md:text-3xl font-bold text-white shadow-xl shadow-purple-900/20 ring-4 ring-white/10 mx-auto md:mx-0">
-                    {character.name[0]}
+                  <div className="relative group cursor-pointer shrink-0 w-16 h-16 md:w-24 md:h-24 mx-auto md:mx-0" onClick={() => setIsAvatarModalOpen(true)}>
+                    {character.imageUrl ? (
+                      <img src={character.imageUrl} alt="Avatar" className="w-full h-full rounded-full object-cover shadow-xl shadow-purple-900/20 ring-4 ring-white/10" referrerPolicy="no-referrer" />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gradient-to-tr from-purple-600 to-indigo-400 flex items-center justify-center text-2xl md:text-3xl font-bold text-white shadow-xl shadow-purple-900/20 ring-4 ring-white/10">
+                        {character.name[0]}
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <Camera className="text-white" size={24} />
+                    </div>
                   </div>
                   <div className="flex-1 text-center md:text-left">
                     <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3 mb-2 justify-center md:justify-start">
@@ -1817,14 +2070,6 @@ export default function App() {
                       <h3 className="text-lg md:text-2xl font-bold text-slate-200">
                         Nereye gitmek istersin?
                       </h3>
-                      {/* DEBUG BUTTONS - TO BE REMOVED LATER */}
-                      <div className="flex items-center gap-2">
-                        <button onClick={() => setStats(prev => ({...prev, health: 0}))} className="px-2 py-1 bg-rose-500 text-white text-xs rounded font-bold">H=0</button>
-                        <button onClick={() => setStats(prev => ({...prev, resilience: 0}))} className="px-2 py-1 bg-indigo-500 text-white text-xs rounded font-bold">P=0</button>
-                        <button onClick={() => setStats(prev => ({...prev, success: 0}))} className="px-2 py-1 bg-amber-500 text-white text-xs rounded font-bold">B=0</button>
-                        <button onClick={() => setStats(prev => ({...prev, talent: 0}))} className="px-2 py-1 bg-emerald-500 text-white text-xs rounded font-bold">Y=0</button>
-                        <button onClick={() => setTasksCompletedInLevel(4)} className="px-2 py-1 bg-purple-500 text-white text-xs rounded font-bold">Görev=4</button>
-                      </div>
                       <div className="flex items-center gap-2 z-40">
                         <button
                           onClick={() => setGameState("SOCIAL_MEDIA")}
@@ -1860,27 +2105,24 @@ export default function App() {
                         <div className="flex justify-center mb-4">
                           <button
                             onClick={takeBreak}
-                            disabled={recoveryCount.health >= 2}
-                            className={`px-8 py-3 md:px-10 md:py-4 ${recoveryCount.health >= 2 ? 'bg-rose-900 opacity-50 cursor-not-allowed' : 'bg-rose-600 hover:bg-rose-500'} text-white rounded-full font-bold transition-all shadow-lg shadow-rose-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95`}
+                            className="px-8 py-3 md:px-10 md:py-4 bg-rose-600 hover:bg-rose-500 text-white rounded-full font-bold transition-all shadow-lg shadow-rose-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95"
                           >
-                            <Activity size={20} />{recoveryCount.health >= 2 ? "Daha fazla mola hakkın kalmadı" : `1 Hafta Mola Ver (${2 - recoveryCount.health} hak kaldı)`}
+                            <Activity size={20} /> Tedavi Ol ve Dinlen
                           </button>
                         </div>
                         
-                        {recoveryCount.health >= 2 && (
-                          <div className="flex justify-center items-center mt-6">
-                            <button
-                              onClick={() => {
-                                setWarningsShown(prev => ({ ...prev, health: true }));
-                                setIsResting(false);
-                                setGameState("HUB");
-                              }}
-                              className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600"
-                            >
-                              Sağlığını Hiçe Sayarak Devam Et
-                            </button>
-                          </div>
-                        )}
+                        <div className="flex justify-center items-center mt-6">
+                          <button
+                            onClick={() => {
+                              setWarningsShown(prev => ({ ...prev, health: true }));
+                              setIsResting(false);
+                              setGameState("HUB");
+                            }}
+                            className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600"
+                          >
+                            Sağlığını Hiçe Sayarak Devam Et
+                          </button>
+                        </div>
                       </div>
                     ) : isMentalBreakdown ? (
                       <div className="bg-indigo-950/40 p-8 md:p-12 rounded-[2.5rem] border border-indigo-500/30 mb-8 backdrop-blur-xl text-center shadow-2xl shadow-indigo-950/50">
@@ -1900,27 +2142,24 @@ export default function App() {
                         <div className="flex justify-center mb-4">
                           <button
                             onClick={takeMentalBreak}
-                            disabled={recoveryCount.resilience >= 2}
-                            className={`px-8 py-3 md:px-10 md:py-4 ${recoveryCount.resilience >= 2 ? 'bg-indigo-900 opacity-50 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-500'} text-white rounded-full font-bold transition-all shadow-lg shadow-indigo-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95`}
+                            className="px-8 py-3 md:px-10 md:py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full font-bold transition-all shadow-lg shadow-indigo-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95"
                           >
-                            <Heart size={20} />{recoveryCount.resilience >= 2 ? "Daha fazla terapi hakkın kalmadı" : `2 Hafta Terapiye Gir (${2 - recoveryCount.resilience} hak kaldı)`}
+                            <Heart size={20} /> Terapiye Gir
                           </button>
                         </div>
                         
-                        {recoveryCount.resilience >= 2 && (
-                          <div className="flex justify-center items-center mt-6">
-                            <button
-                              onClick={() => {
-                                setWarningsShown(prev => ({ ...prev, resilience: true }));
-                                setIsMentalBreakdown(false);
-                                setGameState("HUB");
-                              }}
-                              className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600"
-                            >
-                              Baskıyı Görmezden Gelip Devam Et
-                            </button>
-                          </div>
-                        )}
+                        <div className="flex justify-center items-center mt-6">
+                          <button
+                            onClick={() => {
+                              setWarningsShown(prev => ({ ...prev, resilience: true }));
+                              setIsMentalBreakdown(false);
+                              setGameState("HUB");
+                            }}
+                            className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600"
+                          >
+                            Baskıyı Görmezden Gelip Devam Et
+                          </button>
+                        </div>
                       </div>
                     ) : isSuccessDrop ? (
                       <div className="bg-amber-950/40 p-8 md:p-12 rounded-[2.5rem] border border-amber-500/30 mb-8 backdrop-blur-xl text-center shadow-2xl shadow-amber-950/50">
@@ -2024,6 +2263,7 @@ export default function App() {
                               <button
                                 key={loc.id}
                                 onClick={() => {
+                                  console.log("Button clicked:", loc.id, "isDisabled:", isDisabled);
                                   if (isDisabled) {
                                     setShowWarning(tooltipMsg);
                                     setTimeout(
@@ -2039,15 +2279,20 @@ export default function App() {
                                 ${isDisabled ? "opacity-30 grayscale cursor-not-allowed border-slate-700" : "border-white/5 hover:border-white/20 hover:-translate-y-1 hover:shadow-2xl shadow-lg"}
                               `}
                               >
+                                {loc.imageUrl && (
+                                  <div className="absolute inset-0 z-0">
+                                    <img src={loc.imageUrl} alt={loc.name} className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                  </div>
+                                )}
                                 {!isDisabled && (
-                                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500"></div>
+                                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500 z-0"></div>
                                 )}
                                 {isDisabled && (
-                                  <div className="absolute inset-0 bg-slate-900/80"></div>
+                                  <div className="absolute inset-0 bg-slate-900/80 z-0"></div>
                                 )}
 
                                 <span
-                                  className={`relative z-10 ${loc.color} drop-shadow-md ${isDisabled ? "text-slate-500" : "transform group-hover:scale-110 transition-transform duration-500"}`}
+                                  className={`relative z-10 ${loc.color} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] ${isDisabled ? "text-slate-500" : "transform group-hover:scale-110 transition-transform duration-500 bg-black/30 p-3 rounded-full backdrop-blur-sm"}`}
                                 >
                                   {loc.id === "room" && <Home size={28} />}
                                   {loc.id === "common" && <Users size={28} />}
@@ -2059,10 +2304,19 @@ export default function App() {
                                   {loc.id === "stage" && <Star size={28} />}
                                 </span>
                                 <span
-                                  className={`relative z-10 font-bold text-sm md:text-xl drop-shadow-md tracking-wider ${isDisabled ? "text-slate-500" : "text-white/90"}`}
+                                  className={`relative z-10 font-bold text-sm md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] tracking-wider ${isDisabled ? "text-slate-500" : "text-white/90 bg-black/30 px-3 py-1 rounded-xl backdrop-blur-sm"}`}
                                 >
                                   {loc.name}
                                 </span>
+                                {loc.id === "room" && fanGifts.length > 0 && (
+                                  <div className="absolute top-2 right-2 flex flex-wrap gap-1 max-w-[80%] justify-end z-20 pointer-events-none">
+                                    {fanGifts.slice(-6).map((gift, idx) => (
+                                      <div key={idx} className="bg-black/60 rounded-full p-1 text-sm shadow-md" title={gift.name}>
+                                        {gift.icon}
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
                               </button>
                             );
                           })}
@@ -2091,6 +2345,157 @@ export default function App() {
                       >
                         Hesabını Kapat
                       </button>
+                      <button
+                        onClick={() => setIsLeaderboardOpen(true)}
+                        className="px-6 py-2 bg-purple-900/10 hover:bg-purple-900/30 rounded-full border border-purple-900/20 text-purple-400/60 hover:text-purple-300 text-[9px] font-bold tracking-widest uppercase transition-all"
+                      >
+                        Puan Tablosu
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {gameState === "LOCATION_VIEW" && selectedLocation && (
+                  <motion.div
+                    key="location_view"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="flex flex-col h-full bg-slate-900/40 p-6 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 opacity-20 pointer-events-none">
+                       {selectedLocation === "room" && <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80" alt="room" className="w-full h-full object-cover" />}
+                       {selectedLocation === "vocal" && <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80" alt="vocal" className="w-full h-full object-cover" />}
+                       {selectedLocation === "dance" && <img src="https://images.unsplash.com/photo-1547153760-18fc86324498?w=800&q=80" alt="dance" className="w-full h-full object-cover" />}
+                       {selectedLocation === "interview" && <img src="https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=800&q=80" alt="interview" className="w-full h-full object-cover" />}
+                    </div>
+                    
+                    <div className="relative z-10 flex flex-col items-center justify-center h-full gap-8">
+                       <h2 className="text-3xl md:text-5xl font-bold text-white tracking-widest uppercase drop-shadow-md">
+                         {LOCATIONS.find(l => l.id === selectedLocation)?.name}
+                       </h2>
+                       
+                       <div className="bg-slate-950/60 p-6 md:p-8 rounded-3xl backdrop-blur-md border border-white/10 w-full max-w-2xl text-center shadow-xl">
+                         {selectedLocation === "room" && (
+                           <div className="flex flex-col items-center gap-6">
+                              <p className="text-slate-300 italic text-sm md:text-base">Kendi alanındasın. Dinlenebilir, yeteneğini veya psikolojini toparlayabilirsin.</p>
+                              {fanGifts.length > 0 && (
+                                <div className="flex flex-col gap-2 bg-pink-900/10 p-4 rounded-2xl w-full">
+                                  <span className="text-pink-300 font-bold text-xs uppercase">Hayranlarından Gelenler</span>
+                                  <div className="flex justify-center gap-4 text-2xl flex-wrap">
+                                    {fanGifts.map((gift, i) => (
+                                      <span key={i} title={gift.name}>{gift.icon}</span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                              <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                                <button onClick={() => triggerLocationEvent('room')} className="flex-1 min-w-[200px] py-4 px-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-purple-900/50 flex items-center justify-center gap-2">
+                                  <Activity size={20} />
+                                  Etkinlik Yap / Odayı Topla
+                                </button>
+                              </div>
+                           </div>
+                         )}
+
+                         {selectedLocation === "vocal" && (
+                           <div className="flex flex-col items-center gap-6">
+                             <p className="text-slate-300 italic text-sm md:text-base">Vokal stüdyosundasın. Ses tellerin ısınsın!</p>
+                             <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                               <button onClick={() => setGameState('MINIGAME_VOCAL')} className="flex-1 min-w-[200px] py-4 px-6 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-cyan-900/50 flex items-center justify-center gap-2">
+                                 <Zap size={20} />
+                                 Başarı & Yetenek Çalıştır
+                               </button>
+                               <button onClick={() => triggerLocationEvent('vocal')} className="flex-1 min-w-[200px] py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2">
+                                 <Mic size={20} />
+                                 Eğitmenin Sorusunu Cevapla
+                               </button>
+                             </div>
+                           </div>
+                         )}
+
+                         {selectedLocation === "dance" && (
+                           <div className="flex flex-col items-center gap-6">
+                             <p className="text-slate-300 italic text-sm md:text-base">Dans stüdyosundasın. Aynaların önünde koreografini çalış.</p>
+                             <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                               <button onClick={() => setGameState('MINIGAME_DANCE')} className="flex-1 min-w-[200px] py-4 px-6 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-rose-900/50 flex items-center justify-center gap-2">
+                                 <Zap size={20} />
+                                 Başarı & Yetenek Çalıştır
+                               </button>
+                               <button onClick={() => triggerLocationEvent('dance')} className="flex-1 min-w-[200px] py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2">
+                                 <Activity size={20} />
+                                 Eğitmenin Sorusunu Cevapla
+                               </button>
+                             </div>
+                           </div>
+                         )}
+
+                         {selectedLocation === "interview" && (
+                           <div className="flex flex-col items-center gap-6">
+                             <p className="text-slate-300 italic text-sm md:text-base">Kamera önündesin. Tüm gözler senin üzerinde!</p>
+                             <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                               <button onClick={() => triggerLocationEvent('interview')} className="flex-1 min-w-[200px] py-4 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-amber-900/50 flex items-center justify-center gap-2">
+                                 <Camera size={20} />
+                                 Kayıt Başlasın (Mülakat)
+                               </button>
+                             </div>
+                           </div>
+                         )}
+
+                         <div className="mt-8 border-t border-white/10 pt-6">
+                           <button onClick={() => { setGameState("HUB"); setSelectedLocation(null); }} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600 hover:scale-105 active:scale-95">
+                             Lobiye Geri Dön
+                           </button>
+                         </div>
+                       </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {gameState === "MINIGAME_VOCAL" && (
+                  <motion.div
+                    key="minigame_vocal"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="absolute inset-0 flex items-center justify-center z-50 p-4"
+                  >
+                    <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+                    <div className="relative z-10 w-full max-w-md">
+                      <VocalMinigame onComplete={(success) => {
+                        if (success) {
+                          applyStatChanges({ success: 10, talent: 15 });
+                          setEventMessage("Vokal antrenmanı harikaydı! Sesin günden güne güzelleşiyor.");
+                        } else {
+                          applyStatChanges({ health: -10, talent: -5 });
+                          setEventMessage("Vokal çalışırken boğazını zorladın. Biraz detone oldun.");
+                        }
+                        setTasksCompletedInLevel((prev) => Math.min(4, prev + 1));
+                        setGameState("RESULT");
+                      }} />
+                    </div>
+                  </motion.div>
+                )}
+
+                {gameState === "MINIGAME_DANCE" && (
+                  <motion.div
+                    key="minigame_dance"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="absolute inset-0 flex items-center justify-center z-50 p-4"
+                  >
+                    <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+                    <div className="relative z-10 w-full max-w-md">
+                      <DanceMinigame onComplete={(success) => {
+                        if (success) {
+                          applyStatChanges({ success: 10, talent: 15 });
+                          setEventMessage("Harika bir koreografi ezberi! Seyirciler sahnede büyülenecek.");
+                        } else {
+                          applyStatChanges({ health: -10, talent: -5 });
+                          setEventMessage("Ayakların birbirine dolandı! Koreografi üzerinde daha çok çalışmalısın.");
+                        }
+                        setTasksCompletedInLevel((prev) => Math.min(4, prev + 1));
+                        setGameState("RESULT");
+                      }} />
                     </div>
                   </motion.div>
                 )}
@@ -2188,7 +2593,7 @@ export default function App() {
                   </motion.div>
                 )}
 
-                {gameState === "LYNCH" && currentQuote && (
+                {gameState === "LYNCH" && (
                   <motion.div
                     key="lynch"
                     initial={{ opacity: 0 }}
@@ -2196,14 +2601,6 @@ export default function App() {
                     className="fixed inset-0 flex justify-center items-center z-[100] overflow-hidden p-2 md:p-4 gap-4"
                   >
                     <div className="absolute inset-0 bg-rose-950/95 backdrop-blur-lg"></div>
-
-                    <button
-                      onClick={() => setIsVibrationEnabled(!isVibrationEnabled)}
-                      className="fixed top-6 left-6 z-[110] p-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-slate-800 transition-all shadow-lg"
-                      title={isVibrationEnabled ? "Titreşimi Kapat" : "Titreşimi Aç"}
-                    >
-                      {isVibrationEnabled ? <Vibrate size={20} /> : <VibrateOff size={20} />}
-                    </button>
 
                     <div className="hidden lg:flex flex-col gap-4 w-[300px] h-full overflow-hidden relative z-10 py-4 justify-end shrink-0">
                       <AnimatePresence>
@@ -2325,9 +2722,17 @@ export default function App() {
                             <span className="text-slate-500 font-serif text-5xl leading-none absolute bottom-0 right-6 opacity-30 align-bottom">
                               "
                             </span>
-                            <p className="text-xs text-indigo-400 mt-6 font-sans not-italic uppercase tracking-widest font-bold">
-                              - Kafaya Takmama Sanatı
-                            </p>
+                            <div className="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 mt-6 relative z-10 font-sans not-italic uppercase tracking-widest">
+                               {currentQuote.author && (
+                                 <span className="text-xs text-indigo-400 font-bold">— {currentQuote.author}</span>
+                               )}
+                               {currentQuote.author && currentQuote.book && (
+                                 <span className="text-indigo-400/50 hidden sm:inline">|</span>
+                               )}
+                               {currentQuote.book && (
+                                 <span className="text-[10px] text-slate-500 font-semibold">{currentQuote.book}</span>
+                               )}
+                            </div>
                           </div>
 
                           <div className="flex flex-col gap-4 pb-4">
@@ -2353,7 +2758,7 @@ export default function App() {
                                     choice.text,
                                   );
                                   setEventMessage(choice.message);
-                                  setTasksCompletedInLevel((prev) => prev + 1);
+                                  setTasksCompletedInLevel((prev) => Math.min(4, prev + 1));
                                   setGameState("RESULT");
                                 }}
                                 className="w-full text-left p-5 rounded-2xl bg-rose-900/30 hover:bg-rose-600/40 border border-rose-800 hover:border-rose-500 transition-all hover:scale-[1.02] text-rose-100 shadow-sm"
@@ -2630,13 +3035,56 @@ export default function App() {
                         >
                           <ChevronLeft size={20} />
                         </button>
-                        <span className="font-bold text-slate-100 flex items-center gap-2 tracking-wide">
+                        <div className="font-bold text-slate-100 flex items-center gap-2 tracking-wide">
                           <Smartphone size={16} /> Akış
-                        </span>
+                          <span className="text-xs bg-slate-800 px-2 py-0.5 rounded-full text-purple-300">
+                            {fanCount.toLocaleString()} t.
+                          </span>
+                        </div>
                         <div className="w-8 h-8"></div>
                       </div>
 
                       <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-20">
+                        <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 p-4 rounded-3xl flex flex-col items-center justify-center text-center shadow-lg mb-4">
+                          <p className="text-sm font-semibold text-indigo-200 mb-3">Hayranlarından posta kutunda yeni bir mektup olabilir!</p>
+                          <button
+                            onClick={async () => {
+                              setIsGeneratingLetter(true);
+                              try {
+                                const response = await fetch('/api/generate-fan-letter', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({ characterName: character?.name, trait: character?.trait, level })
+                                });
+                                if (response.ok) {
+                                  const contentType = response.headers.get("content-type");
+                                  if (contentType && contentType.includes("application/json")) {
+                                    const data = await response.json();
+                                    setLetters(prev => [{ text: data.letter, user: "Anonim Hayran" }, ...prev]);
+                                    setFanGifts(prev => [...prev, { name: data.giftName, icon: data.giftEmoji }]);
+                                    alert(`Yeni bir hediye aldın: ${data.giftEmoji} ${data.giftName}\nOdadan görebilirsin!`);
+                                  }
+                                }
+                              } catch (err) {
+                                console.error(err);
+                              } finally {
+                                setIsGeneratingLetter(false);
+                              }
+                            }}
+                            disabled={isGeneratingLetter}
+                            className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-full text-sm transition-all shadow-md active:scale-95 disabled:opacity-50"
+                          >
+                            {isGeneratingLetter ? "Mektup Açılıyor..." : "💌 Mektubu Oku (AI)"}
+                          </button>
+                          
+                          {letters.length > 0 && (
+                            <div className="mt-4 p-3 bg-white/5 rounded-2xl text-left border border-white/5 w-full">
+                              <p className="text-xs text-indigo-300 font-bold mb-1">Son Gelen Mektup:</p>
+                              <p className="text-sm text-slate-300 italic">" {letters[0].text} "</p>
+                            </div>
+                          )}
+                        </div>
+
                         {socialComments.length === 0 ? (
                           <div className="text-center text-purple-300/50 mt-10">
                             Henüz yorum yok...
@@ -2669,41 +3117,69 @@ export default function App() {
                                 </p>
                               )}
 
-                              {!comment.isPositive && !comment.replied && (
+                              {!comment.isPositive && !comment.actionTaken && (
                                 <div className="mt-3 flex gap-2">
                                   <button
-                                    onClick={() =>
-                                      handleLynchResponse(comment.id, "insult")
-                                    }
+                                    onClick={() => {
+                                        applyStatChanges({ resilience: -5 });
+                                        setFanCountSafe((prev) => prev - 30);
+                                        setSocialComments(prev => prev.map(c => c.id === comment.id ? { ...c, actionTaken: 'blocked' } : c));
+                                    }}
                                     className="text-[10px] bg-rose-900 border border-rose-700 text-white px-2 py-1 rounded hover:bg-rose-800"
                                   >
-                                    Küfür (-Success)
+                                    Tepki Göster (-Psikoloji)
                                   </button>
                                   <button
-                                    onClick={() =>
-                                      handleLynchResponse(
-                                        comment.id,
-                                        "self_compassion",
-                                      )
-                                    }
-                                    className="text-[10px] bg-slate-900 border border-slate-700 text-white px-2 py-1 rounded hover:bg-slate-800"
+                                    onClick={() => {
+                                        applyStatChanges({ success: 5 });
+                                        setFanCountSafe((prev) => prev + 20);
+                                        setSocialComments(prev => prev.map(c => c.id === comment.id ? { ...c, actionTaken: 'calmed' } : c));
+                                    }}
+                                    className="text-[10px] bg-sky-900 border border-sky-700 text-white px-2 py-1 rounded hover:bg-sky-800"
                                   >
-                                    Şefkat (+Psych)
+                                    Baş Et (+Başarı)
                                   </button>
+                                </div>
+                              )}
+                              
+                              {!comment.isPositive && comment.actionTaken && (
+                                <div className="mt-3 text-[10px] font-bold px-2 py-1 rounded bg-slate-800 inline-block text-slate-400 border border-slate-700">
+                                  {comment.actionTaken === 'blocked' ? '🚫 Engellendi' : '✨ Baş Edildi!'}
                                 </div>
                               )}
 
                               <div className="flex items-center gap-1 mt-3 opacity-60 text-xs">
                                 <Heart
-                                  size={12}
-                                  className={
-                                    comment.isPositive
-                                      ? "text-pink-400"
-                                      : "text-rose-500"
-                                  }
-                                />{" "}
-                                {comment.likes}
+                                  size={16}
+                                  className={`cursor-pointer ${comment.liked ? "text-rose-500 fill-rose-500" : "text-white"}`}
+                                  onClick={() => toggleLike(comment.id)}
+                                />
+                                <span className="text-xs">{comment.likes || 0}</span>
+                                {comment.isPositive && !comment.replied && (
+                                  <div className="flex gap-2 ml-4">
+                                    <button
+                                      onClick={() => handleReply(comment.id, true)}
+                                      className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
+                                    >
+                                      Teşekkürler
+                                    </button>
+                                    <button
+                                      onClick={() => handleReply(comment.id, true)}
+                                      className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
+                                    >
+                                      Sevgiler
+                                    </button>
+                                  </div>
+                                )}
                               </div>
+                              {comment.replied && (
+                                <div className="mt-3 p-3 bg-purple-950/40 rounded-xl border border-purple-500/30">
+                                  <p className="text-xs text-purple-300 italic">
+                                    <span className="font-bold text-purple-400">{comment.user}: </span>
+                                    {comment.fanReply || "Oha yorumumu beğendi! Seni çok seviyorum!"}
+                                  </p>
+                                </div>
+                              )}
                             </div>
                           ))
                         )}
@@ -2817,7 +3293,7 @@ function StatBar({
           {icon}
         </div>
         <span className="font-semibold text-[10px] md:text-sm tracking-widest uppercase truncate">
-          {label} ({attempts})
+          {label} (Kalan: {attempts})
         </span>
       </div>
       <div className="h-1.5 md:h-2 w-full bg-slate-950 rounded-full overflow-hidden border border-white/5 relative">
@@ -2840,24 +3316,16 @@ function InteractiveTraitCard({
   value,
   onNext,
   onPrev,
-  imagePath,
   icon: Icon,
 }: any) {
   return (
-    <div className="holo-panel flex flex-col items-center justify-center p-4 md:p-6 relative group overflow-hidden hover:border-purple-500/50 transition-all shadow-lg hover:shadow-purple-500/20 rounded-3xl bg-slate-900/50 backdrop-blur-md border border-white/5">
-      <span className="text-purple-300 font-bold text-[10px] md:text-xs tracking-widest uppercase mb-4 text-center z-10">
+    <div className="holo-panel flex flex-col items-center justify-center p-3 md:p-6 relative group overflow-hidden hover:border-purple-500/50 transition-all shadow-lg hover:shadow-purple-500/20 rounded-2xl md:rounded-3xl bg-slate-900/50 backdrop-blur-md border border-white/5">
+      <span className="text-purple-300 font-bold text-[11px] md:text-xs tracking-widest uppercase mb-3 md:mb-4 text-center z-10">
         {label}
       </span>
 
-      <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full border-4 border-slate-700 bg-slate-800 flex items-center justify-center mb-5 shrink-0 overflow-hidden group-hover:border-purple-400/80 transition-colors z-10 shadow-inner">
-        {imagePath ? (
-          <img
-            src={imagePath}
-            loading="lazy"
-            alt={value}
-            className="w-full h-full object-cover"
-          />
-        ) : Icon ? (
+      <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full border-4 border-slate-700 bg-slate-800 flex items-center justify-center mb-4 md:mb-5 shrink-0 overflow-hidden group-hover:border-purple-400/80 transition-colors z-10 shadow-inner">
+        {Icon ? (
           <Icon
             size={40}
             className="text-slate-500 group-hover:text-purple-400 transition-colors"
@@ -2867,26 +3335,26 @@ function InteractiveTraitCard({
         )}
       </div>
 
-      <div className="flex items-center w-full justify-between gap-3 z-10 px-2 mt-auto">
+      <div className="flex items-center w-full justify-between gap-2 md:gap-3 z-10 px-1 md:px-2 mt-auto">
         <button
           onClick={onPrev}
-          className="shrink-0 p-1.5 md:p-2.5 bg-slate-950/80 hover:bg-purple-600 rounded-full text-white transition-all hover:scale-110 active:scale-95 shadow-md border border-white/5"
+          className="shrink-0 p-2 md:p-2.5 bg-slate-950/80 hover:bg-purple-600 rounded-full text-white transition-all hover:scale-110 active:scale-95 shadow-md border border-white/5"
         >
-          <ChevronLeft size={16} />
+          <ChevronLeft size={18} />
         </button>
         <div
           className="flex-1 flex justify-center items-center min-h-[2.5rem] px-1"
           title={value}
         >
-          <span className="text-slate-100 font-bold text-[10px] sm:text-xs md:text-sm text-center leading-tight line-clamp-2 md:line-clamp-1">
+          <span className="text-slate-100 font-bold text-[10px] sm:text-xs md:text-sm text-center leading-snug line-clamp-2 md:line-clamp-1">
             {value}
           </span>
         </div>
         <button
           onClick={onNext}
-          className="shrink-0 p-1.5 md:p-2.5 bg-slate-950/80 hover:bg-purple-600 rounded-full text-white transition-all hover:scale-110 active:scale-95 shadow-md border border-white/5"
+          className="shrink-0 p-2 md:p-2.5 bg-slate-950/80 hover:bg-purple-600 rounded-full text-white transition-all hover:scale-110 active:scale-95 shadow-md border border-white/5"
         >
-          <ChevronRight size={16} />
+          <ChevronRight size={18} />
         </button>
       </div>
     </div>

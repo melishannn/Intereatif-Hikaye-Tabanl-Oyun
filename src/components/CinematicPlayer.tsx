@@ -51,7 +51,7 @@ export default function CinematicPlayer({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black"
     >
       {/* iframe ile YouTube */}
-      <div className="absolute inset-0 w-full h-full opacity-60">
+      <div className="absolute inset-0 w-full h-full">
         <iframe
           src={embedUrl}
           width="100%"

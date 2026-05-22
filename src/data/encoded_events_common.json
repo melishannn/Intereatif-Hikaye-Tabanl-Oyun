@@ -2,365 +2,365 @@
   {
     "id": "common_1",
     "location": "common",
-    "description": "T3J0YWslMjBhbGFuZGElMjBoZXJrZXMlMjBheW4lQzQlQjElMjAlQzUlOUZha2F5YSUyMGclQzMlQkNsJUMzJUJDeW9yLiUyMFNlbiUyMGtvbWlrJTIwYnVsbXV5b3JzdW4uJTIwU2Vzc2l6JTIwa2FsJUM0JUIxcnNhbiUyMHNvJUM0JTlGdWslMjBiaXJpJTIwb2xhY2FrcyVDNCVCMW4u",
+    "description": "Ortak alanda herkes aynı şakaya gülüyor. Sen komik bulmuyorsun. Sessiz kalırsan soğuk biri olacaksın.",
     "choices": [
       {
-        "text": "U2FodGUlMjBiaXIlMjBrYWhrYWhhJTIwYXQlQzQlQjFwJTIwZ3J1YmElMjB1eXVtJTIwc2ElQzQlOUZsYS4=",
+        "text": "Sahte bir kahkaha atıp gruba uyum sağla.",
         "effects": {
           "success": 15,
           "resilience": -10
         },
-        "message": "S2FsYWJhbCVDNCVCMSVDNCU5RmElMjBrYXIlQzQlQjElQzUlOUZ0JUM0JUIxbiUyMGFtYSUyMGtlbmRpJTIwZCVDMyVCQyVDNSU5RiVDMyVCQ25jZWxlcmluaSUyMGJhc3QlQzQlQjFyZCVDNCVCMW4u"
+        "message": "Kalabalığa karıştın ama kendi düşüncelerini bastırdın."
       },
       {
-        "text": "U2Vzc2l6JTIwa2FsJTIwdmUlMjByYWhhdHMlQzQlQjF6bCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBiZWxsaSUyMGV0Lg==",
+        "text": "Sessiz kal ve rahatsızlığını belli et.",
         "effects": {
           "resilience": 15,
           "success": -2
         },
-        "message": "T3J0YW0lMjBiaXIlMjBhbmRhJTIwZ2VyaWxkaS4lMjBBcnQlQzQlQjFrJTIwc2VuaSUyMCdnYXJpcCclMjBidWx1eW9ybGFyLg=="
+        "message": "Ortam bir anda gerildi. Artık seni 'garip' buluyorlar."
       }
     ]
   },
   {
     "id": "common_2",
     "location": "common",
-    "description": "QmlyaXNpJTIwc2VuaW4lMjBlc2tpJTIwdXRhbiVDMyVBNyUyMHZlcmljaSUyMHZpZGVvbnUlMjBhJUMzJUE3JUM0JUIxcCUyMGhlcmtlc2luJTIwaSVDMyVBN2luZGUlMjBkYWxnYSUyMGdlJUMzJUE3bWV5ZSUyMGJhJUM1JTlGbCVDNCVCMXlvci4lMjBIZXJrZXMlMjBnJUMzJUJDbCVDMyVCQ3lvci4lMjBLYW1lcmFsYXIlMjBhJUMzJUE3JUM0JUIxay4=",
+    "description": "Birisi senin eski utanç verici videonu açıp herkesin içinde dalga geçmeye başlıyor. Herkes gülüyor. Kameralar açık.",
     "choices": [
       {
-        "text": "U2VuJTIwZGUlMjBrZW5kaW5sZSUyMGRhbGdhJTIwZ2UlQzMlQTcuJTIwS29udHJvbCVDMyVCQyUyMGVsZSUyMGFsLg==",
+        "text": "Sen de kendinle dalga geç. Kontrolü ele al.",
         "effects": {
           "success": 20,
           "health": -10
         },
-        "message": "T3J0YW0lQzQlQjElMjB5JUMzJUI2bmV0dGluJTIwYW1hJTIwaSVDMyVBN3RlbiUyMGklQzMlQTdlJTIwayVDMyVCQyVDMyVBNyVDMyVCQ2slMjBkJUMzJUJDJUM1JTlGdCVDMyVCQyVDNCU5RiVDMyVCQ24lQzMlQkMlMjBoaXNzZXR0aW4u"
+        "message": "Ortamı yönettin ama içten içe küçük düştüğünü hissettin."
       },
       {
-        "text": "VmlkZW9udW4lMjBrYWxkJUM0JUIxciVDNCVCMWxtYXMlQzQlQjFuJUM0JUIxJTIwaXN0ZSUyMHZlJTIwb3J0YW1kYW4lMjAlQzMlQTclQzQlQjFrLg==",
+        "text": "Videonun kaldırılmasını iste ve ortamdan çık.",
         "effects": {
           "resilience": 10,
           "success": -2
         },
-        "message": "S2VuZGluaSUyMGtvcnVkdW4lMjBhbWElMjBpbnNhbmxhciUyMHNlbmklMjAndHJpcCUyMGF0YW4lMjBiaXJpJyUyMG9sYXJhayUyMGV0aWtldGxlZGku"
+        "message": "Kendini korudun ama insanlar seni 'trip atan biri' olarak etiketledi."
       }
     ]
   },
   {
     "id": "common_3",
     "location": "common",
-    "description": "QmlyJTIwZ3J1cCUyMHN0YWp5ZXIlMjBzZW5kZW4lMjBmaWtpcmxlcmluaSUyMGQlQzMlQkNyJUMzJUJDc3QlQzMlQTdlJTIwcyVDMyVCNnlsZW1lbmklMjBpc3RpeW9yLiUyMCdCdXJhZGElMjBlbiUyMHlldGVuZWtzaXolMjBraSVDNSU5RmklMjBraW0lMjBzZW5jZSUzRiclMjBkaXllJTIwc29ydXlvcmxhci4lMjBTYW1pbWklMjBnJUMzJUI2ciVDMyVCQ24lQzMlQkN5b3JsYXIu",
+    "description": "Bir grup stajyer senden fikirlerini dürüstçe söylemeni istiyor. 'Burada en yeteneksiz kişi kim sence?' diye soruyorlar. Samimi görünüyorlar.",
     "choices": [
       {
-        "text": "RCVDMyVCQ3IlQzMlQkNzdCUyMG9sdXAlMjBnZXIlQzMlQTdla3RlbiUyMGQlQzMlQkMlQzUlOUYlQzMlQkNuZCVDMyVCQyVDNCU5RiVDMyVCQ24lMjBraSVDNSU5Rml5aSUyMHMlQzMlQjZ5bGUu",
+        "text": "Dürüst olup gerçekten düşündüğün kişiyi söyle.",
         "effects": {
           "resilience": 5,
           "success": -2,
           "health": -10
         },
-        "message": "S29udSVDNSU5Rm1hJTIwayVDNCVCMXNhJTIwcyVDMyVCQ3JlZGUlMjB5YXklQzQlQjFsZCVDNCVCMS4lMjAlQzQlQjBuc2FubGFyJTIwc2VuaSUyMGtpYmlybGklMjB2ZSUyMHRva3NpayUyMGlsYW4lMjBldHRpLg=="
+        "message": "Konuşma kısa sürede yayıldı. İnsanlar seni kibirli ve toksik ilan etti."
       },
       {
-        "text": "J0J1bnUlMjBrb251JUM1JTlGbWFrJTIwZG8lQzQlOUZydSUyMGRlJUM0JTlGaWwuJyUyMGRpeWVyZWslMjBjZXZhcCUyMHZlcm1la3RlbiUyMGthJUMzJUE3JUM0JUIxbi4=",
+        "text": "'Bunu konuşmak doğru değil.' diyerek cevap vermekten kaçın.",
         "effects": {
           "resilience": 15,
           "success": -2
         },
-        "message": "T2xndW4lMjBkYXZyYW5kJUM0JUIxbiUyMGFtYSUyMGluc2FubGFyJTIwc2VuaSUyMHlhcG1hYyVDNCVCMWslMjBidWxkdS4="
+        "message": "Olgun davrandın ama insanlar seni yapmacık buldu."
       }
     ]
   },
   {
     "id": "common_4",
     "location": "common",
-    "description": "QmlyaXNpJTIwc2FuYSUyMGdlbGlwJTIwZiVDNCVCMXMlQzQlQjFsZCVDNCVCMXlvciUzQSUyMCdCdXJhZGElMjBoYXlhdHRhJTIwa2FsbWFrJTIwaXN0aXlvcnNhbiUyMGJhemVuJTIwc2FodGUlMjBvbG1hayUyMHpvcnVuZGFzJUM0JUIxbi4n",
+    "description": "Birisi sana gelip fısıldıyor: 'Burada hayatta kalmak istiyorsan bazen sahte olmak zorundasın.'",
     "choices": [
       {
-        "text": "SGFrbCVDNCVCMSUyMG9sZHUlQzQlOUZ1bnUlMjBrYWJ1bCUyMGV0JTIwdmUlMjB1eXVtJTIwc2ElQzQlOUZsYW1heWElMjAlQzMlQTdhbCVDNCVCMSVDNSU5Ri4=",
+        "text": "Haklı olduğunu kabul et ve uyum sağlamaya çalış.",
         "effects": {
           "success": 20,
           "resilience": -25
         },
-        "message": "U2lzdGVtZSUyMGFkYXB0ZSUyMG9sZHVuJTIwYW1hJTIwa2VuZGklMjBrYXJha3RlcmluZGVuJTIwJUMzJUI2ZCVDMyVCQ24lMjB2ZXJkaW4u"
+        "message": "Sisteme adapte oldun ama kendi karakterinden ödün verdin."
       },
       {
-        "text": "U2FodGUlMjBkYXZyYW5tYXklQzQlQjElMjByZWRkZXQu",
+        "text": "Sahte davranmayı reddet.",
         "effects": {
           "resilience": 20,
           "success": -2
         },
-        "message": "S2VuZGluZSUyMHNhZCVDNCVCMWslMjBrYWxkJUM0JUIxbiUyMGFtYSUyMHlhbG4lQzQlQjF6bGElQzUlOUZtYXlhJTIwYmElQzUlOUZsYWQlQzQlQjFuLg=="
+        "message": "Kendine sadık kaldın ama yalnızlaşmaya başladın."
       }
     ]
   },
   {
     "id": "common_5",
     "location": "common",
-    "description": "R3J1cHRhbiUyMGF0JUM0JUIxbG1hayUyMCVDMyVCQ3plcmUlMjBvbGFuJTIwYmlyJTIwYXJrYWRhJUM1JTlGJUM0JUIxbiUyMHMlQzQlQjFuYXZkYSUyMHNlbmluJTIwbm90bGFyJUM0JUIxbiVDNCVCMSUyRmtvcmVvZ3JhZmluaSUyMGtvcHlhbGFkJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGl0aXJhZiUyMGVkaXlvciUyMHZlJTIwaG9jYXlhJTIwcyVDMyVCNnlsZW1lbWVuJTIwaSVDMyVBN2luJTIweWFsdmFyJUM0JUIxeW9yLg==",
+    "description": "Gruptan atılmak üzere olan bir arkadaşın sınavda senin notlarını/koreografini kopyaladığını itiraf ediyor ve hocaya söylememen için yalvarıyor.",
     "choices": [
       {
-        "text": "SG9jYXlhJTIwZG8lQzQlOUZydWxhciVDNCVCMSUyMHMlQzMlQjZ5bGUlMjB2ZSUyMGthcml5ZXJpbmklMjByaXNrZSUyMGF0bWEu",
+        "text": "Hocaya doğruları söyle ve kariyerini riske atma.",
         "effects": {
           "success": 20,
           "resilience": -30
         },
-        "message": "SG9jYSUyMHNhbmElMjB0ZSVDNSU5RmVrayVDMyVCQ3IlMjBldHRpLiUyMEFya2FkYSVDNSU5RiVDNCVCMW4lMjBrb3Z1bGR1LiUyMFZpY2RhbiUyMGF6YWIlQzQlQjFuZGFuJTIwdXl1eWFtJUM0JUIxeW9yc3VuLg=="
+        "message": "Hoca sana teşekkür etti. Arkadaşın kovuldu. Vicdan azabından uyuyamıyorsun."
       },
       {
-        "text": "U2Vzc2l6JTIwa2FsJTIwdmUlMjBzdSVDMyVBN3UlMjAlQzMlQkNzdGxlbmVyZWslMjBvbnVuJTIwa2FkZXJpbmklMjBwYXlsYSVDNSU5Ri4=",
+        "text": "Sessiz kal ve suçu üstlenerek onun kaderini paylaş.",
         "effects": {
           "resilience": 25,
           "success": -2,
           "talent": -10
         },
-        "message": "U2FkJUM0JUIxayUyMGJpciUyMGRvc3QlMjBvbGR1biUyMGFtYSUyMHRlbWJlbCUyMHZlJTIwa29weWElMjAlQzMlQTdla2VuJTIwYmlyaSUyMG9sYXJhayUyMGV0aWtldGxlbmRpbi4="
+        "message": "Sadık bir dost oldun ama tembel ve kopya çeken biri olarak etiketlendin."
       }
     ]
   },
   {
     "id": "common_6",
     "location": "common",
-    "description": "WWVtZWslMjBtYXNhcyVDNCVCMW5kYSUyMG90dXJ1eW9yc3VudXouJTIwQmlyJTIwc3RhanllciUyMHklQzMlQkNrc2VrJTIwc2VzbGUlMjAlQzUlOUZpcmtldGluJTIwaGFrcyVDNCVCMXolMjB1eWd1bGFtYWxhciVDNCVCMW4lQzQlQjElMjBlbGUlQzUlOUZ0aXJpeW9yJTIwdmUlMjBzZW5kZW4lMjBkZXN0ZWslMjBiZWtsZXIlMjBnaWJpJTIwYmFrJUM0JUIxeW9yLiUyMERpJUM0JTlGZXJsZXJpJTIwc2Vzc2l6LiUyMEthbWVyYWxhciUyMHNlbmklMjB5YWthbCVDNCVCMXlvci4=",
+    "description": "Yemek masasında oturuyorsunuz. Bir stajyer yüksek sesle şirketin haksız uygulamalarını eleştiriyor ve senden destek bekler gibi bakıyor. Diğerleri sessiz. Kameralar seni yakalıyor.",
     "choices": [
       {
-        "text": "T25hJTIwZGVzdGVrJTIwdmVyJTIwdmUlMjBlbGUlQzUlOUZ0aXJpbGVyZSUyMGthdCVDNCVCMWxkJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGElQzMlQTclQzQlQjFrJUMzJUE3YSUyMHMlQzMlQjZ5bGUu",
+        "text": "Ona destek ver ve eleştirilere katıldığını açıkça söyle.",
         "effects": {
           "resilience": 25,
           "success": -2,
           "health": 10
         },
-        "message": "RCVDMyVCQ3IlQzMlQkNzdCUyMG9sZHVuLiUyMCVDNSU5RWlya2V0JTIwc2VuaSUyMGthcmElMjBsaXN0ZXllJTIwYWxkJUM0JUIxJTIwYW1hJTIwbyUyMG1hc2FkYSUyMGhlcmtlcyUyMHNhbmElMjBzYXlnJUM0JUIxeWxhJTIwYmFrdCVDNCVCMS4="
+        "message": "Dürüst oldun. Şirket seni kara listeye aldı ama o masada herkes sana saygıyla baktı."
       },
       {
-        "text": "U2Vzc2l6JTIwa2FsJTIwdmUlMjB5ZW1lJUM0JTlGaW5lJTIwb2Rha2xhbi4=",
+        "text": "Sessiz kal ve yemeğine odaklan.",
         "effects": {
           "success": 15,
           "resilience": -20
         },
-        "message": "RyVDMyVCQ3ZlbmRlJTIwa2FsZCVDNCVCMW4uJTIwQW1hJTIwbyUyMHN0YWp5ZXIlMjBnJUMzJUI2emxlcmluZGVuJTIwZCVDMyVCQyVDNSU5RiUyMGslQzQlQjFyJUM0JUIxa2wlQzQlQjElQzQlOUYlQzQlQjFuJUM0JUIxJTIwb2t1eWFiaWxpeW9yLg=="
+        "message": "Güvende kaldın. Ama o stajyer gözlerinden düş kırıklığını okuyabiliyor."
       }
     ]
   },
   {
     "id": "common_7",
     "location": "common",
-    "description": "QmlyaXNpJTIwc2VuaSUyMGQlQzQlQjElQzUlOUZhciVDNCVCMWRhbiUyMHRhbiVDNCVCMXlhbiUyMGJpcmklMjAnU2VuaSUyMHRhbiVDNCVCMXlvcnVtJTJDJTIwc2VuJTIwJUM1JTlGdSUyMG9rdWxkYW4lMjBkZSVDNCU5RmlsJTIwbWlzaW4lM0YlMjAlQzUlOUV1JTIwdmFrYWRha2klMjAlQzMlQTdvY3VrJTIwc2VuJTIwZGUlQzQlOUZpbCUyMG1peWRpbiUzRiclMjBkaXllJTIweSVDMyVCQ2tzZWslMjBzZXNsZSUyMHNvcnV5b3IuJTIwRXRyYWZ0YSUyMGhlcmtlcyUyMHZhci4lMjBPJTIwJ3Zha2EnJTIwdXRhbiVDMyVBNyUyMGRvbHUlMjBiaXIlMjBnZSVDMyVBN21pJUM1JTlGLg==",
+    "description": "Birisi seni dışarıdan tanıyan biri 'Seni tanıyorum, sen şu okuldan değil misin? Şu vakadaki çocuk sen değil miydin?' diye yüksek sesle soruyor. Etrafta herkes var. O 'vaka' utanç dolu bir geçmiş.",
     "choices": [
       {
-        "text": "J0V2ZXQlMkMlMjBiZW5pbS4lMjBWZSUyMG8lMjBkJUMzJUI2bmVtZGVuJTIwJUMzJUE3b2slMjAlQzUlOUZleSUyMCVDMyVCNiVDNCU5RnJlbmRpbS4nJTIwZGl5ZXJlayUyMHNha2luJTIwZHVyLg==",
+        "text": "'Evet, benim. Ve o dönemden çok şey öğrendim.' diyerek sakin dur.",
         "effects": {
           "resilience": 30,
           "success": 10,
           "health": -5
         },
-        "message": "R2UlQzMlQTdtaSVDNSU5RmluaSUyMHNhaGlwbGVuZGluLiUyME9ydGFtJTIwZG9uZHUlMjBhbWElMjBzZW4lMjBrJUMzJUJDJUMzJUE3JUMzJUJDbG1lZGluLg=="
+        "message": "Geçmişini sahiplendin. Ortam dondu ama sen küçülmedin."
       },
       {
-        "text": "J0hheSVDNCVCMXIlMkMlMjB5YW5sJUM0JUIxJUM1JTlGJTIwa2klQzUlOUZpeWxlJTIwa2FyJUM0JUIxJUM1JTlGdCVDNCVCMXIlQzQlQjF5b3JzdW51ei4nJTIwZGl5ZXJlayUyMGlua2FyJTIwZXQu",
+        "text": "'Hayır, yanlış kişiyle karıştırıyorsunuz.' diyerek inkar et.",
         "effects": {
           "success": 10,
           "resilience": -25,
           "health": -10
         },
-        "message": "QW4lQzQlQjElMjBhdGxhdHQlQzQlQjFuLiUyMEFtYSUyMGtlbmRpJTIwZ2UlQzMlQTdtaSVDNSU5RmluaSUyMGlua2FyJTIwZXRtZWslMjBpJUMzJUE3aW5kZSUyMGdpZGVyZWslMjBiJUMzJUJDeSVDMyVCQ3llbiUyMGJpciUyMCVDMyVBN2F0bGFrJTIwYiVDNCVCMXJha3QlQzQlQjEu"
+        "message": "Anı atlattın. Ama kendi geçmişini inkar etmek içinde giderek büyüyen bir çatlak bıraktı."
       }
     ]
   },
   {
     "id": "common_8",
     "location": "common",
-    "description": "JUM1JTlFaXJrZXRpbiUyMGJpciUyMHlldGtpbGlzaSUyMHNlbmklMjAlQzMlQjZ6ZWwlMjBiaXIlMjBvZGF5YSUyMCVDMyVBN2VraXlvciUzQSUyMCdTYW5hJTIwJUMzJUE3b2slMjBnJUMzJUJDdmVuaXlvcnVtLiUyMEJhbmElMjBkaSVDNCU5RmVyJTIwc3RhanllcmxlcmluJTIwZGVkaWtvZHVsYXIlQzQlQjFuJUM0JUIxJTIwYW5sYXQuJyUyMFNlc2luZGUlMjBzYW1pbWklMjBiaXIlMjB0b24lMjB2YXIlMjBhbWElMjBidSUyMHRla2xpZiUyMHNlbmklMjByYWhhdHMlQzQlQjF6JTIwZWRpeW9yLg==",
+    "description": "Şirketin bir yetkilisi seni özel bir odaya çekiyor: 'Sana çok güveniyorum. Bana diğer stajyerlerin dedikodularını anlat.' Sesinde samimi bir ton var ama bu teklif seni rahatsız ediyor.",
     "choices": [
       {
-        "text": "J0J1JTIwYmVuaW0lMjAlQzMlQkNzdGxlbmViaWxlY2UlQzQlOUZpbSUyMGJpciUyMHJvbCUyMGRlJUM0JTlGaWwuJyUyMGRpeWVyZWslMjBraWJhcmNhJTIwcmVkZGV0Lg==",
+        "text": "'Bu benim üstlenebileceğim bir rol değil.' diyerek kibarca reddet.",
         "effects": {
           "resilience": 25,
           "success": -2,
           "health": 10
         },
-        "message": "TWFuaXAlQzMlQkNsYXRpZiUyMGRpbmFtaSVDNCU5RmklMjBmYXJrJTIwZWRpcCUyMHMlQzQlQjFuJUM0JUIxciUyMGtveWR1bi4lMjBZZXRraWxpJTIwc28lQzQlOUZ1ZHUlMjBhbWElMjB2aWNkYW4lQzQlQjFuJTIwdGVtaXou"
+        "message": "Manipülatif dinamiği fark edip sınır koydun. Yetkili soğudu ama vicdanın temiz."
       },
       {
-        "text": "QmF6JUM0JUIxJTIwemFyYXJzJUM0JUIxeiUyMCVDNSU5RmV5bGVyJTIwYW5sYXQlMkMlMjBpbGklQzUlOUZraXlpJTIwZ2VsaSVDNSU5RnRpcm1leWklMjBzZSVDMyVBNy4=",
+        "text": "Bazı zararsız şeyler anlat, ilişkiyi geliştirmeyi seç.",
         "effects": {
           "success": 25,
           "resilience": -20,
           "health": -10
         },
-        "message": "WWV0a2lsaXlsZSUyMGl5aSUyMGlsaSVDNSU5RmtpJTIwa3VydWxkdS4lMjBBbWElMjBkaSVDNCU5RmVyJTIwc3RhanllcmxlcmluJTIwZyVDMyVCNnolQzMlQkNuZGVraSUyMGclQzMlQkN2ZW5pJTIweWF2YSVDNSU5RiVDMyVBN2ElMjB5aXRpcm1leWUlMjBiYSVDNSU5RmxhZCVDNCVCMW4u"
+        "message": "Yetkiliyle iyi ilişki kuruldu. Ama diğer stajyerlerin gözündeki güveni yavaşça yitirmeye başladın."
       }
     ]
   },
   {
     "id": "common_9",
     "location": "common",
-    "description": "TXV0ZmFrdGElMjBiaXIlMjBwZXJzb25lbGluJTIwYSVDNCU5RiVDNCVCMXIlMjBiaXIlMjB0ZXBzaSUyMGRldmlyZGklQzQlOUZpbmklMjBnJUMzJUI2cmQlQzMlQkNuJTIwdmUlMjBvbmElMjB5YXJkJUM0JUIxbSUyMGV0bWVrJTIwaSVDMyVBN2luJTIwZHVyZHVuLiUyMEJ1JTIweSVDMyVCQ3pkZW4lMjB0b3BsYW50JUM0JUIxeWElMjAxMCUyMGRha2lrYSUyMGdlJUMzJUE3JTIwa2FsZCVDNCVCMW4uJTIwSGVya2VzJTIwc2VuaW4lMjBpJUMzJUE3aW4lMjAnWmF0ZW4lMjBkaXNpcGxpbnNpeiUyQyUyMCVDNSU5RiVDMyVCNmhyZXRpJTIwYnVsdW5jYSUyMHBlcnNvbmVsaSUyMGslQzMlQkMlQzMlQTclQzMlQkNtc2V5aXAlMjB6YW1hbiVDNCVCMSUyMHVtdXJzYW1heiUyMG9sZHUnJTIwZGl5ZSUyMGYlQzQlQjFzJUM0JUIxbGRhJUM1JTlGJUM0JUIxeW9yLiUyMFBlcnNvbmVsJTIwaXNlJTIwa292dWxtYSUyMGtvcmt1c3V5bGElMjBzZXNzaXolMjBrYWwlQzQlQjF5b3Iu",
+    "description": "Mutfakta bir personelin ağır bir tepsi devirdiğini gördün ve ona yardım etmek için durdun. Bu yüzden toplantıya 10 dakika geç kaldın. Herkes senin için 'Zaten disiplinsiz, şöhreti bulunca personeli küçümseyip zamanı umursamaz oldu' diye fısıldaşıyor. Personel ise kovulma korkusuyla sessiz kalıyor.",
     "choices": [
       {
-        "text": "U2Vzc2l6JTIwa2FsJTIwdmUlMjAnZGlzaXBsaW5zaXonJTIwZXRpa2V0aW5pJTIwa2FidWxsZW4uJTIwUGVyc29uZWxpbiUyMGklQzUlOUZpbmklMjByaXNrZSUyMGF0bWEu",
+        "text": "Sessiz kal ve 'disiplinsiz' etiketini kabullen. Personelin işini riske atma.",
         "effects": {
           "resilience": 30,
           "success": -10,
           "health": 10
         },
-        "message": "S2VuZGklMjBpbWFqJUM0JUIxbiVDNCVCMSUyMGJpciUyMGJhJUM1JTlGa2FzJUM0JUIxbiVDNCVCMW4lMjBla21lJUM0JTlGaSUyMGklQzMlQTdpbiUyMGZlZGElMjBldHRpbi4lMjAlQzQlQjAlQzMlQTdpbiUyMHJhaGF0JTIwYW1hJTIwZyVDMyVCNnpsZXIlMjAlQzMlQkN6ZXJpbmRlLg=="
+        "message": "Kendi imajını bir başkasının ekmeği için feda ettin. İçin rahat ama gözler üzerinde."
       },
       {
-        "text": "VG9wbGFudCVDNCVCMWRhJTIwbmVkZW4lMjBnZSVDMyVBNyUyMGthbGQlQzQlQjElQzQlOUYlQzQlQjFuJUM0JUIxJTIwcGVyc29uZWxpJTIwaSVDNSU5RmFyZXQlMjBlZGVyZWslMjBhJUMzJUE3JUM0JUIxa2xhLg==",
+        "text": "Toplantıda neden geç kaldığını personeli işaret ederek açıkla.",
         "effects": {
           "success": 20,
           "resilience": -15,
           "health": -5
         },
-        "message": "QWQlQzQlQjFuJUM0JUIxJTIwdGVtaXpsZWRpbiUyMGFtYSUyMG8lMjBwZXJzb25lbGluJTIwa29ya3UlMjBkb2x1JTIwYmFrJUM0JUIxJUM1JTlGbGFyJUM0JUIxJTIwaGFmJUM0JUIxemFuYSUyMGtheiVDNCVCMW5kJUM0JUIxLg=="
+        "message": "Adını temizledin ama o personelin korku dolu bakışları hafızana kazındı."
       }
     ]
   },
   {
     "id": "common_10",
     "location": "common",
-    "description": "RGlubGVubWUlMjBvZGFzJUM0JUIxbmRhJTIwaGVya2VzJTIwZW4lMjB5ZW5pJTIwdmUlMjBwYWhhbCVDNCVCMSUyMGt1bGFrbCVDNCVCMWtsYXIlQzQlQjElMkMlMjBrJUM0JUIxeWFmZXRsZXJpJTIwa29udSVDNSU5RnV5b3IuJTIwU2VuaW4lMjBpc2UlMjBhaWxlbmluJTIwYm9yJUMzJUE3bGFyJUM0JUIxJTIweSVDMyVCQ3olQzMlQkNuZGVuJTIwYiVDMyVCNnlsZSUyMGJpciUyMGIlQzMlQkN0JUMzJUE3ZW4lMjB5b2suJTIwJ05lZGVuJTIwaGFsYSUyMG8lMjBlc2tpJTIwJUM1JTlGZXlpJTIwa3VsbGFuJUM0JUIxeW9yc3VuJTNGJyUyMGRpeWUlMjBzb3JkdWtsYXIlQzQlQjFuZGElMkMlMjBzZW5pbiUyMCd2aXp5b25zdXolMjB2ZSUyMHpldmtzaXonJTIwb2xkdSVDNCU5RnVubGElMjBpbGdpbGklMjAlQzUlOUZha2FsYXIlMjBiYSVDNSU5RmwlQzQlQjF5b3Iu",
+    "description": "Dinlenme odasında herkes en yeni ve pahalı kulaklıkları, kıyafetleri konuşuyor. Senin ise ailenin borçları yüzünden böyle bir bütçen yok. 'Neden hala o eski şeyi kullanıyorsun?' diye sorduklarında, senin 'vizyonsuz ve zevksiz' olduğunla ilgili şakalar başlıyor.",
     "choices": [
       {
-        "text": "J0JlbmltJTIwaSVDMyVBN2luJTIwaSVDNSU5RmxldmklMjAlQzMlQjZuZW1saSclMjBkaXllcmVrJTIwa29udXl1JTIwa2FwYXQlMjB2ZSUyMHlva3N1bGx1JUM0JTlGdW51JTIwZ2l6bGUu",
+        "text": "'Benim için işlevi önemli' diyerek konuyu kapat ve yoksulluğunu gizle.",
         "effects": {
           "resilience": 25,
           "success": -5,
           "health": -10
         },
-        "message": "R3VydXJ1bnUlMjBrb3J1ZHVuJTIwYW1hJTIwJ3pldnNpeiclMjBldGlrZXRpJTIwJUMzJUJDemVyaW5lJTIweWFwJUM0JUIxJUM1JTlGdCVDNCVCMS4="
+        "message": "Gururunu korudun ama 'zevsiz' etiketi üzerine yapıştı."
       },
       {
-        "text": "R2VyJUMzJUE3ZSVDNCU5RmklMjBzJUMzJUI2eWxlJTNBJTIwJ0IlQzMlQkN0JUMzJUJDbiUyMHBhcmFtJUM0JUIxJTIwYWlsZW1lJTIwZyVDMyVCNm5kZXJpeW9ydW0lMkMlMjBidW5hJTIwYiVDMyVCQ3QlQzMlQTdlbSUyMHlvay4n",
+        "text": "Gerçeği söyle: 'Bütün paramı aileme gönderiyorum, buna bütçem yok.'",
         "effects": {
           "health": 15,
           "resilience": -20,
           "success": -5
         },
-        "message": "T3J0YW0lMjBiaXIlMjBhbmRhJTIwYnV6JTIwa2VzdGkuJTIwJUM0JUIwbnNhbmxhciUyMHNhbmElMjBhYyVDNCVCMW1heWElMjBiYSVDNSU5RmxhZCVDNCVCMSUyQyUyMGJ1JTIwJ3pldnNpeiclMjBkZW5tZXNpbmRlbiUyMGRhaGElMjBhJUM0JTlGJUM0JUIxciUyMGdlbGRpLg=="
+        "message": "Ortam bir anda buz kesti. İnsanlar sana acımaya başladı, bu 'zevsiz' denmesinden daha ağır geldi."
       }
     ]
   },
   {
     "id": "common_11",
     "location": "common",
-    "description": "T3J0YWslMjBhbGFuZGFraSUyMGIlQzMlQkN5JUMzJUJDayUyMGVrcmFuZGElMjBiaXIlMjBzdGFqeWVyaW4lMjBoYXRhJTIweWFwdCVDNCVCMSVDNCU5RiVDNCVCMSUyMGJpciUyMHZpZGVvJTIwZCVDMyVCNm4lQzMlQkN5b3IlMjB2ZSUyMGhlcmtlcyUyMGthaGthaGFsYXJsYSUyMGclQzMlQkNsJUMzJUJDeW9yLiUyME8lMjBzdGFqeWVyJTIwYmlyJTIwayVDMyVCNiVDNSU5RmVkZSUyMGElQzQlOUZsYW1hayUyMCVDMyVCQ3plcmUuJTIwRSVDNCU5RmVyJTIwZyVDMyVCQ2xtZXpzZW4lMjBncnVidW4lMjAnZSVDNCU5RmxlbmNlc2luaSUyMGJvemFuJTJDJTIwYSVDNSU5RiVDNCVCMXIlQzQlQjElMjBjaWRkaSUyMHZlJTIwaXRpY2knJTIwa2klQzUlOUZpJTIwc2VuJTIwb2xhY2FrcyVDNCVCMW4u",
+    "description": "Ortak alandaki büyük ekranda bir stajyerin hata yaptığı bir video dönüyor ve herkes kahkahalarla gülüyor. O stajyer bir köşede ağlamak üzere. Eğer gülmezsen grubun 'eğlencesini bozan, aşırı ciddi ve itici' kişi sen olacaksın.",
     "choices": [
       {
-        "text": "RyVDMyVCQ2xlcmVrJTIwb3J0YW1hJTIwa2F0JUM0JUIxbCUyQyUyMCclQzUlOUVha2ElMjB5YXAlQzQlQjF5b3J1eiUyMGNhbiVDNCVCMW0nJTIwZGl5ZXJlayUyMHZpY2RhbiVDNCVCMW4lQzQlQjElMjBzdXN0dXIu",
+        "text": "Gülerek ortama katıl, 'Şaka yapıyoruz canım' diyerek vicdanını sustur.",
         "effects": {
           "success": 15,
           "resilience": -30,
           "health": -15
         },
-        "message": "R3J1YmElMjBkYWhpbCUyMG9sZHVuJTIwYW1hJTIwbyUyMGElQzQlOUZsYXlhbiUyMGclQzMlQjZ6bGVybGUlMjBrdXJkdSVDNCU5RnVuJTIwdGVtYXMlMjBnZWNlJTIwdXlrdW51JTIwa2ElQzMlQTclQzQlQjFyYWNhay4="
+        "message": "Gruba dahil oldun ama o ağlayan gözlerle kurduğun temas gece uykunu kaçıracak."
       },
       {
-        "text": "RWtyYW4lQzQlQjElMjBrYXBhdCUyMHZleWElMjB0ZXBraSUyMGclQzMlQjZzdGVybWVkZW4lMjBvcmFkYW4lMjB1emFrbGElQzUlOUYu",
+        "text": "Ekranı kapat veya tepki göstermeden oradan uzaklaş.",
         "effects": {
           "resilience": 25,
           "success": -10,
           "health": 5
         },
-        "message": "Wm9yYmFsJUM0JUIxJUM0JTlGYSUyMG9ydGFrJTIwb2xtYWQlQzQlQjFuJTIwYW1hJTIwYXJ0JUM0JUIxayUyMGdydWJ1biUyMCdlJUM0JTlGbGVuY2UlMjBkJUMzJUJDJUM1JTlGbWFuJUM0JUIxJyUyMGlsYW4lMjBlZGlsZGluLg=="
+        "message": "Zorbalığa ortak olmadın ama artık grubun 'eğlence düşmanı' ilan edildin."
       }
     ]
   },
   {
     "id": "common_12",
     "location": "common",
-    "description": "JUMzJTg3b2slMjB5b3JndW5zdW4lMkMlMjBheWFrdGElMjBkdXJhY2FrJTIwaGFsaW4lMjB5b2suJTIwRGlubGVubWUlMjBvZGFzJUM0JUIxbmRha2klMjBrb2x0dSVDNCU5RmElMjB5JUM0JUIxJUM0JTlGJUM0JUIxbGQlQzQlQjFuLiUyME8lMjBzJUM0JUIxcmFkYSUyMGJpciUyMCVDMyVCQ3N0JTIweWV0a2lsaSUyMGklQzMlQTdlcmklMjBnaXJkaS4lMjBIZXJrZXMlMjBheWElQzQlOUZhJTIwa2Fsa3QlQzQlQjElMjBhbWElMjBzZW4lMjBiaXIlMjBhbmwlQzQlQjFrJTIwZGFsZyVDNCVCMW5sJUM0JUIxa2xhJTIwZ2UlQzMlQTclMjBrYWxrdCVDNCVCMW4uJTIwWWV0a2lsaSUyMHNhbmElMjAnU2F5ZyVDNCVCMXMlQzQlQjF6JyUyMGJpciUyMGJhayVDNCVCMSVDNSU5RiUyMGF0dCVDNCVCMS4lMjAlQzUlOUVpbWRpJTIwaGVya2VzJTIwc2VuaW4lMjAna2liaXJsaSUyMHZlJTIwb3Rvcml0ZWxlcmklMjB0YWttYXlhbiclMjBiaXJpJTIwb2xkdSVDNCU5RnVudSUyMGtvbnUlQzUlOUZ1eW9yLg==",
+    "description": "Çok yorgunsun, ayakta duracak halin yok. Dinlenme odasındaki koltuğa yığıldın. O sırada bir üst yetkili içeri girdi. Herkes ayağa kalktı ama sen bir anlık dalgınlıkla geç kalktın. Yetkili sana 'Saygısız' bir bakış attı. Şimdi herkes senin 'kibirli ve otoriteleri takmayan' biri olduğunu konuşuyor.",
     "choices": [
       {
-        "text": "SGVtZW4lMjB5YW4lQzQlQjFuYSUyMGdpZGlwJTIweW9yZ3VubHUlQzQlOUZ1bnUlMjBiYWhhbmUlMjBlZGVyZWslMjAlQzMlQjZ6JUMzJUJDciUyMGRpbGUu",
+        "text": "Hemen yanına gidip yorgunluğunu bahane ederek özür dile.",
         "effects": {
           "success": 15,
           "resilience": -20,
           "health": -5
         },
-        "message": "RHVydW11JTIwa3VydGFyZCVDNCVCMW4lMjBhbWElMjBrZW5kaW5pJTIwYSVDMyVBNyVDNCVCMWtsYW1hayUyMHpvcnVuZGElMjBrYWxtYWslMjBndXJ1cnVudSUyMGluY2l0dGku"
+        "message": "Durumu kurtardın ama kendini açıklamak zorunda kalmak gururunu incitti."
       },
       {
-        "text": "QSVDMyVBNyVDNCVCMWtsYW1hJTIweWFwbWEuJTIwJ0dlbGVuJTIwZ2lkZW4lMjBpJUMzJUE3aW4lMjBheWElQzQlOUZhJTIwZiVDNCVCMXJsYXlhbiUyMGJpciUyMGt1a2xhJTIwZGUlQzQlOUZpbGltJyUyMGR1cnUlQzUlOUZ1JTIwc2VyZ2lsZS4=",
+        "text": "Açıklama yapma. 'Gelen giden için ayağa fırlayan bir kukla değilim' duruşu sergile.",
         "effects": {
           "resilience": 30,
           "success": -15,
           "talent": 5
         },
-        "message": "U2VydCUyMGJpciUyMGltYWolMjAlQzMlQTdpemRpbi4lMjBTYW5hJTIwJ2FzaSclMjBkaXlvcmxhciUyMGFtYSUyMGklQzMlQTd0ZW4lMjBpJUMzJUE3ZSUyMHNlbmRlbiUyMCVDMyVBN2VraW5tZXllJTIwYmElQzUlOUZsYWQlQzQlQjFsYXIu"
+        "message": "Sert bir imaj çizdin. Sana 'asi' diyorlar ama içten içe senden çekinmeye başladılar."
       }
     ]
   },
   {
     "id": "common_13",
     "location": "common",
-    "description": "QmlyaXNpJTIwc2VuaW4lMjBoYWtrJUM0JUIxbmRhJTIwJUMzJUE3b2slMjBhJUM0JTlGJUM0JUIxciUyMGJpciUyMGRlZGlrb2R1JTIweWF5ZCVDNCVCMS4lMjBPcnRhayUyMGFsYW5hJTIwZ2lyZGklQzQlOUZpbmRlJTIwaGVya2VzJTIwZiVDNCVCMXMlQzQlQjFsZGElQzUlOUZtYXklQzQlQjElMjBrZXN0aS4lMjBEZWRpa29kdXl1JTIweWF5YW4lMjBraSVDNSU5RmluaW4lMjBhc2wlQzQlQjFuZGElMjAlQzMlQTdvayUyMHpvciUyMGJpciUyMGQlQzMlQjZuZW1kZW4lMjBnZSVDMyVBN3RpJUM0JTlGaW5pJTIwdmUlMjBkaWtrYXQlMjBkYSVDNCU5RiVDNCVCMXRtYXlhJTIwJUMzJUE3YWwlQzQlQjElQzUlOUZ0JUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGJpbGl5b3JzdW4u",
+    "description": "Birisi senin hakkında çok ağır bir dedikodu yaydı. Ortak alana girdiğinde herkes fısıldaşmayı kesti. Dedikoduyu yayan kişinin aslında çok zor bir dönemden geçtiğini ve dikkat dağıtmaya çalıştığını biliyorsun.",
     "choices": [
       {
-        "text": "SGVya2VzaW4lMjBpJUMzJUE3aW5kZSUyMG9udW4lMjB5YWxhbiVDNCVCMW4lQzQlQjElMjB5JUMzJUJDeiVDMyVCQ25lJTIwdnVyJTIwdmUlMjBvbnUlMjByZXppbCUyMGV0Lg==",
+        "text": "Herkesin içinde onun yalanını yüzüne vur ve onu rezil et.",
         "effects": {
           "success": 25,
           "resilience": -15,
           "health": -10
         },
-        "message": "JUM0JUIwbnRpa2FtJUM0JUIxbiVDNCVCMSUyMGFsZCVDNCVCMW4lMjBhbWElMjBvbnVuJTIweSVDNCVCMWslQzQlQjFsbSVDNCVCMSVDNSU5RiUyMGhhbGklMjBzYW5hJTIwYmVrbGVkaSVDNCU5RmluJTIwdGF0bWluaSUyMHZlcm1lZGku"
+        "message": "İntikamını aldın ama onun yıkılmış hali sana beklediğin tatmini vermedi."
       },
       {
-        "text": "U2Vzc2l6Y2UlMjB5YW4lQzQlQjFuYSUyMGdpdCUyMHZlJTIwJ05lZGVuJTIweWFwdCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBiaWxpeW9ydW0lMkMlMjB5YXJkJUM0JUIxbWElMjBpaHRpeWFjJUM0JUIxbiUyMHZhciUyMG0lQzQlQjElM0YnJTIwZGl5ZSUyMHNvci4=",
+        "text": "Sessizce yanına git ve 'Neden yaptığını biliyorum, yardıma ihtiyacın var mı?' diye sor.",
         "effects": {
           "resilience": 40,
           "health": 20,
           "success": -10
         },
-        "message": "QiVDMyVCQ3klQzMlQkNrbCVDMyVCQ2slMjBzZW5kZSUyMGthbGQlQzQlQjEuJTIwTyUyMCVDNSU5RmElQzUlOUZrJUM0JUIxbmwlQzQlQjFrdGFuJTIwYSVDNCU5RmxhcmtlbiUyQyUyMGtpdGxlJTIwc2VuaW4lMjAnZXppayUyMHZlJTIwdGVwa2lzaXonJTIwb2xkdSVDNCU5RnVudSUyMGQlQzMlQkMlQzUlOUYlQzMlQkNuJUMzJUJDeW9yLg=="
+        "message": "Büyüklük sende kaldı. O şaşkınlıktan ağlarken, kitle senin 'ezik ve tepkisiz' olduğunu düşünüyor."
       }
     ]
   },
   {
     "id": "common_14",
     "location": "common",
-    "description": "JUM1JTlFaXJrZXQlMjBrYW50aW5pbmRlJTIwYmlyJTIwc3RhanllcmluJTIweWVtZSVDNCU5RmluZSUyMGJpcmluaW4lMjBiaXIlMjAlQzUlOUZleWxlciUyMGthciVDNCVCMSVDNSU5RnQlQzQlQjFyZCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBnJUMzJUI2cmQlQzMlQkNuLiUyMEUlQzQlOUZlciUyMHMlQzMlQjZ5bGVyc2VuJTIwbyUyMCclQzUlOUZha2FjJUM0JUIxJyUyMGdydXAlMjBzYW5hJTIwY2VwaGUlMjBhbGFjYWsuJTIwUyVDMyVCNnlsZW1lenNlbiUyMG8lMjAlQzMlQTdvY3VrJTIwemVoaXJsZW5lYmlsaXIlMjB2ZXlhJTIwcGVyZm9ybWFucyVDNCVCMW4lQzQlQjElMjBrYXliZWRlYmlsaXIu",
+    "description": "Şirket kantininde bir stajyerin yemeğine birinin bir şeyler karıştırdığını gördün. Eğer söylersen o 'şakacı' grup sana cephe alacak. Söylemezsen o çocuk zehirlenebilir veya performansını kaybedebilir.",
     "choices": [
       {
-        "text": "VGVwc2l5aSUyMGVsaW5kZW4lMjBhbCUyMHZlJTIwZ2VyJUMzJUE3ZSVDNCU5RmklMjBoYXlrJUM0JUIxci4=",
+        "text": "Tepsiyi elinden al ve gerçeği haykır.",
         "effects": {
           "resilience": 30,
           "success": -20,
           "health": 15
         },
-        "message": "QmlyaW5pJTIwa3VydGFyZCVDNCVCMW4lMjBhbWElMjBhcnQlQzQlQjFrJTIwJUM1JTlGaXJrZXRpbiUyMCdnYW1tYXpjJUM0JUIxJTJGaXNwaXlvbmN1JyUyMHN0YWp5ZXJpc2luLiUyMEtpbXNlJTIwc2VuaW5sZSUyMHllbWVrJTIweWVtZWslMjBpc3RlbWl5b3Iu"
+        "message": "Birini kurtardın ama artık şirketin 'gammazcı/ispiyoncu' stajyerisin. Kimse seninle yemek yemek istemiyor."
       },
       {
-        "text": "U2FkZWNlJTIwbyUyMHN0YWp5ZXJpJTIwa2VuYXJhJTIwJUMzJUE3ZWtpcCUyMCdPJTIweWVtZSVDNCU5RmklMjB5ZW1lJyUyMGRpeWUlMjBmJUM0JUIxcyVDNCVCMWxkYSUyQyUyMGtpbXNleWklMjBlbGUlMjB2ZXJtZS4=",
+        "text": "Sadece o stajyeri kenara çekip 'O yemeği yeme' diye fısılda, kimseyi ele verme.",
         "effects": {
           "success": 10,
           "resilience": 10,
           "health": -20
         },
-        "message": "SGVyJTIwaWtpJTIwdGFyYWYlQzQlQjElMjBkYSUyMGlkYXJlJTIwZXR0aW4lMjBhbWElMjBidSUyMGlraWxpJTIwb3luYW1hayUyMHNlbmklMjBpJUMzJUE3dGVuJTIwaSVDMyVBN2UlMjBzdHJlc2UlMjBzb2t0dS4="
+        "message": "Her iki tarafı da idare ettin ama bu ikili oynamak seni içten içe strese soktu."
       }
     ]
   },
   {
     "id": "common_15",
     "location": "common",
-    "description": "R3J1cCUyMGhhbGluZGUlMjB0ZWxldml6eW9uJTIwaXpsaXlvcnN1bnV6JTIwdmUlMjBzZW5pbiUyMCVDMyVBN29rJTIwc2V2ZGklQzQlOUZpbiUyMGJpciUyMHNhbmF0JUMzJUE3JUM0JUIxJTIwYSVDNSU5RmElQzQlOUYlQzQlQjFsYW4lQzQlQjF5b3IuJTIwSGVya2VzJTIwJ1phdGVuJTIweWV0ZW5la3NpeiUyQyUyMHRvcnBpbGxpJyUyMGRpeW9yLiUyMFNlbiUyMG8lMjBzYW5hdCVDMyVBNyVDNCVCMW4lQzQlQjFuJTIwYXNsJUM0JUIxbmRhJTIwbmUlMjBrYWRhciUyMCVDMyVBN29rJTIwJUMzJUE3YWwlQzQlQjElQzUlOUZ0JUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGJpbGl5b3JzdW4u",
+    "description": "Grup halinde televizyon izliyorsunuz ve senin çok sevdiğin bir sanatçı aşağılanıyor. Herkes 'Zaten yeteneksiz, torpilli' diyor. Sen o sanatçının aslında ne kadar çok çalıştığını biliyorsun.",
     "choices": [
       {
-        "text": "T251JTIwc2F2dW4lMjB2ZSUyMG5lZGVuJTIwc2F5ZyVDNCVCMSUyMGR1eXVsbWFzJUM0JUIxJTIwZ2VyZWt0aSVDNCU5RmluaSUyMGFubGF0Lg==",
+        "text": "Onu savun ve neden saygı duyulması gerektiğini anlat.",
         "effects": {
           "resilience": 20,
           "success": -5,
           "talent": 10
         },
-        "message": "Vml6eW9udW51JTIwb3J0YXlhJTIwa295ZHVuJTIwYW1hJTIwa2l0bGUlMjBzZW5pJTIwJ3Zhc2F0JTIwc2F2dW51Y3VzdSclMjBpbGFuJTIwZXR0aS4="
+        "message": "Vizyonunu ortaya koydun ama kitle seni 'vasat savunucusu' ilan etti."
       },
       {
-        "text": "U2Vzc2l6Y2UlMjBiYSVDNSU5RiVDNCVCMW4lQzQlQjElMjBzYWxsYSUyQyUyMGdydWJ1biUyMGZpa3JpbmUlMjBrYXIlQzUlOUYlQzQlQjElMjAlQzMlQTclQzQlQjFrbWEu",
+        "text": "Sessizce başını salla, grubun fikrine karşı çıkma.",
         "effects": {
           "success": 15,
           "resilience": -25
         },
-        "message": "R3J1YmElMjB1eXVtJTIwc2ElQzQlOUZsYWQlQzQlQjFuJTIwYW1hJTIwa2VuZGklMjBkZSVDNCU5RmVybGVyaW5pJTIwbWFzYWRhJTIwYiVDNCVCMXJha3QlQzQlQjFuLg=="
+        "message": "Gruba uyum sağladın ama kendi değerlerini masada bıraktın."
       }
     ]
   }

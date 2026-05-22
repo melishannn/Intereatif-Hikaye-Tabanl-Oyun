@@ -7,6 +7,8 @@ export interface Stats {
 
 export interface Character {
   name: string;
+  gender: string;
+  imageUrl?: string;
   hairColor: string;
   clothingStyle: string;
   physicalTrait: string;
@@ -37,6 +39,8 @@ export interface GameEvent {
 
 export interface BookQuote {
   quote: string;
+  author?: string;
+  book?: string;
   choices: Choice[];
   difficulty?: 'easy' | 'medium' | 'hard';
 }
@@ -50,4 +54,7 @@ export interface SocialComment {
   time: string;
   analysisNote?: string;
   replied?: boolean;
+  actionTaken?: 'blocked' | 'calmed' | 'replied';
+  liked?: boolean;
+  fanReply?: string;
 }

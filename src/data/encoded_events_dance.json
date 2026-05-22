@@ -2,175 +2,175 @@
   {
     "id": "dance_1",
     "location": "dance",
-    "description": "S29yZW9ncmFmaSUyMHMlQzQlQjFyYXMlQzQlQjFuZGElMjBoYXRhJTIweWFwJUM0JUIxeW9yc3VuLiUyMERpJUM0JTlGZXIlMjBzdGFqeWVybGVyZGVuJTIwYmlyaSUyMGYlQzQlQjFzJUM0JUIxbGQlQzQlQjF5b3IlM0ElMjAnQnVudW4lMjBidXJhZGElMjBuZSUyMGklQzUlOUZpJTIwdmFyJTNGJw==",
+    "description": "Koreografi sırasında hata yapıyorsun. Diğer stajyerlerden biri fısıldıyor: 'Bunun burada ne işi var?'",
     "choices": [
       {
-        "text": "RCVDMyVCQyVDNSU5Rm1lbmUlMjByYSVDNCU5Rm1lbiUyMGthbGslQzQlQjFwJTIwcHJvZmVzeW9uZWxjZSUyMGRldmFtJTIwZXQu",
+        "text": "Düşmene rağmen kalkıp profesyonelce devam et.",
         "effects": {
           "talent": 25,
           "health": -10,
           "resilience": 15,
           "success": 20
         },
-        "message": "SGF0YSUyMHlhcG1hbmElMjByYSVDNCU5Rm1lbiUyMGVuZXJqaW5pJTIwZCVDMyVCQyVDNSU5RiVDMyVCQ3JtZW1lbiUyMGhvY2FuJUM0JUIxbiUyMGclQzMlQjZ6JUMzJUJDbmUlMjBnaXJkaS4="
+        "message": "Hata yapmana rağmen enerjini düşürmemen hocanın gözüne girdi."
       },
       {
-        "text": "UHJvdmF5JUM0JUIxJTIwYiVDNCVCMXJhayVDNCVCMXAlMjBheW5hbGFyYSUyMGJha21heSVDNCVCMSUyMGtlcy4=",
+        "text": "Provayı bırakıp aynalara bakmayı kes.",
         "effects": {
           "health": 10,
           "resilience": -20,
           "success": -15
         },
-        "message": "QmlyJTIwcyVDMyVCQ3JlbGklQzQlOUZpbmUlMjByYWhhdGxhZCVDNCVCMW4lMjBhbWElMjBoZXJrZXMlMjBwZXMlMjBldHRpJUM0JTlGaW5pJTIwa29udSVDNSU5RnV5b3Iu"
+        "message": "Bir süreliğine rahatladın ama herkes pes ettiğini konuşuyor."
       }
     ]
   },
   {
     "id": "dance_2",
     "location": "dance",
-    "description": "S29yZW9ncmFmaSUyMHMlQzQlQjFyYXMlQzQlQjFuZGElMjBiaXJpJTIwc2FuYSUyMHlhcmQlQzQlQjFtJTIwZXRtZXllJTIwJUMzJUE3YWwlQzQlQjElQzUlOUYlQzQlQjF5b3IlMjBhbWElMjBoYXJla2V0bGVyaW5pJTIwcyVDMyVCQ3Jla2xpJTIwZCVDMyVCQ3plbHRpeW9yLiUyMFlhcmQlQzQlQjFtJTIwbSVDNCVCMSUyMGVkaXlvciUyMHlva3NhJTIwc2VuaSUyMGslQzMlQkMlQzMlQTclQzMlQkNtcyVDMyVCQ3lvciUyMG11JTIwZW1pbiUyMGRlJUM0JTlGaWxzaW4u",
+    "description": "Koreografi sırasında biri sana yardım etmeye çalışıyor ama hareketlerini sürekli düzeltiyor. Yardım mı ediyor yoksa seni küçümsüyor mu emin değilsin.",
     "choices": [
       {
-        "text": "U2Vzc2l6Y2UlMjB5YXJkJUM0JUIxbSVDNCVCMW4lQzQlQjElMjBrYWJ1bCUyMGV0JTIwdmUlMjB0ZSVDNSU5RmVrayVDMyVCQ3IlMjBldC4=",
+        "text": "Sessizce yardımını kabul et ve teşekkür et.",
         "effects": {
           "talent": 15,
           "resilience": 10,
           "success": 10
         },
-        "message": "R2VsaSVDNSU5RnRpbiUyMHZlJTIwZWtpcCUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGbWFzJUM0JUIxbmElMjB1eWd1bmx1JUM0JTlGdW4lMjBnJUMzJUI2eiUyMCVDMyVCNm4lQzMlQkNuZSUyMGFsJUM0JUIxbmQlQzQlQjEu"
+        "message": "Geliştin ve ekip çalışmasına uygunluğun göz önüne alındı."
       },
       {
-        "text": "J0JlbiUyMHlhcGFyJUM0JUIxbS4nJTIwZGl5ZXJlayUyMHlhcmQlQzQlQjFtJUM0JUIxbiVDNCVCMSUyMHJlZGRldC4=",
+        "text": "'Ben yaparım.' diyerek yardımını reddet.",
         "effects": {
           "resilience": 10,
           "success": -15
         },
-        "message": "QmElQzQlOUYlQzQlQjFtcyVDNCVCMXolMjBnJUMzJUI2ciVDMyVCQ25tZXllJTIwJUMzJUE3YWwlQzQlQjElQzUlOUZ0JUM0JUIxbiUyMGFtYSUyMGVnb2lzdCUyMG9sYXJhayUyMGV0aWtldGxlbmRpbi4="
+        "message": "Bağımsız görünmeye çalıştın ama egoist olarak etiketlendin."
       }
     ]
   },
   {
     "id": "dance_3",
     "location": "dance",
-    "description": "R3J1YnVuJTIwJ21lcmtleiclMjBwb3ppc3lvbnUlMjBpJUMzJUE3aW4lMjB5YXIlQzQlQjElQzUlOUYlQzQlQjF5b3JzdW4uJTIwUmFraWJpbiUyMGJpciUyMGhhcmVrZXR0ZSUyMHpvcmxhbiVDNCVCMXlvci4lMjBIb2NheWElMjBzJUMzJUI2eWxlcnNlbiUyMG9udSUyMGVsZXllYmlsaXJzaW4lMkMlMjBzJUMzJUI2eWxlbWV6c2VuJTIwc2VuJTIwZWxlbmViaWxpcnNpbi4=",
+    "description": "Grubun 'merkez' pozisyonu için yarışıyorsun. Rakibin bir harekette zorlanıyor. Hocaya söylersen onu eleyebilirsin, söylemezsen sen elenebilirsin.",
     "choices": [
       {
-        "text": "UmFraWJpbmluJTIwemFmaXlldGluaSUyMGJhJUM1JTlGa2VudGluJTIwb2xhcmFrJTIwa3VsbGFuJTJDJTIwaG9jYXlhJTIwcyVDMyVCNnlsZS4=",
+        "text": "Rakibinin zafiyetini başkentin olarak kullan, hocaya söyle.",
         "effects": {
           "success": 30,
           "health": -5,
           "resilience": -25
         },
-        "message": "TWVya2V6JTIwcG96aXN5b251JTIwa2FwdCVDNCVCMW4uJTIwQW1hJTIwZ3J1cHRha2klMjBraW1zZSUyMGFydCVDNCVCMWslMjBzZW5pbmxlJTIwa29udSVDNSU5Rm11eW9yLg=="
+        "message": "Merkez pozisyonu kaptın. Ama gruptaki kimse artık seninle konuşmuyor."
       },
       {
-        "text": "TSVDMyVCQ2RhaGFsZSUyMGV0bWUlMkMlMjBhZGlsJTIwcmVrYWJldGklMjBzZSVDMyVBN2VyZWslMjByaXNrZSUyMGdpci4=",
+        "text": "Müdahale etme, adil rekabeti seçerek riske gir.",
         "effects": {
           "resilience": 20,
           "success": -25,
           "talent": 10
         },
-        "message": "RiVDNCVCMXJzYXQlQzQlQjElMjB0ZXB0aW4uJTIwS2VuZGluZSUyMHNheWclQzQlQjFuJTIwYXJ0dCVDNCVCMSUyMGFtYSUyMG1lcmtleiUyMG9sYW1hZCVDNCVCMW4u"
+        "message": "Fırsatı teptin. Kendine saygın arttı ama merkez olamadın."
       }
     ]
   },
   {
     "id": "dance_4",
     "location": "dance",
-    "description": "RGFucyUyMGhvY2FuJUM0JUIxeiUyMGJ1ZyVDMyVCQ24lMjB5ZW5pJTIwdmUlMjAlQzMlQTdvayUyMHpvcmx1JTIwYmlyJTIwa29yZW9ncmFmaSUyMCVDMyVCNiVDNCU5RnJldGl5b3IuJTIwRGklQzQlOUZlcmxlcmluaW4lMjAlQzMlQTdvJUM0JTlGdSUyMGglQzQlQjF6bCVDNCVCMSUyMCVDMyVCNiVDNCU5RnJlbml5b3IlMkMlMjBzZW4lMjBnZXJpZGUlMjBrYWwlQzQlQjF5b3JzdW4uJTIwSG9jYSUyMHNhbmElMjBiYWslQzQlQjF5b3Iu",
+    "description": "Dans hocanız bugün yeni ve çok zorlu bir koreografi öğretiyor. Diğerlerinin çoğu hızlı öğreniyor, sen geride kalıyorsun. Hoca sana bakıyor.",
     "choices": [
       {
-        "text": "RWxpJTIwa29sdSUyMGJhJUM0JTlGbCVDNCVCMSUyMGJla2xlbWVrJTIweWVyaW5lJTIwaG9jYWRhbiUyMHRla3JhciUyMGclQzMlQjZzdGVybWVzaW5pJTIwaXN0ZS4=",
+        "text": "Eli kolu bağlı beklemek yerine hocadan tekrar göstermesini iste.",
         "effects": {
           "talent": 20,
           "resilience": 15,
           "success": 10
         },
-        "message": "U29ybWFrJTIwemF5JUM0JUIxZmwlQzQlQjFrJTIwZGUlQzQlOUZpbCUyQyUyMGthcmFybCVDNCVCMWwlQzQlQjFrdCVDNCVCMS4lMjBIb2NhJTIwc2VuaW4lMjAlQzMlQTdhYmFuJUM0JUIxJTIwdGFrZGlyJTIwZXR0aS4="
+        "message": "Sormak zayıflık değil, kararlılıktı. Hoca senin çabanı takdir etti."
       },
       {
-        "text": "QmlsaXlvcm11JUM1JTlGc3VuJTIwZ2liaSUyMHlhcCUyMHZlJTIwaGF0YWxhciVDNCVCMSUyMGdpemxlLg==",
+        "text": "Biliyormuşsun gibi yap ve hataları gizle.",
         "effects": {
           "talent": -10,
           "success": -15,
           "resilience": -10
         },
-        "message": "RGUlQzQlOUZlcmxlbmRpcm1lZGUlMjBoYXRhbGFyJTIwZyVDMyVCQ24lMjB5JUMzJUJDeiVDMyVCQ25lJTIwJUMzJUE3JUM0JUIxa3QlQzQlQjEuJTIwJ1NhaHRlJTIwJUMzJUI2emclQzMlQkN2ZW4nJTIweW9ydW1sYXIlQzQlQjElMjB5YXAlQzQlQjFsZCVDNCVCMS4="
+        "message": "Değerlendirmede hatalar gün yüzüne çıktı. 'Sahte özgüven' yorumları yapıldı."
       }
     ]
   },
   {
     "id": "dance_5",
     "location": "dance",
-    "description": "R3J1cCUyMGtvcmVvZ3JhZmlzaW5kZSUyMHNhbmElMjAlQzMlQjZuZW1saSUyMGJpciUyMHNvbG8lMjB2ZXJpbGRpLiUyMFByb3ZhJTIwZyVDMyVCQ24lQzMlQkMlMjB5YWtsYSVDNSU5RiVDNCVCMXJrZW4lMjBiaXIlMjBiYSVDNSU5RmthJTIwc3RhanllcmluJTIwYXluJUM0JUIxJTIwc29sb3l1JTIwaXN0ZWRpJUM0JTlGaSUyMHZlJTIwaG9jYXlhJTIwJ0RhaGElMjBpeWklMjB5YXBhYmlsaXJpbSclMjBkZWRpJUM0JTlGaW5pJTIwZHV5dXlvcnN1bi4=",
+    "description": "Grup koreografisinde sana önemli bir solo verildi. Prova günü yaklaşırken bir başka stajyerin aynı soloyu istediği ve hocaya 'Daha iyi yapabilirim' dediğini duyuyorsun.",
     "choices": [
       {
-        "text": "UHJvdmFkYSUyMHZhciUyMGclQzMlQkNjJUMzJUJDbmxlJTIwZGFucyUyMGV0JTIwdmUlMjBzb2xveXUlMjBzYWhpcGxlbi4=",
+        "text": "Provada var gücünle dans et ve soloyu sahiplen.",
         "effects": {
           "talent": 25,
           "success": 20,
           "resilience": 10
         },
-        "message": "UGVyZm9ybWFucyVDNCVCMW4lMjBrb251JUM1JTlGdHUuJTIwU29sbyUyMHNlbmlubGUlMjBrYWxkJUM0JUIxLg=="
+        "message": "Performansın konuştu. Solo seninle kaldı."
       },
       {
-        "text": "R2VyZ2lubGlrdGVuJTIwaGF0YSUyMHlhcCUyQyUyMHJha2liaW5pJTIwJUMzJUI2biVDMyVCQ25lJTIwZ2UlQzMlQTcu",
+        "text": "Gerginlikten hata yap, rakibini önüne geç.",
         "effects": {
           "talent": -15,
           "success": -20,
           "resilience": -15
         },
-        "message": "QmFzayVDNCVCMSUyMGFsdCVDNCVCMW5kYSUyMGV6aWxkaW4uJTIwSG9jYSUyMHNvbG95dSUyMGRlJUM0JTlGaSVDNSU5RnRpcmRpLg=="
+        "message": "Baskı altında ezildin. Hoca soloyu değiştirdi."
       }
     ]
   },
   {
     "id": "dance_6",
     "location": "dance",
-    "description": "RGFucyUyMHByb3ZhcyVDNCVCMSUyMHMlQzQlQjFyYXMlQzQlQjFuZGElMjBheWFrJTIwYmlsZSVDNCU5RmluaSUyMGluY2l0dGluLiUyMEElQzQlOUZyJUM0JUIxJTIwdmFyJTIwYW1hJTIwJUMzJUE3b2slMjAlQzUlOUZpZGRldGxpJTIwZGUlQzQlOUZpbC4lMjBLYWxhbiUyMDIlMjBzYWF0JTIwcHJvdmElMjB2YXIlMjB2ZSUyMGhvY2ElMjBoZXJrZXNlJTIwdGFtJTIwcGVyZm9ybWFucyUyMGJla2xpeW9yLg==",
+    "description": "Dans provası sırasında ayak bileğini incittin. Ağrı var ama çok şiddetli değil. Kalan 2 saat prova var ve hoca herkese tam performans bekliyor.",
     "choices": [
       {
-        "text": "RHVydW11JTIwaG9jYXlhJTIwcyVDMyVCNnlsZSUyMHZlJTIwayVDNCVCMXNhJTIwYmlyJTIwYXJhJTIwaXN0ZS4=",
+        "text": "Durumu hocaya söyle ve kısa bir ara iste.",
         "effects": {
           "health": 20,
           "resilience": 15,
           "success": -10
         },
-        "message": "SG9jYSUyMGFubGF5JUM0JUIxJUM1JTlGJTIwZyVDMyVCNnN0ZXJkaS4lMjBCZWRlbmluaSUyMGtvcnVkdW4u"
+        "message": "Hoca anlayış gösterdi. Bedenini korudun."
       },
       {
-        "text": "QSVDNCU5RnIlQzQlQjF5JUM0JUIxJTIweXV0JTIwdmUlMjBkZXZhbSUyMGV0JTJDJTIwa2ltc2UlMjBnJUMzJUI2cm1lc2luLg==",
+        "text": "Ağrıyı yut ve devam et, kimse görmesin.",
         "effects": {
           "health": -30,
           "talent": 10,
           "resilience": -10
         },
-        "message": "UHJvdmF5JUM0JUIxJTIwYml0aXJkaW4lMjBhbWElMjBiaWxlJUM0JTlGaW4lMjBpeWljZSUyMCVDNSU5RmklQzUlOUZ0aS4lMjBCaXIlMjBzb25yYWtpJTIwaGFmdGElMjBkYW5zJTIwZWRlbWV5ZWNla3Npbi4="
+        "message": "Provayı bitirdin ama bileğin iyice şişti. Bir sonraki hafta dans edemeyeceksin."
       }
     ]
   },
   {
     "id": "dance_7",
     "location": "dance",
-    "description": "QnVnJUMzJUJDbiUyMGhvY2ElMjBncnVwbGFyJUM0JUIxJTIwZGUlQzQlOUZlcmxlbmRpcml5b3IuJTIwU2VuaW4lMjBncnVidW4lMjBrJUMzJUI2dCVDMyVCQyUyMHBlcmZvcm1hbnMlMjBzZXJnaWxlZGklMjAlQzMlQTclQzMlQkNuayVDMyVCQyUyMGJpciUyMCVDMyVCQ3llJTIwaGFyZWtldGklMjBzJUMzJUJDcmVrbGklMjBhdGwlQzQlQjF5b3IuJTIwSG9jYSUyMCdCdSUyMGtpbWluJTIwaGF0YXMlQzQlQjElM0YnJTIwZGl5ZSUyMHNvcnV5b3Iu",
+    "description": "Bugün hoca grupları değerlendiriyor. Senin grubun kötü performans sergiledi çünkü bir üye hareketi sürekli atlıyor. Hoca 'Bu kimin hatası?' diye soruyor.",
     "choices": [
       {
-        "text": "J0hlcCUyMGJpcmxpa3RlJTIwZGFoYSUyMGl5aSUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGbWFtJUM0JUIxeiUyMGdlcmVraXlvci4nJTIwZGl5ZXJlayUyMGdydWJ1JTIwa29ydS4=",
+        "text": "'Hep birlikte daha iyi çalışmamız gerekiyor.' diyerek grubu koru.",
         "effects": {
           "resilience": 20,
           "success": -10,
           "talent": 5
         },
-        "message": "TGlkZXJsaWslMjB2YXNmJUM0JUIxbiUyMCVDMyVCNm5lJTIwJUMzJUE3JUM0JUIxa3QlQzQlQjEuJTIwR3J1YnVuJTIwc2FuYSUyMG1pbm5ldHRhci4="
+        "message": "Liderlik vasfın öne çıktı. Grubun sana minnettar."
       },
       {
-        "text": "SGF0YSUyMHlhcGFuJTIwa2klQzUlOUZpeWklMjBpJUM1JTlGYXJldCUyMGV0Lg==",
+        "text": "Hata yapan kişiyi işaret et.",
         "effects": {
           "success": 15,
           "resilience": -25,
           "health": -5
         },
-        "message": "SG9jYSUyMG1lbW51biUyMG9sZHUlMjBhbWElMjBncnVidW4lMjBzZW5kZW4lMjBzbyVDNCU5RnVkdS4="
+        "message": "Hoca memnun oldu ama grubun senden soğudu."
       }
     ]
   }

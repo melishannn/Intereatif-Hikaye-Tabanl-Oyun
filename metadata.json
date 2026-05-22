@@ -1,5 +1,5 @@
 {
-  "name": "Kendi Yıldızını Yaz",
+  "name": "Kendi Yildizini Yaz",
   "description": "Seçimlerine göre ilerleyen, sağlık, psikoloji, başarı ve yetenek barlarını yönettiğin Ghibli tarzı idol hayatta kalma ve simülasyon oyunu.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]

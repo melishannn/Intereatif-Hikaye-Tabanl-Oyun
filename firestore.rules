@@ -31,5 +31,17 @@ service cloud.firestore {
 
       allow update, delete: if false;
     }
+
+    match /game_data/{docId} {
+      allow get: if true;
+      allow list: if true;
+      allow write: if !exists(/databases/$(database)/documents/game_data/constants);
+    }
+
+    match /events/{eventId} {
+      allow get: if true;
+      allow list: if true;
+      allow write: if !exists(/databases/$(database)/documents/game_data/constants);
+    }
   }
 }

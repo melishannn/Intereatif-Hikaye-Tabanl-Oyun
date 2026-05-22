@@ -24,6 +24,18 @@
         }
       },
       "required": ["name", "score", "status", "createdAt"]
+    },
+    "GameEvent": {
+      "title": "Game Event",
+      "description": "An event that happens at a location",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "location": { "type": "string" },
+        "description": { "type": "string" },
+        "choices": { "type": "array" }
+      },
+      "required": ["id", "location", "description", "choices"]
     }
   },
   "firestore": {
@@ -32,6 +44,12 @@
         "$ref": "#/entities/LeaderboardEntry"
       },
       "description": "Global leaderboard of all players"
+    },
+    "events/{eventId}": {
+      "schema": {
+        "$ref": "#/entities/GameEvent"
+      },
+      "description": "Game events for different locations"
     }
   }
 }

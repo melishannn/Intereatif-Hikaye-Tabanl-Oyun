@@ -2,98 +2,98 @@
   {
     "id": "room_1",
     "location": "room",
-    "description": "R2VjZSUyMHlhciVDNCVCMXMlQzQlQjElMjBvZGFuZGFzJUM0JUIxbi4lMjBCdWclQzMlQkNuJTIwc29zeWFsJTIwbWVkeWFkYSUyMCdBaWxlc2klMjBiaWxlJTIwYnUlMjB1Y3ViZSUyMCU3QnBoeXNpY2FsJTdEJTIwdml6eW9uc3V6JTIwZXZsYXR0YW4lMjB1dGFuJUM0JUIxeW9yZHVyJyUyMGRpeWVyZWslMjBzZW5pJTIwYSVDNCU5RiVDNCVCMXIlMjBiaXIlMjBsaW4lQzMlQTdlJTIwbWFydXolMjBiJUM0JUIxcmFrdCVDNCVCMWxhci4lMjBTb3J1biUyMCVDNSU5RnUlMjBraSUzQiUyMGFubmVuJTIwc2VuaSUyMGdlciVDMyVBN2VrdGVuJTIwZGUlMjA1JTIweWElQzUlOUYlQzQlQjFuZGF5a2VuJTIwdGVyayUyMGV0bWklQzUlOUZ0aS4lMjBMaW4lQzMlQTclMjB5b3J1bWxhciVDNCVCMSUyMGlsZSUyMHklQzQlQjFsbGFyZCVDNCVCMXIlMjBiYXN0JUM0JUIxcmQlQzQlQjElQzQlOUYlQzQlQjFuJTIwJ0JlbmRlbiUyMGdlciVDMyVBN2VrdGVuJTIwdXRhbm0lQzQlQjElQzUlOUYlMjBtJUM0JUIxeWQlQzQlQjElM0YnJTIwc29ydXN1JTIwYmlybGUlQzUlOUZpeW9yJTIwdmUlMjBnJUMzJUI2JUM0JTlGcyVDMyVCQ25kZSUyMGRldmFzYSUyMGJpciUyMGJvJUM1JTlGbHVrJTIwYSVDMyVBNyVDNCVCMWwlQzQlQjF5b3Iu",
+    "description": "Gece yarısı odandasın. Bugün sosyal medyada 'Ailesi bile bu ucube {physical} vizyonsuz evlattan utanıyordur' diyerek seni ağır bir linçe maruz bıraktılar. Sorun şu ki; annen seni gerçekten de 5 yaşındayken terk etmişti. Linç yorumları ile yıllardır bastırdığın 'Benden gerçekten utanmış mıydı?' sorusu birleşiyor ve göğsünde devasa bir boşluk açılıyor.",
     "choices": [
       {
-        "text": "J09ubGFyJUM0JUIxbiUyMGxhZiVDNCVCMSUyMHZlJTIwYW5uZW1pbiUyMGdpZGklQzUlOUZpJTIwYmVuaSUyMHRhbiVDNCVCMW1sYXlhbWF6JyUyMGRpeWVyZWslMjBnJUMzJUI2enlhJUM1JTlGbGFyJUM0JUIxbmElMjBpemluJTIwdmVyJTIwdmUlMjBidSUyMHplaHJpJTIwYXQu",
+        "text": "'Onların lafı ve annemin gidişi beni tanımlayamaz' diyerek gözyaşlarına izin ver ve bu zehri at.",
         "effects": {
           "resilience": 30,
           "health": -15,
           "talent": 5,
           "success": -2
         },
-        "message": "TGluJUMzJUE3JTIwdmUlMjBlc2tpJTIwdGVyayUyMGVkaWxtZSUyMGFjJUM0JUIxcyVDNCVCMXlsYSUyMHklQzMlQkN6bGUlQzUlOUZtZWslMjBzZW5pJTIwaCVDNCVCMXJwYWxhZCVDNCVCMSUyQyUyMGFuY2FrJTIwaSVDMyVBN2luZGVraSUyMG8lMjBwYXNsJUM0JUIxJTIwZCVDMyVCQyVDNCU5RiVDMyVCQ20lQzMlQkMlMjAlQzMlQTclQzMlQjZ6ZXJlayUyMHJ1aHNhbCUyMGJpciUyMGRlcmlubGlrJTIwa2F6YW5kJUM0JUIxcmQlQzQlQjEu"
+        "message": "Linç ve eski terk edilme acısıyla yüzleşmek seni hırpaladı, ancak içindeki o paslı düğümü çözerek ruhsal bir derinlik kazandırdı."
       },
       {
-        "text": "J01hZGVtJTIwYW5uZW0lMjBiaWxlJTIwYmVuaSUyMHNldm1lZGklMkMlMjBiYXJpJTIwYnUlMjBzZWt0JUMzJUI2cmRlJTIwa29ya3VsYW4lMjBiaXJpJTIwb2xheSVDNCVCMW0hJyUyMGRpeWVyZWslMjBuZWZyZXQlMjBkb2wu",
+        "text": "'Madem annem bile beni sevmedi, bari bu sektörde korkulan biri olayım!' diyerek nefret dol.",
         "effects": {
           "resilience": -25,
           "health": -15,
           "success": 25
         },
-        "message": "R2UlQzMlQTdtaSVDNSU5RmklMjB2ZSUyMGxpbmNpJTIwcmVkZGVkaXAlMjBuZWZyZXRlJTIwc2FyJUM0JUIxbGQlQzQlQjFuLiUyMFklQzMlQkN6ZXlkZSUyMGJhJUM1JTlGYXIlQzQlQjFsJUM0JUIxJTIwZHVydXlvcnN1biUyMGFtYSUyMGthbGJpbmklMjBrYXJhbmwlQzQlQjElQzQlOUZhJTIwdGFtYW1lbiUyMHRlc2xpbSUyMGV0dGluLg=="
+        "message": "Geçmişi ve linci reddedip nefrete sarıldın. Yüzeyde başarılı duruyorsun ama kalbini karanlığa tamamen teslim ettin."
       }
     ]
   },
   {
     "id": "room_2",
     "location": "room",
-    "description": "S2FyYW5sJUM0JUIxayUyMG9kYWRhJTIwdGVrJTIwYmElQzUlOUYlQzQlQjFuYXMlQzQlQjFuLiUyMEJ1ZyVDMyVCQ24lMjBzYWhuZWRlJTIwbmVmZXMlMjBkYXJsJUM0JUIxJUM0JTlGJUM0JUIxJTIweWElQzUlOUZhZCVDNCVCMSVDNCU5RiVDNCVCMW4lMjBpJUMzJUE3aW4lMjAnQnUlMjAlN0Jib2R5JTdEJTIwdiVDMyVCQ2N1dCUyMHlhcCVDNCVCMXMlQzQlQjF5bGElMjB0ZW1iZWxsaWslMjB5YXAlQzQlQjF5b3IlMkMlMjBzYWhuZWRlJTIwYmlsZXJlayUyMGRhbnMlMjBldG1peW9yJTIwc2F5ZyVDNCVCMXMlQzQlQjF6ISclMjBkaXllJTIwaW5hbiVDNCVCMWxtYXolMjBiaXIlMjBsaW5jZSUyMHUlQzQlOUZyYWQlQzQlQjFuLiUyMCVDNCVCMCVDNSU5RmluJTIwZ2VyJUMzJUE3ZSVDNCU5RmklMjBpc2UlM0IlMjBkb2t0b3J1bmRhbiUyMGF6JTIwJUMzJUI2bmNlJTIwaGF5YXQlQzQlQjFuJUM0JUIxJTIwdmUlMjBlbmVyamluaSUyMGthbCVDNCVCMWMlQzQlQjElMjBvbGFyYWslMjBldGtpbGV5ZWNlayUyMGtyb25payUyMGhhc3RhbCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjFuJTIwaWxlcmxlZGklQzQlOUZpbmUlMjBkYWlyJTIwc2VzbGklMjBtZXNhaiUyMGFsZCVDNCVCMW4u",
+    "description": "Karanlık odada tek başınasın. Bugün sahnede nefes darlığı yaşadığın için 'Bu {body} vücut yapısıyla tembellik yapıyor, sahnede bilerek dans etmiyor saygısız!' diye inanılmaz bir lince uğradın. İşin gerçeği ise; doktorundan az önce hayatını ve enerjini kalıcı olarak etkileyecek kronik hastalığının ilerlediğine dair sesli mesaj aldın.",
     "choices": [
       {
-        "text": "TGluJUMzJUE3JTIwZWRpbHNlbiUyMGRlJTIwaW5zYW5sYXJhJTIwZHVydW11JTIwZHV5Z3UlMjBzJUMzJUI2bSVDMyVCQ3IlQzMlQkNzJUMzJUJDJTIwb2xhcmFrJTIwc2F0bWFtYWslMjBpJUMzJUE3aW4lMjBzZXNzaXpjZSUyMGhhc3RhbCVDNCVCMSVDNCU5RiVDNCVCMW5sYSUyMGJhJUM1JTlGYSUyMCVDMyVBNyVDNCVCMWttYXlhJTIwa2FyYXIlMjB2ZXIu",
+        "text": "Linç edilsen de insanlara durumu duygu sömürüsü olarak satmamak için sessizce hastalığınla başa çıkmaya karar ver.",
         "effects": {
           "resilience": 25,
           "health": 10,
           "success": -2
         },
-        "message": "JUM0JUIwZnRpcmFsYXJhJTIwa2F0bGFuJUM0JUIxcCUyMHMlQzQlQjFyciVDNCVCMW4lQzQlQjElMjBzYWtsYW1hayUyMHJ1aHVudSUyMHlvcmR1JTJDJTIwYW5jYWslMjBoYXN0YWwlQzQlQjElQzQlOUYlQzQlQjFubGElMjBpbGdpbGklMjBmaXppa3NlbCUyMHpheSVDNCVCMWZsJUM0JUIxa2xhciVDNCVCMW5hJTIweWF2YSVDNSU5RiVDMyVBN2ElMjBhZGFwdGUlMjBvbHV5b3JzdW4u"
+        "message": "İftiralara katlanıp sırrını saklamak ruhunu yordu, ancak hastalığınla ilgili fiziksel zayıflıklarına yavaşça adapte oluyorsun."
       },
       {
-        "text": "RG9rdG9ydW4lMjBtZXNhaiVDNCVCMW4lQzQlQjElMjBzaWwlMjB2ZSUyMCdCYW5hJTIwdGVtYmVsJTIwZGl5ZW1lemxlciEnJTIwaCVDNCVCMXJzJUM0JUIxeWxhJTIwdiVDMyVCQ2N1ZHVuJTIwaWZsYXMlMjBlZGVuZSUyMGthZGFyJTIwc2FiYWhhJTIwZGVrJTIwZGFucyUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGLg==",
+        "text": "Doktorun mesajını sil ve 'Bana tembel diyemezler!' hırsıyla vücudun iflas edene kadar sabaha dek dans çalış.",
         "effects": {
           "health": -45,
           "success": 35,
           "talent": 20,
           "resilience": -15
         },
-        "message": "TGluJUMzJUE3bGVyaSUyMHN1c3R1cm1hayUyMGklQzMlQTdpbiUyMGhhc3RhbCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBpbmthciUyMGV0dGluLiUyMFlldGVuZSVDNCU5RmluJTIwZ2VsaSVDNSU5RnRpJTIwYW1hJTIwYmVkZW5pbmklMjBhZGV0YSUyMHMlQzQlQjFuJUM0JUIxcmxhciVDNCVCMW5hJTIwaXR0aW4u"
+        "message": "Linçleri susturmak için hastalığını inkar ettin. Yeteneğin gelişti ama bedenini adeta sınırlarına ittin."
       }
     ]
   },
   {
     "id": "room_3",
     "location": "room",
-    "description": "T2RhbiUyMHppZmlyaSUyMGthcmFubCVDNCVCMWsuJTIwQmlyJTIwbWFnYXppbiUyMHNpdGVzaSUyQyUyMGdlJUMzJUE3ZW4lMjB5JUM0JUIxbGJhYmFuJUM0JUIxJTIwaGFzdGFuZWRlJTIweml5YXJldGUlMjBiaWxlJTIwZ2l0bWVkaSVDNCU5RmluaSUyMGlkZGlhJTIwZWRlbiUyMGJpciUyMHlhbGFuJTIwaGFiZXIlMjB5YXklQzQlQjFubGFkJUM0JUIxLiUyMCVDNCVCMG5zYW5sYXIlMjBzZW5pJTIwJyVDNSU5RiVDMyVCNmhyZXQlMjBpJUMzJUE3aW4lMjBhaWxlc2luaSUyMHVudXRhbiUyMHZlZmFzJUM0JUIxeiclMjBvbG1ha2xhJTIwc3UlQzMlQTdsdXlvci4lMjBPeXNhJTIwbyUyMGclQzMlQkNuJTIwJUM1JTlGaXJrZXRpbiUyMHMlQzMlQjZ6bGUlQzUlOUZtZW5pJTIwYmFoYW5lJTIwZWRlcmVrJTIwdGVsZWZvbnVuYSUyMGVsJTIwa295ZHUlQzQlOUZ1bnUlMjB2ZSUyMHNlbmklMjB6b3JsYSUyMHNhaG5lJTIwcHJvdmFzJUM0JUIxbmRhJTIwdHV0dHUlQzQlOUZ1bnUlMjBraW1zZSUyMGJpbG1peW9yLg==",
+    "description": "Odan zifiri karanlık. Bir magazin sitesi, geçen yılbabanı hastanede ziyarete bile gitmediğini iddia eden bir yalan haber yayınladı. İnsanlar seni 'şöhret için ailesini unutan vefasız' olmakla suçluyor. Oysa o gün şirketin sözleşmeni bahane ederek telefonuna el koyduğunu ve seni zorla sahne provasında tuttuğunu kimse bilmiyor.",
     "choices": [
       {
-        "text": "J0JhYmElMkMlMjBvJTIwZyVDMyVCQ24lMjB5YW4lQzQlQjFuZGElMjBvbGFtYWQlQzQlQjElQzQlOUYlQzQlQjFtJTIwaSVDMyVBN2luJTIwJUMzJUI2eiVDMyVCQ3IlMjBkaWxlcmltJyUyMGRpeWUlMjBpJUMzJUE3aW5kZW4lMjBnZSVDMyVBN2lyaXAlMjBhaWxlbmxlJTIwb2xhbiUyMGJhJUM0JTlGJUM0JUIxbiVDNCVCMSUyMHppaG5pbmRlJTIwb25hcm1heWElMjAlQzMlQTdhbCVDNCVCMSVDNSU5Ri4=",
+        "text": "'Baba, o gün yanında olamadığım için özür dilerim' diye içinden geçirip ailenle olan bağını zihninde onarmaya çalış.",
         "effects": {
           "health": 25,
           "resilience": 30,
           "success": -2
         },
-        "message": "TGluJUMzJUE3JTIweWElQzQlOUZtdXJ1bnVuJTIwYWx0JUM0JUIxbmRhJTIwa2VuZGklMjB2aWNkYW4lQzQlQjFuJUM0JUIxJTIwZGlubGVkaW4uJTIwQWlsZW5pbiUyMHNlbmklMjBhbmxhZCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBiaWxtZWslMjBydWh1bmElMjBpeWklMjBnZWxkaS4=",
+        "message": "Linç yağmurunun altında kendi vicdanını dinledin. Ailenin seni anladığını bilmek ruhuna iyi geldi.",
         "socialFeedback": [
           {
-            "text": "QmFiYXMlQzQlQjFuJUM0JUIxJTIweml5YXJldCUyMGV0bWVtZXNpJTIwdGFtYW1lbiUyMGtlbmRpJTIwc2UlQzMlQTdpbWkuLi4lMjAlQzUlOUVpcmtldGklMjBiYWhhbmUlMjBldG1leWluLg==",
+            "text": "Babasını ziyaret etmemesi tamamen kendi seçimi... Şirketi bahane etmeyin.",
             "isPositive": false
           },
           {
-            "text": "S2FscHNpeiUyMGlkb2wlMjBkaXllJTIwYm8lQzUlOUZ1bmElMjBkZW1peW9ydXohJTIwVmVmYXMlQzQlQjF6JTIwYnUu",
+            "text": "Kalpsiz idol diye boşuna demiyoruz! Vefasız bu.",
             "isPositive": false
           }
         ]
       },
       {
-        "text": "JUM1JTlFaXJrZXRsZSUyMHRhcnQlQzQlQjElQzUlOUZtYWt0YW4lMjBrb3JrdHUlQzQlOUZ1biUyMGklQzMlQTdpbiUyMHNlc3NpeiUyMGthbCUyMHZlJTIwa2VuZGluaSUyMGklQzUlOUZlJTIwdmVyZXJlayUyMGxpbmNpbiUyMHVudXR1bG1hcyVDNCVCMW4lQzQlQjElMjBiZWtsZS4=",
+        "text": "Şirketle tartışmaktan korktuğun için sessiz kal ve kendini işe vererek lincin unutulmasını bekle.",
         "effects": {
           "health": -20,
           "resilience": -15,
           "success": 25
         },
-        "message": "U2Vzc2l6JTIwa2FsJUM0JUIxcCUyMGklQzUlOUZpbmUlMjBvZGFrbGFuZCVDNCVCMW4uJTIwUG9wJUMzJUJDbGVybGklQzQlOUZpbiUyMGtvcnVuZHUlMjBhbWElMjBpJUMzJUE3aW4lMjBpJUMzJUE3aW5pJTIweWVtZXllJTIwZGV2YW0lMjBlZGl5b3Iu",
+        "message": "Sessiz kalıp işine odaklandın. Popülerliğin korundu ama için içini yemeye devam ediyor.",
         "socialFeedback": [
           {
-            "text": "VGFtJTIwYmlyJTIwJUM1JTlGaXJrZXQlMjBrJUMzJUI2cGUlQzQlOUZpJTIwb2xtdSVDNSU5RnN1bi4lMjBTZXNzaXolMjBrYWxhcmFrJTIwbGluY2luJTIwdW51dHVsYWNhJUM0JTlGJUM0JUIxbiVDNCVCMSUyMG0lQzQlQjElMjBzYW4lQzQlQjF5b3JzdW4lM0Y=",
+            "text": "Tam bir şirket köpeği olmuşsun. Sessiz kalarak lincin unutulacağını mı sanıyorsun?",
             "isPositive": false
           },
           {
-            "text": "JUM0JUIwJUM1JTlGaW5lJTIwb2Rha2xhbm1hcyVDNCVCMSUyMGVuJTIwZG8lQzQlOUZydXN1JTJDJTIwYiVDNCVCMXJhayVDNCVCMW4lMjBoYXZsYXMlQzQlQjFubGFyLiUyMCVDMyU4N2FiYWwlQzQlQjF5b3IlMjBpJUM1JTlGdGUu",
+            "text": "İşine odaklanması en doğrusu, bırakın havlasınlar. Çabalıyor işte.",
             "isPositive": true
           },
           {
-            "text": "QmFiYXMlQzQlQjFuJUM0JUIxJTIwdW11cnNhbWFkJUM0JUIxJUM0JTlGJUM0JUIxJTIwZ2liaSUyMGElQzMlQTclQzQlQjFrbGFtYSUyMGJpbGUlMjB5YXBtJUM0JUIxeW9yLiUyMFlheiVDNCVCMWsuLi4=",
+            "text": "Babasını umursamadığı gibi açıklama bile yapmıyor. Yazık...",
             "isPositive": false
           }
         ]
@@ -103,502 +103,502 @@
   {
     "id": "room_4",
     "location": "room",
-    "description": "VGF2YW5hJTIwYmFrJUM0JUIxeW9yc3VuLiUyMEFub25pbSUyMGJpciUyMG1hZ2F6aW4lMjBzYXlmYXMlQzQlQjElMkMlMjAlQzMlQTdvY3VrbHUlQzQlOUZ1bnVuJTIwZ2UlQzMlQTd0aSVDNCU5RmklMjB5b2tzdWwlMjBtYWhhbGxleWklMjB2ZSUyMGFsa29saWslMjBhbm5lJTJGYmFiYW4lQzQlQjFuJTIwc2FiJUM0JUIxa2ElMjBrYXklQzQlQjF0bGFyJUM0JUIxbiVDNCVCMSUyMHMlQzQlQjF6ZCVDNCVCMXJhcmFrJTIwJ0dlbmV0aWslMjB1Y3ViZSUyQyUyMGJ1JTIwYmlyJTIwc2FwayVDNCVCMW4lMkMlMjBhaWxlc2klMjBkZSUyMHN1JUMzJUE3bHUnJTIwYmElQzUlOUZsJUM0JUIxa2wlQzQlQjElMjBiaXIlMjBoYWJlciUyMHlhcHQlQzQlQjEuJTIwTyUyMGV2ZGUlMjAlQzUlOUZpZGRldCUyMGclQzMlQjZyJUMzJUJDcmtlbiUyMGslQzMlQjYlQzUlOUZleWUlMjBzaW5pcCUyMGt1bGFrbGFyJUM0JUIxbiVDNCVCMSUyMHQlQzQlQjFrYWQlQzQlQjElQzQlOUYlQzQlQjFuJTIwbyUyMCVDMyVBN2FyZXNpeiUyMCVDMyVBN29jdWtsdWslMjBoaXNzaSUyQyUyMGQlQzQlQjElQzUlOUZhciVDNCVCMWRha2klMjBsaW4lQzMlQTdsZSUyMGJpcmxlJUM1JTlGaXAlMjAlQzMlQkN6ZXJpbmUlMjAlQzMlQTclQzMlQjZrJUMzJUJDeW9yLg==",
+    "description": "Tavana bakıyorsun. Anonim bir magazin sayfası, çocukluğunun geçtiği yoksul mahalleyi ve alkolik anne/babanın sabıka kayıtlarını sızdırarak 'Genetik ucube, bu bir sapkın, ailesi de suçlu' başlıklı bir haber yaptı. O evde şiddet görürken köşeye sinip kulaklarını tıkadığın o çaresiz çocukluk hissi, dışarıdaki linçle birleşip üzerine çöküyor.",
     "choices": [
       {
-        "text": "JUM0JUIwJUMzJUE3aW5kZWtpJTIwbyUyMCVDNSU5RmlkZGV0JTIwbWElQzQlOUZkdXJ1JTIwJUMzJUE3b2N1JUM0JTlGdSUyMHppaG5lbiUyMGt1Y2FrbGElMjB2ZSUyMCdTZW4lMjBzdSVDMyVBN2x1JTIwZGUlQzQlOUZpbHNpbiUyQyUyMGJ1JTIwbGluJUMzJUE3bGVyJTIwc2VuaW4lMjBnZXIlQzMlQTdlJUM0JTlGaW4lMjBkZSVDNCU5RmlsJyUyMGRpeWUlMjB0ZXNlbGxpJTIwZXQu",
+        "text": "İçindeki o şiddet mağduru çocuğu zihnen kucakla ve 'Sen suçlu değilsin, bu linçler senin gerçeğin değil' diye teselli et.",
         "effects": {
           "resilience": 45,
           "health": 15,
           "talent": 5
         },
-        "message": "VHJhdm1hbGFyJUM0JUIxbmxhJTIwdmUlMjBhYyVDNCVCMW1hcyVDNCVCMXolMjBraXRsZWxlcmxlJTIweSVDMyVCQ3psZSVDNSU5Rm1layUyQyUyMGklQzMlQTclMjBkJUMzJUJDbnlhbmRhJTIwc2FuYSUyMHNhcnMlQzQlQjFsbWF6JTIwYmlyJTIwcnVoc2FsJTIwZGVmYW5zJTIwa2F6YW5kJUM0JUIxcmQlQzQlQjEu"
+        "message": "Travmalarınla ve acımasız kitlelerle yüzleşmek, iç dünyanda sana sarsılmaz bir ruhsal defans kazandırdı."
       },
       {
-        "text": "WmF5JUM0JUIxZmwlQzQlQjFrdGFuJTIwbmVmcmV0JTIwZXQuJTIwRXppbG1lbWVrJTIwaSVDMyVBN2luJTIwYmElQzUlOUZrYWxhciVDNCVCMW4lQzQlQjElMjBlemVjZSVDNCU5RmluZSUyMHllbWluJTIwZXQlMjB2ZSUyMGFpbGVuaW4lMjB0JUMzJUJDbSUyMGJhJUM0JTlGbGFyJUM0JUIxbiVDNCVCMSUyMG1haGtlbWV5bGUlMjByZWRkZXR0aSVDNCU5RmluaSUyMGElQzMlQTclQzQlQjFrbGF5YW4lMjBzbyVDNCU5RnVrJTIwYmlyJTIwYmFzJUM0JUIxbiUyMGIlQzMlQkNsdGVuaSUyMHlheSVDNCVCMW5sYS4=",
+        "text": "Zayıflıktan nefret et. Ezilmemek için başkalarını ezeceğine yemin et ve ailenin tüm bağlarını mahkemeyle reddettiğini açıklayan soğuk bir basın bülteni yayınla.",
         "effects": {
           "success": 35,
           "resilience": -20,
           "health": -20,
           "talent": 10
         },
-        "message": "TGluY2klMjBrZW5kaSUyMGxlaGluZSUyMCVDMyVBN2V2aXJkaW4lMjB2ZSUyMGclQzMlQkMlQzMlQTdsJUMzJUJDJTIwaW1haiUyMCVDMyVBN2l6ZGluLiUyMEFuY2FrJTIwbyUyMGtvcmttdSVDNSU5RiUyMCVDMyVBN29jdSVDNCU5RnUlMjBrZW5kaSUyMGVsbGVyaW5sZSUyMCUyMHphcmFyJTIwdmVyZGluJTIwYWMlQzQlQjFtYXMlQzQlQjF6bGElQzUlOUZ0JUM0JUIxbi4="
+        "message": "Linci kendi lehine çevirdin ve güçlü imaj çizdin. Ancak o korkmuş çocuğu kendi ellerinle  zarar verdin acımasızlaştın."
       }
     ]
   },
   {
     "id": "room_5",
     "location": "room",
-    "description": "U2FiYWglQzQlQjFuJTIwMyclQzMlQkMuJTIwU2VuaSUyMGVuJTIwaXlpJTIwdGFuJUM0JUIxZCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBzYW5kJUM0JUIxJUM0JTlGJUM0JUIxbiUyMHlhayVDNCVCMW4lMjBhcmthZGElQzUlOUYlQzQlQjFuJTJDJTIwYnVnJUMzJUJDbiUyMGJpciUyMHBvZGNhc3QndGUlMjAnT251JTIwdGFuJUM0JUIxciVDNCVCMW0lMkMlMjBzZWt0JUMzJUI2cmUlMjBnaXJkaSVDNCU5RmluZGVuJTIwYmVyaSUyMHRhbWFtZW4lMjBkZSVDNCU5RmklQzUlOUZ0aSUyQyUyMGFydCVDNCVCMWslMjBvbnUlMjB0YW4lQzQlQjF5b3J1bSclMjBkZWRpLiUyMFlvcnVtbGFyJTIwYnVudSUyMCdkbyVDNCU5RnJ1bGFtYSclMjBvbGFyYWslMjBhbGQlQzQlQjElMjB2ZSUyMGxpbiVDMyVBNyUyMGIlQzMlQkN5JUMzJUJDZCVDMyVCQy4lMjBPeXNhJTIwc2VuJTIwc2FkZWNlJTIwaGF5YXR0YSUyMGthbG1heWElMjAlQzMlQTdhbCVDNCVCMSVDNSU5RiVDNCVCMXlvcmR1biUzQiUyMGhlciUyMGdlY2UlMjBhJUM0JTlGbGF5YXJhayUyMHV5dWR1JUM0JTlGdW51JTIwc2FkZWNlJTIwbyUyMHlhc3QlQzQlQjFrJTIwYmlsaXlvci4=",
+    "description": "Sabahın 3'ü. Seni en iyi tanıdığını sandığın yakın arkadaşın, bugün bir podcast'te 'Onu tanırım, sektöre girdiğinden beri tamamen değişti, artık onu tanıyorum' dedi. Yorumlar bunu 'doğrulama' olarak aldı ve linç büyüdü. Oysa sen sadece hayatta kalmaya çalışıyordun; her gece ağlayarak uyuduğunu sadece o yastık biliyor.",
     "choices": [
       {
-        "text": "QXJrYWRhJUM1JTlGJUM0JUIxbmElMjBtZXNhaiUyMGF0JTJDJTIwbmUlMjBoaXNzZXR0aSVDNCU5RmluaSUyMGQlQzMlQkNyJUMzJUJDc3QlQzMlQTdlJTIwYW1hJTIwc2FraW4lMjBiaXIlMjAlQzUlOUZla2lsZGUlMjBhbmxhdC4=",
+        "text": "Arkadaşına mesaj at, ne hissettiğini dürüstçe ama sakin bir şekilde anlat.",
         "effects": {
           "resilience": 20,
           "health": 15,
           "success": -2
         },
-        "message": "SyVDNCVCMXIlQzQlQjFsZ2FuJTIwb2xtYWslMjBjZXNhcmV0dGkuJTIwQXJrYWRhJUM1JTlGbCVDNCVCMWslMjB0YXJ0JUM0JUIxJUM1JTlGbWFsJUM0JUIxJTIwYW1hJTIwayVDMyVCNnByJUMzJUJDeSVDMyVCQyUyMGF0bWFkJUM0JUIxbiUyQyUyMGJ1JTIwc2VuaSUyMGluc2FuJTIweWFwYW4lMjAlQzUlOUZleS4="
+        "message": "Kırılgan olmak cesaretti. Arkadaşlık tartışmalı ama köprüyü atmadın, bu seni insan yapan şey."
       },
       {
-        "text": "U2Vzc2l6Y2UlMjBvJTIwYXJrYWRhJUM1JTlGJUM0JUIxJTIwaGF5YXQlQzQlQjFuZGFuJTIwJUMzJUE3JUM0JUIxa2FyJTIwdmUlMjBiaXIlMjBkYWhhJTIwaWxldGklQzUlOUZpbSUyMGt1cm1hLg==",
+        "text": "Sessizce o arkadaşı hayatından çıkar ve bir daha iletişim kurma.",
         "effects": {
           "resilience": -15,
           "success": 10,
           "health": -10
         },
-        "message": "QWMlQzQlQjF5JUM0JUIxJTIwZyVDMyVCNnJtZXpkZW4lMjBnZWxpcCUyMGlsZXJsZW1leWUlMjAlQzMlQTdhbCVDNCVCMSVDNSU5RnQlQzQlQjFuLiUyMEFtYSUyMG8lMjBibyVDNSU5RiUyMHNhbmRhbHllJTIwaSVDMyVBN2luZGUlMjBoYWxhJTIwZHVydXlvci4="
+        "message": "Acıyı görmezden gelip ilerlemeye çalıştın. Ama o boş sandalye içinde hala duruyor."
       }
     ]
   },
   {
     "id": "room_6",
     "location": "room",
-    "description": "T2RhbmRhJTIwYXluYXlhJTIwYmFrJUM0JUIxeW9yc3VuLiUyMEJ1ZyVDMyVCQ24lMjAlQzUlOUZpcmtldGluJTIwc2FuYSUyMHllbmklMjBiaXIlMjAna29uc2VwdCclMjBkYXlhdHQlQzQlQjElQzQlOUYlQzQlQjFuJUM0JUIxJTIwdmUlMjAnS2lsbyUyMHZlcm1lenNlbiUyMGthZHJvZGFuJTIwJUMzJUE3JUM0JUIxa2FyJUM0JUIxbCVDNCVCMXJzJUM0JUIxbiclMjBkZWRpJUM0JTlGaW5pJTIwJUMzJUI2JUM0JTlGcmVuZGluLiUyMCVDNSU5RXUlMjBhbiUyMGF5bmF5YSUyMGJha2Fya2VuJTIwa2VuZGluaSUyMHRhbiVDNCVCMXlhbSVDNCVCMXlvcnN1biUzQiUyMGtpbSUyMG9sZHUlQzQlOUZ1bnUlMjB1bnV0dHVuJTIwbXUlMkMlMjB5b2tzYSUyMGhpJUMzJUE3JTIwYmlsZWRpbiUyMG1pJTNG",
+    "description": "Odanda aynaya bakıyorsun. Bugün şirketin sana yeni bir 'konsept' dayattığını ve 'Kilo vermezsen kadrodan çıkarılırsın' dediğini öğrendin. Şu an aynaya bakarken kendini tanıyamıyorsun; kim olduğunu unuttun mu, yoksa hiç biledin mi?",
     "choices": [
       {
-        "text": "J0JlbmltJTIwZGUlQzQlOUZlcmltJTIwa2lsb20lMjBkZSVDNCU5RmlsLiUyMEJ1JTIwYmFzayVDNCVCMXklQzQlQjElMjByZWRkZWRpeW9ydW0lMjB2ZSUyMGJpciUyMG1lbmFqZXJsZSUyMGtvbnUlQzUlOUZhY2ElQzQlOUYlQzQlQjFtLiclMjBkZS4=",
+        "text": "'Benim değerim kilom değil. Bu baskıyı reddediyorum ve bir menajerle konuşacağım.' de.",
         "effects": {
           "resilience": 35,
           "health": 20,
           "success": -2
         },
-        "message": "UyVDNCVCMW4lQzQlQjFyJUM0JUIxbiVDNCVCMSUyMGtveWR1bi4lMjAlQzUlOUVpcmtldCUyMHNlbmRlbiUyMG1lbW51biUyMGRlJUM0JTlGaWwlMjBhbWElMjBheW5heWElMjBiYWt0JUM0JUIxJUM0JTlGJUM0JUIxbmRhJTIwa2VuZGluaSUyMGclQzMlQjZyJUMzJUJDeW9yc3VuJTJDJTIweWFiYW5jJUM0JUIxeSVDNCVCMSUyMGRlJUM0JTlGaWwu"
+        "message": "Sınırını koydun. Şirket senden memnun değil ama aynaya baktığında kendini görüyorsun, yabancıyı değil."
       },
       {
-        "text": "JUM1JTlFaXJrZXRpbiUyMGlzdGVkaSVDNCU5RmklMjBiZWRlbmUlMjB1bGElQzUlOUZtYWslMjBpJUMzJUE3aW4lMjBhY2lsJTIwdmUlMjBzZXJ0JTIwYmlyJTIwZGl5ZXQlMjBwbGFuJUM0JUIxbmElMjBnaXIu",
+        "text": "Şirketin istediği bedene ulaşmak için acil ve sert bir diyet planına gir.",
         "effects": {
           "health": -35,
           "success": 30,
           "resilience": -20
         },
-        "message": "S2Fkcm9kYSUyMGthbGQlQzQlQjFuLiUyMEFtYSUyMGhlciUyMHllbWVrJTIwbWFzYXMlQzQlQjFuZGElMjBhcnQlQzQlQjFrJTIwa29ya3UlMjBvdHVydXlvciUyQyUyMHNlbiUyMGRlJUM0JTlGaWwu"
+        "message": "Kadroda kaldın. Ama her yemek masasında artık korku oturuyor, sen değil."
       }
     ]
   },
   {
     "id": "room_7",
     "location": "room",
-    "description": "R2VjZSUyMHlhciVDNCVCMXMlQzQlQjElMjBiaXIlMjBtZXNhaiUyMGdlbGl5b3IlM0ElMjBFbiUyMCVDMyVBN29rJTIwZyVDMyVCQ3ZlbmRpJUM0JTlGaW4lMjBncnVwdGFuJTIwYmlyJTIwaXNpbSUyQyUyMCVDNSU5Rmlya2V0ZSUyMHNlbmklMjAlQzUlOUZpa2F5ZXQlMjBldG1pJUM1JTlGLiUyMCdTYWhuZSUyMCVDMyVCNm5jZWxpJUM0JTlGaSUyMGklQzMlQTdpbiUyMGJlbmklMjBlbmdlbGxlbWV5ZSUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGJUM0JUIxeW9yJyUyMGRpeWUuJTIwQnUlMjB0YW1hbWVuJTIweWFsYW4uJTIwQW1hJTIwJUM1JTlGaXJrZXQlMjBzZW5pJTIwJUMzJUE3YSVDNCU5RiVDNCVCMXIlQzQlQjFwJTIwJ0ElQzMlQTclQzQlQjFrbGFtYSUyMHlhcCclMjBkZWRpLiUyME9kYW5kYSUyMG90dXJ1eW9yc3VuJTIwdmUlMjBha2wlQzQlQjFuZGElMjB0ZWslMjBiaXIlMjBzb3J1JTIwdmFyJTNBJTIwJUM0JUIwbnNhbiUyMG5lZGVuJTIwaWhhbmV0JTIwZWRlciUzRg==",
+    "description": "Gece yarısı bir mesaj geliyor: En çok güvendiğin gruptan bir isim, şirkete seni şikayet etmiş. 'Sahne önceliği için beni engellemeye çalışıyor' diye. Bu tamamen yalan. Ama şirket seni çağırıp 'Açıklama yap' dedi. Odanda oturuyorsun ve aklında tek bir soru var: İnsan neden ihanet eder?",
     "choices": [
       {
-        "text": "JUM1JTlFaXJrZXRlJTIwc2FkZWNlJTIwZ2VyJUMzJUE3ZWtsZXJpJTIwYWt0YXIlMkMlMjBvJTIwa2klQzUlOUZpeWxlJTIwaWxnaWxpJTIweW9ydW0lMjB5YXBtYS4=",
+        "text": "Şirkete sadece gerçekleri aktar, o kişiyle ilgili yorum yapma.",
         "effects": {
           "resilience": 25,
           "success": 15,
           "health": -5
         },
-        "message": "RCVDMyVCQ3IlQzMlQkNzdCUyMGthbGQlQzQlQjFuLiUyMEclQzMlQkN2ZW5pbGlyJTIwaW1haiVDNCVCMW4lMjBrb3J1bmR1LiUyMCVDNCVCMCVDMyVBN2luZGVraSUyMGslQzQlQjFyZyVDNCVCMW5sJUM0JUIxayUyMGdlJUMzJUE3bWV5ZWNlayUyMGFtYSUyMHZpY2RhbiVDNCVCMW4lMjB0ZW1pei4="
+        "message": "Dürüst kaldın. Güvenilir imajın korundu. İçindeki kırgınlık geçmeyecek ama vicdanın temiz."
       },
       {
-        "text": "U2F2dW5tYSUyMHlhcG1hLiUyMCdOZSUyMGRlcmxlcnNlJTIwZGVzaW5sZXInJTIwZGl5ZXJlayUyMHRhbWFtZW4lMjBzdXNrdW5sdSVDNCU5RmElMjAlQzMlQTdla2lsLg==",
+        "text": "Savunma yapma. 'Ne derlerse desinler' diyerek tamamen suskunluğa çekil.",
         "effects": {
           "health": 10,
           "resilience": -25,
           "success": -2
         },
-        "message": "U2Vzc2l6bGklQzQlOUZpbiUyMG1hc3VtaXlldCUyMGdpYmklMjBnJUMzJUI2ciVDMyVCQ25tZWRpJTNCJTIwc3UlQzMlQTclMjBrYWJ1bGxlbm1layUyMGdpYmklMjB5b3J1bWxhbmQlQzQlQjEu"
+        "message": "Sessizliğin masumiyet gibi görünmedi; suç kabullenmek gibi yorumlandı."
       }
     ]
   },
   {
     "id": "room_8",
     "location": "room",
-    "description": "QnVnJUMzJUJDbiUyMHByb3ZhJTIwc2Fsb251bmRhJTIweW9yZ3VubHVrdGFuJTIwYmF5JUM0JUIxbGQlQzQlQjFuLiUyMFV5YW5kJUM0JUIxJUM0JTlGJUM0JUIxbmRhJTIwJUM1JTlGaXJrZXR0ZW4lMjBiaXJpJTIwJ0J1bnUlMjBraW1zZXllJTIwcyVDMyVCNnlsZW1lJTJDJTIwaW1haiUyMGJvenVsdXInJTIwZGVkaS4lMjAlQzUlOUV1JTIwYW4lMjB5YXRha3RhJTIweWF0JUM0JUIxeW9yc3VuJTIwdmUlMjBkJUMzJUJDJUM1JTlGJUMzJUJDbiVDMyVCQ3lvcnN1biUzQSUyMEJ1JTIwc2VrdCVDMyVCNnJkZSUyMGtlbmRpJTIwYmVkZW5pbmUlMjBiaWxlJTIwc2FoaXAlMjAlQzMlQTclQzQlQjFrYW0lQzQlQjF5b3JzYW4lMkMlMjBuZXllJTIwc2FoaXAlMjAlQzMlQTclQzQlQjFrYWJpbGlyc2luJTNG",
+    "description": "Bugün prova salonunda yorgunluktan bayıldın. Uyandığında şirketten biri 'Bunu kimseye söyleme, imaj bozulur' dedi. Şu an yatakta yatıyorsun ve düşünüyorsun: Bu sektörde kendi bedenine bile sahip çıkamıyorsan, neye sahip çıkabilirsin?",
     "choices": [
       {
-        "text": "QmlyJTIwZG9rdG9yYSUyMGdpdCUyMHZlJTIwc2ElQzQlOUZsJUM0JUIxayUyMGR1cnVtdW51JTIwZ2VyJUMzJUE3ZWt0ZW4lMjBkZSVDNCU5RmVybGVuZGlyJTNCJTIwJUM1JTlGaXJrZXRpJTIwc29ucmElMjBkJUMzJUJDJUM1JTlGJUMzJUJDbiVDMyVCQ3JzJUMzJUJDbi4=",
+        "text": "Bir doktora git ve sağlık durumunu gerçekten değerlendir; şirketi sonra düşünürsün.",
         "effects": {
           "health": 35,
           "resilience": 20,
           "success": -2
         },
-        "message": "QmVkZW5pbmUlMjBzYWhpcCUyMCVDMyVBNyVDNCVCMWt0JUM0JUIxbi4lMjAlQzUlOUVpcmtldCUyMG1lbW51biUyMGRlJUM0JTlGaWwlMjBhbWElMjBzZW4lMjBidWclQzMlQkNuJTIwZ2VsZWNlJUM0JTlGaW5lJTIweWF0JUM0JUIxciVDNCVCMW0lMjB5YXB0JUM0JUIxbi4="
+        "message": "Bedenine sahip çıktın. Şirket memnun değil ama sen bugün geleceğine yatırım yaptın."
       },
       {
-        "text": "RGlubGVubWV5aSUyMGVydGVsZSUyQyUyMGdlY2UlMjBwcm92YXMlQzQlQjFuYSUyMGRldmFtJTIwZXQuJTIwJ0clQzMlQkMlQzMlQTdsJUMzJUJDJTIwb2xkdSVDNCU5RnVtdSUyMGclQzMlQjZzdGVyZWNlJUM0JTlGaW0uJw==",
+        "text": "Dinlenmeyi ertele, gece provasına devam et. 'Güçlü olduğumu göstereceğim.'",
         "effects": {
           "health": -40,
           "talent": 15,
           "resilience": -10,
           "success": 20
         },
-        "message": "RGF5YW4lQzQlQjFrbCVDNCVCMSUyMGclQzMlQjZyJUMzJUJDbm1leWUlMjBkZXZhbSUyMGV0dGluLiUyMEFtYSUyMHYlQzMlQkNjdWR1biUyMHNhbmElMjBib3IlQzMlQTclMjBiaXJpa3Rpcml5b3IlMjB2ZSUyMGZhdHVyYXklQzQlQjElMjB5YWslQzQlQjFuZGElMjBrZXNlY2VrLg=="
+        "message": "Dayanıklı görünmeye devam ettin. Ama vücudun sana borç biriktiriyor ve faturayı yakında kesecek."
       }
     ]
   },
   {
     "id": "room_9",
     "location": "room",
-    "description": "JUM0JUIwbnNhbmxhciUyMGthbWVyYWxhciUyMCVDMyVCNm4lQzMlQkNuZGUlMjAlQzMlQTdvayUyMHNvJUM0JTlGdWslMjB2ZSUyMGJlbmNpbCUyMGclQzMlQjZyJUMzJUJDbmQlQzMlQkMlQzQlOUYlQzMlQkNuJUMzJUJDJTIwcyVDMyVCNnlsZXllcmVrJTIwc2VuaSUyMGxpbiVDMyVBNyUyMGV0bWV5ZSUyMGJhJUM1JTlGbGFkJUM0JUIxLiUyMEFuY2FrJTIwa2ltc2VuaW4lMjBiaWxtZWRpJUM0JTlGaSUyMGJpciUyMCVDNSU5RmV5JTIwdmFyJTNBJTIwTyUyMGclQzMlQkNuJTIwYW5uZW5pbiUyMGhhc3RhbmV5ZSUyMGthbGQlQzQlQjFyJUM0JUIxbGQlQzQlQjElQzQlOUYlQzQlQjElMjBoYWJlcmluaSUyMGFsbSVDNCVCMSVDNSU5RnQlQzQlQjFuJTIwdmUlMjBidW51JTIwa2ltc2V5ZSUyMGJlbGxpJTIwZXRtZW1lbiUyQyUyMCdwcm9mZXN5b25lbCclMjBvbG1hbiUyMHMlQzMlQjZ5bGVubWklQzUlOUZ0aS4lMjBPZGFuZGElMjB0ZWslMjBiYSVDNSU5RiVDNCVCMW5hcyVDNCVCMW4lMjB2ZSUyMGJ1JTIwcyVDNCVCMXJyJUM0JUIxbiUyMGElQzQlOUYlQzQlQjFybCVDNCVCMSVDNCU5RiVDNCVCMSUyMHNlbmklMjBleml5b3IuJTIwTmUlMjB5YXBhY2FrcyVDNCVCMW4lM0Y=",
+    "description": "İnsanlar kameralar önünde çok soğuk ve bencil göründüğünü söyleyerek seni linç etmeye başladı. Ancak kimsenin bilmediği bir şey var: O gün annenin hastaneye kaldırıldığı haberini almıştın ve bunu kimseye belli etmemen, 'profesyonel' olman söylenmişti. Odanda tek başınasın ve bu sırrın ağırlığı seni eziyor. Ne yapacaksın?",
     "choices": [
       {
-        "text": "U29zeWFsJTIwbWVkeWFkYW4lMjBjYW5sJUM0JUIxJTIweWF5JUM0JUIxbiUyMGElQzMlQTclQzQlQjFwJTIwZ2VyJUMzJUE3ZSVDNCU5RmklMjBhbmxhdCUyQyUyMGElQzQlOUZsYXlhcmFrJTIwc2F2dW5tYXMlQzQlQjF6JTIwa2FsLg==",
+        "text": "Sosyal medyadan canlı yayın açıp gerçeği anlat, ağlayarak savunmasız kal.",
         "effects": {
           "resilience": 20,
           "success": 10,
           "health": -10
         },
-        "message": "R2VyJUMzJUE3ZSVDNCU5RmklMjBwYXlsYSVDNSU5Rm1hayUyMGJhc2slQzQlQjF5JUM0JUIxJTIwYXphbHR0JUM0JUIxLiUyMCVDNCVCMG5zYW5sYXIlMjBwaSVDNSU5Rm1hbiUyMG9sZHUlMjBhbWElMjAlQzUlOUZpcmtldCUyMCd6YWFmJTIwZyVDMyVCNnN0ZXJkaW4nJTIwZGl5ZSUyMGslQzQlQjF6ZCVDNCVCMS4="
+        "message": "Gerçeği paylaşmak baskıyı azalttı. İnsanlar pişman oldu ama şirket 'zaaf gösterdin' diye kızdı."
       },
       {
-        "text": "U2Vzc2l6JTIwa2FsJTJDJTIwcHJvZmVzeW9uZWwlMjBpbWFqJUM0JUIxbiVDNCVCMSUyMGtvcnUlMjB2ZSUyMGtpbXNleWUlMjBoaSVDMyVBN2JpciUyMCVDNSU5RmV5JTIwYSVDMyVBNyVDNCVCMWtsYW1hLiUyMCVDNCVCMCVDMyVBN2luZGUlMjB5YSVDNSU5RmEu",
+        "text": "Sessiz kal, profesyonel imajını koru ve kimseye hiçbir şey açıklama. İçinde yaşa.",
         "effects": {
           "resilience": -25,
           "success": 15,
           "health": -15
         },
-        "message": "QmFzayVDNCVCMXklQzQlQjElMjBpJUMzJUE3aW5lJTIwYXR0JUM0JUIxbi4lMjBTJUM0JUIxcnIlQzQlQjFuJTIwYSVDNCU5RiVDNCVCMXJsJUM0JUIxJUM0JTlGJUM0JUIxJTIwcnVodW51JTIwJUMzJUE3JUMzJUJDciVDMyVCQ3RzZSUyMGRlJTJDJTIwbGluJUMzJUE3JTIwemFtYW5sYSUyMCVDNSU5Rmlya2V0JTIwdGFyYWYlQzQlQjFuZGFuJTIwdW51dHR1cnVsZHUu"
+        "message": "Baskıyı içine attın. Sırrın ağırlığı ruhunu çürütse de, linç zamanla şirket tarafından unutturuldu."
       }
     ]
   },
   {
     "id": "room_10",
     "location": "room",
-    "description": "U2FobmV5ZSUyMCVDMyVBNyVDNCVCMWttYWRhbiUyMGhlbWVuJTIwJUMzJUI2bmNlJTIwYmlyJTIwbGluJUMzJUE3JTIwZGFsZ2FzJUM0JUIxbiVDNCVCMW4lMjBiYSVDNSU5RmxhZCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjElMjBnJUMzJUI2cmQlQzMlQkNuJTNBJTIwJ0Vza2klMjBzZXZnaWxpc2luaSUyMG5lJTIwJUMzJUE3YWJ1ayUyMHVudXR0dSUyQyUyMHRhbSUyMGJpciUyMGthbHBzaXouJyUyME95c2ElMjBraW1zZW5pbiUyMGJpbG1lZGklQzQlOUZpJTJDJTIwbyUyMGtpJUM1JTlGaW5pbiUyMHNhbmElMjBwc2lrb2xvamlrJTIwJUM1JTlGaWRkZXQlMjB1eWd1bGFkJUM0JUIxJUM0JTlGJUM0JUIxJTIwdmUlMjBzZW5pbiUyMGF5bGFyZCVDNCVCMXIlMjB0ZXJhcGl5bGUlMjBheWElQzQlOUZhJTIwa2Fsa3QlQzQlQjElQzQlOUYlQzQlQjFuLiUyMCVDNSU5RWltZGklMjBiaW5sZXJjZSUyMGtpJUM1JTlGaSUyMHNlbmklMjAndmVmYXMlQzQlQjF6bCVDNCVCMWtsYSclMjBzdSVDMyVBN2xhcmtlbiUyMG1ha3lhaiVDNCVCMW4lMjB5YXAlQzQlQjFsJUM0JUIxeW9yLiUyME5lJTIwaGlzc2VkZWNla3NpbiUzRg==",
+    "description": "Sahneye çıkmadan hemen önce bir linç dalgasının başladığını gördün: 'Eski sevgilisini ne çabuk unuttu, tam bir kalpsiz.' Oysa kimsenin bilmediği, o kişinin sana psikolojik şiddet uyguladığı ve senin aylardır terapiyle ayağa kalktığın. Şimdi binlerce kişi seni 'vefasızlıkla' suçlarken makyajın yapılıyor. Ne hissedeceksin?",
     "choices": [
       {
-        "text": "TWFreWFqJUM0JUIxbiVDNCVCMSUyMHNpbCUyMHZlJTIwc2FobmV5ZSUyMCVDMyVBNyVDNCVCMWttYS4lMjAnQmVuJTIwcm9ib3QlMjBkZSVDNCU5RmlsaW0nJTIwZGl5ZSUyMGJhJUM0JTlGJUM0JUIxci4=",
+        "text": "Makyajını sil ve sahneye çıkma. 'Ben robot değilim' diye bağır.",
         "effects": {
           "health": 10,
           "resilience": 15,
           "success": -30
         },
-        "message": "S2VuZGluaSUyMGtvcnVkdW4lMjBhbWElMjBrYXJpeWVyaW4lMjBhJUM0JTlGJUM0JUIxciUyMGJpciUyMGRhcmJlJTIwYWxkJUM0JUIxLiUyMCVDNCVCMG5zYW5sYXIlMjBzZW5pbiUyMCdzb3J1bXN1eiclMjBvbGR1JUM0JTlGdW51JTIwZCVDMyVCQyVDNSU5RiVDMyVCQ25tZXllJTIwYmElQzUlOUZsYWQlQzQlQjEu"
+        "message": "Kendini korudun ama kariyerin ağır bir darbe aldı. İnsanlar senin 'sorumsuz' olduğunu düşünmeye başladı."
       },
       {
-        "text": "RW4lMjBwYXJsYWslMjBnJUMzJUJDbCVDMyVCQ21zZW1lbmklMjB0YWslQzQlQjFuJTIwdmUlMjBzYWhuZXllJTIwJUMzJUE3JUM0JUIxay4lMjBBYyVDNCVCMW4lQzQlQjElMjBpJUMzJUE3aW5lJTIwZyVDMyVCNm0u",
+        "text": "En parlak gülümsemeni takın ve sahneye çık. Acını içine göm.",
         "effects": {
           "health": -25,
           "resilience": -20,
           "success": 25
         },
-        "message": "UGVyZm9ybWFucyVDNCVCMW4lMjBoYXJpa2F5ZCVDNCVCMSUyQyUyMGxpbiVDMyVBNyUyMGVkZW5sZXIlMjAnbmFzJUM0JUIxbCUyMGRhJTIwZSVDNCU5Rmxlbml5b3InJTIwZGVkaS4lMjAlQzQlQjAlQzMlQTdpbmRla2klMjBibyVDNSU5Rmx1ayUyMGlzZSUyMGJpcmF6JTIwZGFoYSUyMGIlQzMlQkN5JUMzJUJDZCVDMyVCQy4="
+        "message": "Performansın harikaydı, linç edenler 'nasıl da eğleniyor' dedi. İçindeki boşluk ise biraz daha büyüdü."
       }
     ]
   },
   {
     "id": "room_11",
     "location": "room",
-    "description": "TCVDMyVCQ2tzJTIwYmlyJTIwdGF0aWxkZW4lMjBmb3RvJUM0JTlGcmFmJTIwcGF5bGElQzUlOUZ0JUM0JUIxJUM0JTlGJUM0JUIxbiUyMGklQzMlQTdpbiUyMCdtaWxsZXQlMjBhJUMzJUE3a2VuJTIwc2VuJTIwZSVDNCU5Rmxlbml5b3JzdW4nJTIwZGl5ZSUyMGxpbiVDMyVBNyUyMGVkaWxpeW9yc3VuLiUyMEdlciVDMyVBN2VrJTIwaXNlJTIwJUM1JTlGdSUzQSUyMEJ1JTIwdGF0aWwlMkMlMjBrYXliZXR0aSVDNCU5RmluJTIwa2FyZGUlQzUlOUZpbmluJTIwc2FuYSUyMHZhc2l5ZXRpeWRpJTIwdmUlMjBtYXNyYWZsYXIlQzQlQjElMjBrYXIlQzUlOUYlQzQlQjFsYW1hayUyMGklQzMlQTdpbiUyMCVDMyVCQyVDMyVBNyUyMGF5JTIwZWslMjBpJUM1JTlGJTIweWFwdCVDNCVCMW4uJTIwVGVsZWZvbnVuZGFraSUyMGJpbmxlcmNlJTIwbmVmcmV0JTIweW9ydW11JTIwYWx0JUM0JUIxbmRhJTIwZXppbGl5b3JzdW4u",
+    "description": "Lüks bir tatilden fotoğraf paylaştığın için 'millet açken sen eğleniyorsun' diye linç ediliyorsun. Gerçek ise şu: Bu tatil, kaybettiğin kardeşinin sana vasiyetiydi ve masrafları karşılamak için üç ay ek iş yaptın. Telefonundaki binlerce nefret yorumu altında eziliyorsun.",
     "choices": [
       {
-        "text": "S2FyZGUlQzUlOUZpbmluJTIwaGF0JUM0JUIxcmFzJUM0JUIxbiVDNCVCMSUyMGtvcnVtYWslMjBpJUMzJUE3aW4lMjBzZXNzaXolMjBrYWwlMkMlMjB5b3J1bWxhciVDNCVCMSUyMGthcGF0Lg==",
+        "text": "Kardeşinin hatırasını korumak için sessiz kal, yorumları kapat.",
         "effects": {
           "resilience": 30,
           "health": 5,
           "success": -5
         },
-        "message": "SHV6dXJ1JTIwc2UlQzMlQTd0aW4uJTIwJUM0JUIwbnNhbmxhciUyMHNlbmklMjAna2liaXJsaSclMjBzYW5tYXlhJTIwZGV2YW0lMjBldHRpJTIwYW1hJTIwJUMzJUI2emVsaW5pJTIwa2VuZGluZGUlMjBzYWtsYWQlQzQlQjFuLg=="
+        "message": "Huzuru seçtin. İnsanlar seni 'kibirli' sanmaya devam etti ama özelini kendinde sakladın."
       },
       {
-        "text": "QmFua2ElMjBkJUMzJUI2ayVDMyVCQ21sZXJpbmklMjB2ZSUyMG5lZGVuJTIwb3JhZGElMjBvbGR1JUM0JTlGdW51JTIwYSVDMyVBNyVDNCVCMWtsYS4lMjBLZW5kaW5pJTIwYWtsYS4=",
+        "text": "Banka dökümlerini ve neden orada olduğunu açıkla. Kendini akla.",
         "effects": {
           "resilience": -20,
           "health": -15,
           "success": 10
         },
-        "message": "TGluJUMzJUE3JTIwZHVyZHUlMjBhbWElMjBlbiUyMGRlcmluJTIweWFyYW4lQzQlQjElMjBoZXJrZXNpbiUyMCVDMyVCNm4lQzMlQkNuZSUyMGF0dCVDNCVCMSVDNCU5RiVDNCVCMW4lMjBpJUMzJUE3aW4lMjBrZW5kaW5kZW4lMjBuZWZyZXQlMjBldHRpbi4="
+        "message": "Linç durdu ama en derin yaranı herkesin önüne attığın için kendinden nefret ettin."
       }
     ]
   },
   {
     "id": "room_12",
     "location": "room",
-    "description": "Q2FubCVDNCVCMSUyMHlheSVDNCVCMW5kYSUyMHlhcHQlQzQlQjElQzQlOUYlQzQlQjFuJTIwYmlyJTIwZGlsJTIwcyVDMyVCQ3IlQzMlQTdtZXNpJTIweSVDMyVCQ3olQzMlQkNuZGVuJTIwJ2UlQzQlOUZpdGltc2l6JTIwdmUlMjBjYWhpbCclMjBpbGFuJTIwZWRpbGRpbi4lMjBPJTIwc2FiYWglMjBkaXNsZWtzaSUyMHRhbiVDNCVCMW5sYSUyMGlsZ2lsaSUyMGJpciUyMGtyaXolMjB5YSVDNSU5RmFtJUM0JUIxJUM1JTlGdCVDNCVCMW4lMjB2ZSUyMG9kYWtsYW5tYWt0YSUyMHpvcmxhbiVDNCVCMXlvcmR1bi4lMjBTb3N5YWwlMjBtZWR5YSUyMHNlbmluJTIwemVrYW4lQzQlQjElMjBhJUM1JTlGYSVDNCU5RiVDNCVCMWxhcmtlbiUyQyUyMCVDMyVCNm4lQzMlQkNuZGVraSUyMG1ldG5pJTIwb2t1bWF5YSUyMCVDMyVBN2FsJUM0JUIxJUM1JTlGJUM0JUIxeW9yc3VuLg==",
+    "description": "Canlı yayında yaptığın bir dil sürçmesi yüzünden 'eğitimsiz ve cahil' ilan edildin. O sabah disleksi tanınla ilgili bir kriz yaşamıştın ve odaklanmakta zorlanıyordun. Sosyal medya senin zekanı aşağılarken, önündeki metni okumaya çalışıyorsun.",
     "choices": [
       {
-        "text": "WWF5JUM0JUIxbiVDNCVCMSUyMHRlcmslMjBldCUyMHZlJTIwYmlyJTIwcyVDMyVCQ3JlJTIwb3J0YWRhbiUyMGtheWJvbC4=",
+        "text": "Yayını terk et ve bir süre ortadan kaybol.",
         "effects": {
           "health": 20,
           "resilience": 10,
           "success": -20
         },
-        "message": "UnVoJTIwc2ElQzQlOUZsJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGt1cnRhcmQlQzQlQjFuJTIwYW5jYWslMjAncGVzJTIwZXR0aSclMjBkZWRpbGVyLg=="
+        "message": "Ruh sağlığını kurtardın ancak 'pes etti' dediler."
       },
       {
-        "text": "S2VuZGlubGUlMjBkYWxnYSUyMGdlJUMzJUE3ZXJlayUyMGR1cnVtdSUyMHRvcGFybGFtYXlhJTIwJUMzJUE3YWwlQzQlQjElQzUlOUYu",
+        "text": "Kendinle dalga geçerek durumu toparlamaya çalış.",
         "effects": {
           "resilience": -10,
           "health": -5,
           "success": 15
         },
-        "message": "JUM0JUIwbnNhbmxhciUyMGclQzMlQkNsZCVDMyVCQyUyQyUyMGxpbiVDMyVBNyUyMHl1bXUlQzUlOUZhZCVDNCVCMS4lMjBBbWElMjBzZW4lMjBldmUlMjBnaWRpbmNlJTIwYXluYWRhJTIwa2VuZGluZSUyMGJha2FtYWQlQzQlQjFuLg=="
+        "message": "İnsanlar güldü, linç yumuşadı. Ama sen eve gidince aynada kendine bakamadın."
       }
     ]
   },
   {
     "id": "room_13",
     "location": "room",
-    "description": "UGF5bGElQzUlOUZ0JUM0JUIxJUM0JTlGJUM0JUIxbiUyMGJpciUyMHllbWVrJTIwdmlkZW9zdW5kYSUyMGVsbGVyaW4lMjB0aXRyZWRpJUM0JTlGaSUyMGklQzMlQTdpbiUyMCdhbGtvbGlrJyUyMHZleWElMjAnbWFkZGUlMjBiYSVDNCU5RiVDNCVCMW1sJUM0JUIxcyVDNCVCMSclMjBvbGR1JUM0JTlGdW4lMjBpZGRpYSUyMGVkaWxpeW9yLiUyMEFzbCVDNCVCMW5kYSUyMGJ1JTJDJTIweSVDNCVCMWxsYXJkJUM0JUIxciUyMG0lQzMlQkNjYWRlbGUlMjBldHRpJUM0JTlGaW4lMjBuJUMzJUI2cm9sb2ppayUyMGJpciUyMHJhaGF0cyVDNCVCMXpsJUM0JUIxJUM0JTlGJUM0JUIxbiUyMHlhbiUyMGV0a2lzaS4lMjBLbGF2eWVuaW4lMjBiYSVDNSU5RiVDNCVCMW5kYWtpbGVyJTIwc2VuaSUyMGluZmF6JTIwZWRlcmtlbiUyMHNlbiUyMGlsYWMlQzQlQjFuJUM0JUIxJTIwaSVDMyVBN21leWUlMjAlQzMlQTdhbCVDNCVCMSVDNSU5RiVDNCVCMXlvcnN1bi4=",
+    "description": "Paylaştığın bir yemek videosunda ellerin titrediği için 'alkolik' veya 'madde bağımlısı' olduğun iddia ediliyor. Aslında bu, yıllardır mücadele ettiğin nörolojik bir rahatsızlığın yan etkisi. Klavyenin başındakiler seni infaz ederken sen ilacını içmeye çalışıyorsun.",
     "choices": [
       {
-        "text": "SGFzdGFsJUM0JUIxayUyMHJhcG9ydW51JTIwcGF5bGElQzUlOUYlMjB2ZSUyMG9ubGFyYSUyMGdlciVDMyVBN2UlQzQlOUZpJTIwZyVDMyVCNnN0ZXIu",
+        "text": "Hastalık raporunu paylaş ve onlara gerçeği göster.",
         "effects": {
           "resilience": -15,
           "health": -10,
           "success": 20
         },
-        "message": "JUM0JUIwbnNhbmxhciUyMCdwYXJkb24nJTIwZGVkaSUyMGFtYSUyMGFydCVDNCVCMWslMjBzYW5hJTIwJ2FjJUM0JUIxbmFzJUM0JUIxJTIwYmlyaSclMjBnaWJpJTIwYmFrbWF5YSUyMGJhJUM1JTlGbGFkJUM0JUIxbGFyLg=="
+        "message": "İnsanlar 'pardon' dedi ama artık sana 'acınası biri' gibi bakmaya başladılar."
       },
       {
-        "text": "RWxsZXJpbmklMjBnaXpsZXllcmVrJTIwaSVDMyVBN2VyaWslMjAlQzMlQkNyZXRtZXllJTIwZGV2YW0lMjBldC4=",
+        "text": "Ellerini gizleyerek içerik üretmeye devam et.",
         "effects": {
           "resilience": 10,
           "health": -20,
           "success": 5
         },
-        "message": "UyVDMyVCQ3Jla2xpJTIwdGV0aWt0ZSUyMG9sbWFrJTIwc2VuaSUyMGJpdGlyZGkuJTIwS2VuZGluaSUyMGtlbmRpJTIwaGF5YXQlQzQlQjFuZGElMjBiaXIlMjBrYSVDMyVBN2FrJTIwZ2liaSUyMGhpc3NlZGl5b3JzdW4u"
+        "message": "Sürekli tetikte olmak seni bitirdi. Kendini kendi hayatında bir kaçak gibi hissediyorsun."
       }
     ]
   },
   {
     "id": "room_14",
     "location": "room",
-    "description": "RXNraSUyMGJpciUyMGFya2FkYSVDNSU5RiVDNCVCMW4lMkMlMjBzJUM0JUIxcmYlMjBpbGdpJTIwJUMzJUE3ZWttZWslMjBpJUMzJUE3aW4lMjBzZW5pbiUyMGhha2slQzQlQjFuZGElMjB5YWxhbiUyMGJpciUyMCdpZiVDNSU5RmEnJTIwdmlkZW9zdSUyMHlheSVDNCVCMW5sYWQlQzQlQjEuJTIwVGVsZWZvbnVuJTIwc3VzbXV5b3IlMkMlMjBtYXJrYWxhciUyMHMlQzMlQjZ6bGUlQzUlOUZtZWxlcmklMjBpcHRhbCUyMGVkaXlvci4lMjBBaWxlbiUyMGJpbGUlMjAnZG8lQzQlOUZydSUyMG11JTNGJyUyMGRpeWUlMjBzb3J1eW9yLiUyMEtpbXNlbmluJTIwc2FuYSUyMGluYW5tYWQlQzQlQjElQzQlOUYlQzQlQjElMjBvJTIwa2FyYW5sJUM0JUIxayUyMG9kYWRhcyVDNCVCMW4u",
+    "description": "Eski bir arkadaşın, sırf ilgi çekmek için senin hakkında yalan bir 'ifşa' videosu yayınladı. Telefonun susmuyor, markalar sözleşmeleri iptal ediyor. Ailen bile 'doğru mu?' diye soruyor. Kimsenin sana inanmadığı o karanlık odadasın.",
     "choices": [
       {
-        "text": "SHVrdWtpJTIwcyVDMyVCQ3JlY2klMjBiYSVDNSU5RmxhdCUyMHZlJTIwc2Vzc2l6Y2UlMjBhZGFsZXRpJTIwYmVrbGUu",
+        "text": "Hukuki süreci başlat ve sessizce adaleti bekle.",
         "effects": {
           "resilience": 25,
           "health": -5,
           "success": -15
         },
-        "message": "WmFtYW5sYSUyMGhha2wlQzQlQjFsJUM0JUIxJUM0JTlGJUM0JUIxbiUyMGthbiVDNCVCMXRsYW5hY2FrJTIwYW1hJTIwbyUyMHphbWFuYSUyMGthZGFyJTIwZGlqaXRhbCUyMGF5YWslMjBpemxlcmluJTIwbGVrZWxlbmRpLg=="
+        "message": "Zamanla haklılığın kanıtlanacak ama o zamana kadar dijital ayak izlerin lekelendi."
       },
       {
-        "text": "U2VuJTIwZGUlMjBvbnVuJTIwaGFrayVDNCVCMW5kYSUyMGJpbGRpJUM0JTlGaW4lMjBrJUMzJUI2dCVDMyVCQyUyMCVDNSU5RmV5bGVyaSUyMGFubGF0JTJDJTIwaW50aWthbSUyMGFsLg==",
+        "text": "Sen de onun hakkında bildiğin kötü şeyleri anlat, intikam al.",
         "effects": {
           "resilience": -30,
           "health": -20,
           "success": 10
         },
-        "message": "S2F2Z2ElMjBiJUMzJUJDeSVDMyVCQ2QlQzMlQkMlMkMlMjBoZXJrZXMlMjBpemxlZGkuJTIwS2F6YW5hbiUyMHlvayUyQyUyMHNhZGVjZSUyMGRhaGElMjBmYXpsYSUyMG5lZnJldCUyMHZhci4="
+        "message": "Kavga büyüdü, herkes izledi. Kazanan yok, sadece daha fazla nefret var."
       }
     ]
   },
   {
     "id": "room_15",
     "location": "room",
-    "description": "QmlyJTIweWFyZCVDNCVCMW0lMjBrYW1wYW55YXMlQzQlQjFuYSUyMCdheiUyMGJhJUM0JTlGJUM0JUIxJUM1JTlGJTIweWFwdCVDNCVCMSVDNCU5RiVDNCVCMW4nJTIwaSVDMyVBN2luJTIwY2ltcmlsaWtsZSUyMHN1JUMzJUE3bGFuJUM0JUIxeW9yc3VuLiUyMEtpbXNlJTIwYmlsbWl5b3IlMjBraSUzQiUyMHQlQzMlQkNtJTIwa2F6YW5jJUM0JUIxbiVDNCVCMSUyMGlzaW1zaXolMjBvbGFyYWslMjBiaXIlMjBrJUMzJUI2eSUyMG9rdWx1bmElMjBiYSVDNCU5RiVDNCVCMSVDNSU5RmxhZCVDNCVCMW4lMjB2ZSUyMCVDNSU5RnUlMjBhbiUyMGtpcmFuJUM0JUIxJTIwJUMzJUI2ZGVtZWt0ZSUyMHpvcmxhbiVDNCVCMXlvcnN1bi4lMjAlQzQlQjBuc2FubGFyJTIwZWtyYW4lMjBiYSVDNSU5RiVDNCVCMW5kYSUyMHNlbmluJTIwcGFyYW4lQzQlQjElMjBoZXNhcGwlQzQlQjF5b3Iu",
+    "description": "Bir yardım kampanyasına 'az bağış yaptığın' için cimrilikle suçlanıyorsun. Kimse bilmiyor ki; tüm kazancını isimsiz olarak bir köy okuluna bağışladın ve şu an kiranı ödemekte zorlanıyorsun. İnsanlar ekran başında senin paranı hesaplıyor.",
     "choices": [
       {
-        "text": "R2l6bGklMjB5YXB0JUM0JUIxJUM0JTlGJUM0JUIxbiUyMGl5aWxpJUM0JTlGaSUyMGElQzMlQTclQzQlQjFrbGElMkMlMjAlQzMlQkN6ZXJpbmRla2klMjBiYXNrJUM0JUIxeSVDNCVCMSUyMGslQzQlQjFyLg==",
+        "text": "Gizli yaptığın iyiliği açıkla, üzerindeki baskıyı kır.",
         "effects": {
           "resilience": -20,
           "success": 20,
           "health": -5
         },
-        "message": "JUM0JUIwbWFqJUM0JUIxbiUyMGQlQzMlQkN6ZWxkaSUyMGFtYSUyMCdpeWlsaSVDNCU5RmluJTIwZ2l6ZW1pJyUyMGJvenVsZHUlQzQlOUZ1JTIwaSVDMyVBN2luJTIwaSVDMyVBN2luZGUlMjBiaXIlMjAlQzUlOUZleWxlciUyMHlvayUyMG9sZHUu"
+        "message": "İmajın düzeldi ama 'iyiliğin gizemi' bozulduğu için içinde bir şeyler yok oldu."
       },
       {
-        "text": "TGluY2klMjBnJUMzJUI2cm1lemRlbiUyMGdlbCUyMHZlJTIwc2Vzc2l6Y2UlMjBib3IlQzMlQTdsYXIlQzQlQjFuJUM0JUIxJTIwJUMzJUI2ZGVtZXllJTIwJUMzJUE3YWwlQzQlQjElQzUlOUYu",
+        "text": "Linci görmezden gel ve sessizce borçlarını ödemeye çalış.",
         "effects": {
           "resilience": 35,
           "success": -10,
           "health": -15
         },
-        "message": "S2FyYWt0ZXJpbmRlbiUyMCVDMyVCNmQlQzMlQkNuJTIwdmVybWVkaW4lMjBhbWElMjB0b3BsdW11biUyMGclQzMlQjZ6JUMzJUJDbmRlJTIwJ2R1eWFycyVDNCVCMXonJTIwb2xhcmFrJTIwZGFtZ2FsYW5kJUM0JUIxbi4="
+        "message": "Karakterinden ödün vermedin ama toplumun gözünde 'duyarsız' olarak damgalandın."
       }
     ]
   },
   {
     "id": "room_16",
     "location": "room",
-    "description": "S2lsbyUyMGFsZCVDNCVCMSVDNCU5RiVDNCVCMW4lMjBpJUMzJUE3aW4lMjAna2VuZGluZSUyMGJha20lQzQlQjF5b3IlMkMlMjBlc3RldGklQzQlOUZpJTIwYm96dWxkdSclMjBkaXllJTIwYmlubGVyY2UlMjB5b3J1bSUyMGFsJUM0JUIxeW9yc3VuLiUyME95c2ElMjBrdWxsYW5kJUM0JUIxJUM0JTlGJUM0JUIxbiUyMGElQzQlOUYlQzQlQjFyJTIwZGVwcmVzeW9uJTIwaWxhJUMzJUE3bGFyJUM0JUIxJTIwdiVDMyVCQ2N1ZHVuZGElMjAlQzMlQjZkZW0lMjB5YXAlQzQlQjF5b3IuJTIwQXluYXlhJTIwYmFrbWFrdGFuJTIwa29ya2FyJTIwaGFsZSUyMGdlbGRpbi4=",
+    "description": "Kilo aldığın için 'kendine bakmıyor, estetiği bozuldu' diye binlerce yorum alıyorsun. Oysa kullandığın ağır depresyon ilaçları vücudunda ödem yapıyor. Aynaya bakmaktan korkar hale geldin.",
     "choices": [
       {
-        "text": "RGl5ZXQlMjB2ZSUyMGElQzQlOUYlQzQlQjFyJTIwc3BvciUyMGthbXAlQzQlQjFuYSUyMGdpciUyQyUyMG9ubGFyYSUyMGlzdGVkaWtsZXJpJTIwJ3pheSVDNCVCMWYnJTIwa2klQzUlOUZpeWklMjB2ZXIu",
+        "text": "Diyet ve ağır spor kampına gir, onlara istedikleri 'zayıf' kişiyi ver.",
         "effects": {
           "health": -35,
           "resilience": -20,
           "success": 25
         },
-        "message": "QmUlQzQlOUZlbmklMjB0b3BsYWQlQzQlQjFuJTIwYW1hJTIwYmVkZW5pbiUyMGJ1JTIwdGVtcG95YSUyMGRheWFuYW1heSVDNCVCMXAlMjBwZXMlMjBldG1layUyMCVDMyVCQ3plcmUu"
+        "message": "Beğeni topladın ama bedenin bu tempoya dayanamayıp pes etmek üzere."
       },
       {
-        "text": "QmVkZW4lMjBvbHVtbGFtYXMlQzQlQjElMjAlQzMlQkN6ZXJpbmUlMjBiaXIlMjB5YXolQzQlQjElMjBwYXlsYSVDNSU5RiUyMHZlJTIwaWxhJUMzJUE3bGFyJUM0JUIxbiVDNCVCMSUyMGIlQzQlQjFyYWttYS4=",
+        "text": "Beden olumlaması üzerine bir yazı paylaş ve ilaçlarını bırakma.",
         "effects": {
           "resilience": 25,
           "health": 15,
           "success": -10
         },
-        "message": "WmF5JUM0JUIxZiUyMGhhbGthJTIwb2xhcmFrJTIwZyVDMyVCNnIlQzMlQkNsZCVDMyVCQ24lMjBhbWElMjBrZW5kaSUyMGklQzMlQTclMjBiYXIlQzQlQjElQzUlOUYlQzQlQjFuJUM0JUIxJTIwc2ElQzQlOUZsYW1heWElMjBiYSVDNSU5RmxhZCVDNCVCMW4u"
+        "message": "Zayıf halka olarak görüldün ama kendi iç barışını sağlamaya başladın."
       }
     ]
   },
   {
     "id": "room_17",
     "location": "room",
-    "description": "QmlyJTIwaGF5cmFuJUM0JUIxbiVDNCVCMW4lMjBmb3RvJUM0JTlGcmFmJTIwaXN0ZSVDNCU5RmluaSUyMG8lMjBhbmtpJTIwdGVsYSVDNSU5RmxhJTIwcmVkZGV0dGklQzQlOUZpbiUyMGklQzMlQTdpbiUyMCdlZ29sdSclMjBkaXllJTIwbGluJUMzJUE3JTIwZWRpbGl5b3JzdW4uJTIwT3lzYSUyMG8lMjBhbiUyMGJhYmFuJUM0JUIxbiUyMHlvJUM0JTlGdW4lMjBiYWslQzQlQjFtYSUyMGFsJUM0JUIxbmQlQzQlQjElQzQlOUYlQzQlQjElMjBoYWJlcmluaSUyMGFsbSVDNCVCMSVDNSU5RnQlQzQlQjFuJTIwdmUlMjBzYWRlY2UlMjBrbyVDNSU5Rm1hayUyMGlzdGl5b3JkdW4uJTIwJUM1JTlFaW1kaSUyMHZpZGVvJTIwdmlyYWwlMjBvbGR1JTIwdmUlMjBoZXJrZXMlMjBzZW5kZW4lMjBuZWZyZXQlMjBlZGl5b3Iu",
+    "description": "Bir hayranının fotoğraf isteğini o anki telaşla reddettiğin için 'egolu' diye linç ediliyorsun. Oysa o an babanın yoğun bakıma alındığı haberini almıştın ve sadece koşmak istiyordun. Şimdi video viral oldu ve herkes senden nefret ediyor.",
     "choices": [
       {
-        "text": "TyUyMGhheXJhbiVDNCVCMSUyMGJ1bCUyQyUyMCVDMyVCNnolQzMlQkNyJTIwZGlsZSUyMHZlJTIwb25hJTIwaGVkaXllJTIwZyVDMyVCNm5kZXIu",
+        "text": "O hayranı bul, özür dile ve ona hediye gönder.",
         "effects": {
           "success": 15,
           "resilience": -10,
           "health": -10
         },
-        "message": "T2xheSUyMGthcGFuZCVDNCVCMSUyMGFtYSUyMHNlbiUyMHlhc3QlQzQlQjElQzQlOUZhJTIwYmElQzUlOUYlQzQlQjFuJUM0JUIxJTIwa295ZHUlQzQlOUZ1bmRhJTIwYmFiYW4lQzQlQjElMjBkJUMzJUJDJUM1JTlGJUMzJUJDbm1layUyMHllcmluZSUyMGVsJTIwYWxlbWklMjBkJUMzJUJDJUM1JTlGJUMzJUJDbmQlQzMlQkMlQzQlOUYlQzMlQkNuJTIwaSVDMyVBN2luJTIwYSVDNCU5RmxhZCVDNCVCMW4u"
+        "message": "Olay kapandı ama sen yastığa başını koyduğunda babanı düşünmek yerine el alemi düşündüğün için ağladın."
       },
       {
-        "text": "SGklQzMlQTdiaXIlMjBhJUMzJUE3JUM0JUIxa2xhbWElMjB5YXBtYS4lMjAlQzMlOTZuY2VsaSVDNCU5RmluJTIwYWlsZW4u",
+        "text": "Hiçbir açıklama yapma. Önceliğin ailen.",
         "effects": {
           "resilience": 30,
           "health": 10,
           "success": -25
         },
-        "message": "QmFiYW4lQzQlQjFuJTIweWFuJUM0JUIxbmRhJTIwb2xkdW4uJTIwS2FyaXllcmluJTIwc2FycyVDNCVCMWxkJUM0JUIxJTIwYW1hJTIwZW4lMjBheiVDNCVCMW5kYW4lMjBkbyVDNCU5RnJ1JTIweWVyZGVzaW4u"
+        "message": "Babanın yanında oldun. Kariyerin sarsıldı ama en azından doğru yerdesin."
       }
     ]
   },
   {
     "id": "room_18",
     "location": "room",
-    "description": "SGFrayVDNCVCMW5kYSUyMCVDMyVBNyVDNCVCMWthbiUyMGFzJUM0JUIxbHMlQzQlQjF6JTIwYmlyJTIwZGVkaWtvZHUlMjB5JUMzJUJDeiVDMyVCQ25kZW4lMjBrYXAlQzQlQjFuJUM0JUIxbiUyMCVDMyVCNm4lQzMlQkNuZSUyMHBhcGFyYXp6aWxlciUyMGRheWFuZCVDNCVCMS4lMjBEJUM0JUIxJUM1JTlGYXIlQzQlQjElMjAlQzMlQTclQzQlQjFrYW0lQzQlQjF5b3JzdW4lMkMlMjBtYXJrZXRlJTIwYmlsZSUyMGdpZGVtaXlvcnN1bi4lMjBFdmluJTIwc2VuaW4lMjBpJUMzJUE3aW4lMjBiaXIlMjBoYXBpc2hhbmV5ZSUyMGQlQzMlQjZuJUMzJUJDJUM1JTlGdCVDMyVCQyUyMHZlJTIwaW50ZXJuZXR0ZWtpJTIwaW5zYW5sYXIlMjAnc3UlQzMlQTdsdSUyMGtpJTIwc2FrbGFuJUM0JUIxeW9yJyUyMGRpeW9yLg==",
+    "description": "Hakkında çıkan asılsız bir dedikodu yüzünden kapının önüne paparazziler dayandı. Dışarı çıkamıyorsun, markete bile gidemiyorsun. Evin senin için bir hapishaneye dönüştü ve internetteki insanlar 'suçlu ki saklanıyor' diyor.",
     "choices": [
       {
-        "text": "UGVyZGVsZXJpJTIwYSVDMyVBNyUyQyUyMGNhbWRhbiUyMG9ubGFyYSUyMGJhJUM0JTlGJUM0JUIxciUyMHZlJTIwJUMzJUI2ZmtlbmklMjBrdXMu",
+        "text": "Perdeleri aç, camdan onlara bağır ve öfkeni kus.",
         "effects": {
           "resilience": -20,
           "health": -15,
           "success": -5
         },
-        "message": "JUMzJTk2ZmtlbiUyMCclQzMlQTclQzQlQjFsZCVDNCVCMXJtJUM0JUIxJUM1JTlGJyUyMG9sYXJhayUyMHNlcnZpcyUyMGVkaWxkaS4lMjBMaW4lQzMlQTclMjBhdGUlQzUlOUZpJTIwZGFoYSUyMGRhJTIwayVDMyVCNnIlQzMlQkNrbGVuZGku"
+        "message": "Öfken 'çıldırmış' olarak servis edildi. Linç ateşi daha da körüklendi."
       },
       {
-        "text": "SSVDNSU5RiVDNCVCMWtsYXIlQzQlQjElMjBrYXBhdCUyMHZlJTIwa2FyYW5sJUM0JUIxa3RhJTIwc2Vzc2l6Y2UlMjBvdHVydXAlMjBnZSVDMyVBN21lc2luaSUyMGJla2xlLg==",
+        "text": "Işıkları kapat ve karanlıkta sessizce oturup geçmesini bekle.",
         "effects": {
           "resilience": 15,
           "health": -25,
           "success": 0
         },
-        "message": "RyVDMyVCQ3IlQzMlQkNsdCVDMyVCQyUyMGRpbmRpJTIwYW1hJTIwa2FyYW5sJUM0JUIxa3RhJTIwZ2UlQzMlQTdlbiUyMG8lMjBzYWF0bGVyJTIwcnVodW5kYSUyMGRlcmluJTIwaXpsZXIlMjBiJUM0JUIxcmFrdCVDNCVCMS4="
+        "message": "Gürültü dindi ama karanlıkta geçen o saatler ruhunda derin izler bıraktı."
       }
     ]
   },
   {
     "id": "room_19",
     "location": "room",
-    "description": "U2l5YXNpJTIwdmV5YSUyMHNvc3lhbCUyMGJpciUyMG9sYXlkYSUyMCduZWRlbiUyMHNlcyUyMCVDMyVBNyVDNCVCMWthcm0lQzQlQjF5b3JzdW4lM0YnJTIwZGl5ZSUyMGxpbiVDMyVBNyUyMGVkaWxpeW9yc3VuLiUyME95c2ElMjBzZW5pbiUyMGFpbGVuJTIwbyUyMG9sYXklQzQlQjFuJTIwdGFtJTIwbWVya2V6aW5kZSUyMHZlJTIwa29udSVDNSU5RnVyc2FuJTIwb25sYXIlQzQlQjFuJTIwZyVDMyVCQ3ZlbmxpJUM0JTlGaW5pJTIwdGVobGlrZXllJTIwYXRhY2FrcyVDNCVCMW4uJTIwVGFraXAlQzMlQTdpbGVyaW4lMjBzZW5pJTIwJ2tvcmthayUyMHZlJTIwc2F0JUM0JUIxbG0lQzQlQjElQzUlOUYnJTIwb2xhcmFrJTIwbml0ZWxlbmRpcml5b3Iu",
+    "description": "Siyasi veya sosyal bir olayda 'neden ses çıkarmıyorsun?' diye linç ediliyorsun. Oysa senin ailen o olayın tam merkezinde ve konuşursan onların güvenliğini tehlikeye atacaksın. Takipçilerin seni 'korkak ve satılmış' olarak nitelendiriyor.",
     "choices": [
       {
-        "text": "UmlzayUyMGFsJTIwdmUlMjBhaWxlbmluJTIwZHVydW11bnUlMjBiZWxsaSUyMGV0bWVkZW4lMjBwb2xpdGlrJTIwYmlyJTIwbWVzYWolMjBwYXlsYSVDNSU5Ri4=",
+        "text": "Risk al ve ailenin durumunu belli etmeden politik bir mesaj paylaş.",
         "effects": {
           "success": 15,
           "resilience": -15,
           "health": -20
         },
-        "message": "JUM0JUIwbnNhbmxhciVDNCVCMSUyMHRhdG1pbiUyMGV0dGluJTIwYW1hJTIwYWlsZW5pJTIwYiVDMyVCQ3klQzMlQkNrJTIwYmlyJTIwcmlza2luJTIwaSVDMyVBN2luZSUyMGF0dCVDNCVCMW4uJTIwR2VjZWxlcmklMjB1eXV5YW1heWFjYWtzJUM0JUIxbi4="
+        "message": "İnsanları tatmin ettin ama aileni büyük bir riskin içine attın. Geceleri uyuyamayacaksın."
       },
       {
-        "text": "U2Vzc2l6bGklQzQlOUZpbmklMjBrb3J1LiUyMFZhcnMlQzQlQjFuJTIwc2VuaSUyMGtvcmthayUyMGJpbHNpbmxlci4=",
+        "text": "Sessizliğini koru. Varsın seni korkak bilsinler.",
         "effects": {
           "resilience": 40,
           "success": -30,
           "health": 10
         },
-        "message": "U2V2ZGlrbGVyaW5pJTIwa29ydWR1bi4lMjBCZWxraSUyMGJpbmxlcmNlJTIwdGFraXAlQzMlQTdpJTIwa2F5YmV0dGluJTIwYW1hJTIwdmljZGFuJUM0JUIxbiUyMHJhaGF0Lg=="
+        "message": "Sevdiklerini korudun. Belki binlerce takipçi kaybettin ama vicdanın rahat."
       }
     ]
   },
   {
     "id": "room_20",
     "location": "room",
-    "description": "QnVnJUMzJUJDbmslQzMlQkMlMjAlQzMlQjZkJUMzJUJDbCUyMHQlQzMlQjZyZW5pbmRlJTIwc2FobmVkZSUyMGRpJUM0JTlGZXIlMjBhZGF5bGFyJTIwYSVDNCU5RmxhcmtlbiUyMHNlbmluJTIweSVDMyVCQ3olQzMlQkNuZGUlMjB0ZWslMjBiaXIlMjBpZmFkZSUyMGJpbGUlMjB5b2t0dS4lMjBTb3N5YWwlMjBtZWR5YSUyMCdEdXlndXN1eiUyMHJvYm90JTJDJTIwYmElQzUlOUZrYWxhciVDNCVCMW4lQzQlQjFuJTIwYmElQzUlOUZhciVDNCVCMXMlQzQlQjFuJUM0JUIxJTIwemVycmUlMjB1bXVyc2FtJUM0JUIxeW9yJTJDJTIwc2FkZWNlJTIwa2VuZGklMjBoJUM0JUIxcnMlQzQlQjFuYSUyMG9kYWtsYW5tJUM0JUIxJUM1JTlGJyUyMGRpeWUlMjAlQzMlQTdhbGthbGFuJUM0JUIxeW9yLiUyME95c2ElMjBzZW4lMkMlMjB0JUMzJUI2cmVuZGVuJTIwaGVtZW4lMjAlQzMlQjZuY2UlMjAlQzMlQTdvY3VrbHVrJTIwZXZpbmluJTIwaWNyYWRhbiUyMHNhdCVDNCVCMWxkJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMCVDMyVCNiVDNCU5RnJlbmRpbiUyMHZlJTIwYSVDNCU5RmxhcnNhbiUyMGJpciUyMGRhaGElMjBkdXJhbWF5YWNhJUM0JTlGJUM0JUIxbmRhbiUyMGtvcmt0dSVDNCU5RnVuJTIwaSVDMyVBN2luJTIwa2VuZGluaSUyMGtpbGl0bGVkaW4u",
+    "description": "Bugünkü ödül töreninde sahnede diğer adaylar ağlarken senin yüzünde tek bir ifade bile yoktu. Sosyal medya 'Duygusuz robot, başkalarının başarısını zerre umursamıyor, sadece kendi hırsına odaklanmış' diye çalkalanıyor. Oysa sen, törenden hemen önce çocukluk evinin icradan satıldığını öğrendin ve ağlarsan bir daha duramayacağından korktuğun için kendini kilitledin.",
     "choices": [
       {
-        "text": "JUM0JUIwbnNhbmxhciVDNCVCMW4lMjBzZW5pbiUyMGhha2slQzQlQjFuZGElMjAnc28lQzQlOUZ1ayclMjBkZW1lc2luZSUyMGl6aW4lMjB2ZXIlMjB2ZSUyMGFjJUM0JUIxbiVDNCVCMSUyMHNhZGVjZSUyMGR1dmFybGFybGElMjBwYXlsYSVDNSU5Ri4=",
+        "text": "İnsanların senin hakkında 'soğuk' demesine izin ver ve acını sadece duvarlarla paylaş.",
         "effects": {
           "resilience": 30,
           "health": 10,
           "success": -15
         },
-        "message": "T251cnVudSUyMGtvcnVtYXklQzQlQjElMjBzZSVDMyVBN3Rpbi4lMjBLaXRsZSUyMHNlbmklMjAna2liaXJsaSclMjBvbGFyYWslMjBrb2RsYWQlQzQlQjElMjBhbWElMjBzZW4lMjBvJTIwZ2VjZSUyMHNhZGVjZSUyMCVDMyVBN29jdWtsdSVDNCU5RnVudSUyMHUlQzQlOUZ1cmxhZCVDNCVCMW4u"
+        "message": "Onurunu korumayı seçtin. Kitle seni 'kibirli' olarak kodladı ama sen o gece sadece çocukluğunu uğurladın."
       },
       {
-        "text": "QSVDNCU5RmxhbWFkJUM0JUIxJUM0JTlGJUM0JUIxbiUyMGklQzMlQTdpbiUyMCVDMyVCNnolQzMlQkNyJTIwZGlsZXllbiUyQyUyMGklQzMlQTdpbmUlMjAnZXYnJTIwdnVyZ3VzdSUyMHNlcnBpJUM1JTlGdGlyaWxtaSVDNSU5RiUyMGR1eWd1c2FsJTIwYmlyJTIwbWVrdHVwJTIweWF5JUM0JUIxbmxhLg==",
+        "text": "Ağlamadığın için özür dileyen, içine 'ev' vurgusu serpiştirilmiş duygusal bir mektup yayınla.",
         "effects": {
           "success": 20,
           "resilience": -25,
           "health": -10
         },
-        "message": "TGluY2klMjBkdXJkdXJkdW4lMkMlMjBpbnNhbmxhciUyMHNhbmElMjBhYyVDNCVCMW1heWElMjBiYSVDNSU5RmxhZCVDNCVCMS4lMjBBbWElMjBhcnQlQzQlQjFrJTIwZXZpbmluJTIwaGF0JUM0JUIxcmFzJUM0JUIxJTIwYmlubGVyY2UlMjBraSVDNSU5RmluaW4lMjBkaWxpbmRlJTIwYmlyJTIwc2FrJUM0JUIxei4="
+        "message": "Linci durdurdun, insanlar sana acımaya başladı. Ama artık evinin hatırası binlerce kişinin dilinde bir sakız."
       }
     ]
   },
   {
     "id": "room_21",
     "location": "room",
-    "description": "Q2FubCVDNCVCMSUyMHlheSVDNCVCMW4lMjBzJUM0JUIxcmFzJUM0JUIxbmRhJTIwYmlyJTIwaGF5cmFuJUM0JUIxbiUyMHV6YXR0JUM0JUIxJUM0JTlGJUM0JUIxJTIwJUMzJUE3aSVDMyVBN2UlQzQlOUZpJTIwYWwlQzQlQjFya2VuJTIwZWxpbiUyMHRpdHJlZGklMjB2ZSUyMCVDMyVBN2klQzMlQTdlayUyMHllcmUlMjBkJUMzJUJDJUM1JTlGdCVDMyVCQy4lMjBLYW1lcmElMjBvJTIwYW4lQzQlQjElMjB5YWthbGFkJUM0JUIxJTNBJTIwJ0hheXJhbiVDNCVCMW5kYW4lMjBpJUM0JTlGcmVuaXlvciUyQyUyMCVDMyVBN2klQzMlQTdlJUM0JTlGaSUyMGJpbGUlMjB0dXRtYWslMjBpc3RlbWVkaSUyQyUyMHRhbSUyMGJpciUyMGVnb2lzdCclMjBiYSVDNSU5RmwlQzQlQjFrbGFyJUM0JUIxJTIwYXQlQzQlQjFsJUM0JUIxeW9yLiUyMEdlciVDMyVBN2VrdGUlMjBpc2UlM0IlMjBnaXpsaWNlJTIwc2F2YSVDNSU5RnQlQzQlQjElQzQlOUYlQzQlQjFuJTIwYmlyJTIwc2luaXIlMjBzJUM0JUIxayVDNCVCMSVDNSU5Rm1hcyVDNCVCMSUyMG4lQzMlQjZiZXRpJTIwbyUyMGFuJTIwcGFybWFrbGFyJUM0JUIxbiVDNCVCMSUyMGZlbCVDMyVBNyUyMGV0bWklQzUlOUZ0aSUyMHZlJTIwYWMlQzQlQjFkYW4lMjBuZWZlc2luJTIwa2VzaWxtaSVDNSU5RnRpLg==",
+    "description": "Canlı yayın sırasında bir hayranın uzattığı çiçeği alırken elin titredi ve çiçek yere düştü. Kamera o anı yakaladı: 'Hayranından iğreniyor, çiçeği bile tutmak istemedi, tam bir egoist' başlıkları atılıyor. Gerçekte ise; gizlice savaştığın bir sinir sıkışması nöbeti o an parmaklarını felç etmişti ve acıdan nefesin kesilmişti.",
     "choices": [
       {
-        "text": "U2Vzc2l6JTIwa2FsLiUyMCdaYXklQzQlQjFmJyUyMGclQzMlQjZyJUMzJUJDbm1la3RlbnNlJTIwJ2slQzMlQjZ0JUMzJUJDJyUyMGclQzMlQjZyJUMzJUJDbm1leWklMjB0ZXJjaWglMjBldC4=",
+        "text": "Sessiz kal. 'Zayıf' görünmektense 'kötü' görünmeyi tercih et.",
         "effects": {
           "resilience": 40,
           "health": 20,
           "talent": 5
         },
-        "message": "U2Vzc2l6bGklQzQlOUZpbiUyMHNlbmklMjBiaXIlMjAnY2FuYXZhciclMjBnaWJpJTIwZyVDMyVCNnN0ZXJkaSUyMGFtYSUyMGhhc3RhbCVDNCVCMSVDNCU5RiVDNCVCMW4lQzQlQjFuJTIwa2FyaXllcmluaSUyMGJpdGlybWVzaW5lJTIwaXppbiUyMHZlcm1lZGluLg=="
+        "message": "Sessizliğin seni bir 'canavar' gibi gösterdi ama hastalığının kariyerini bitirmesine izin vermedin."
       },
       {
-        "text": "SGFzdGFuZWRlbiUyMGJpciUyMGclQzMlQjZyJUMzJUJDbnQlQzMlQkMlMjBwYXlsYSVDNSU5RmFyYWslMjBlbGluaW4lMjBuZWRlbiUyMHRpdHJlZGklQzQlOUZpbmklMjBpc3BhdGxhLg==",
+        "text": "Hastaneden bir görüntü paylaşarak elinin neden titrediğini ispatla.",
         "effects": {
           "success": 25,
           "resilience": -20,
           "health": -15
         },
-        "message": "JUM0JUIwbnNhbmxhciUyMCdhaCUyMHphdmFsbCVDNCVCMSclMjBkZW1leWUlMjBiYSVDNSU5RmxhZCVDNCVCMS4lMjBMaW4lQzMlQTclMjBiaXR0aSUyMGFtYSUyMGFydCVDNCVCMWslMjBoZXJrZXMlMjBwZXJmb3JtYW5zJUM0JUIxbmRhbiUyMCVDMyVBN29rJTIwaGFzdGFsJUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGtvbnUlQzUlOUZ1eW9yLg=="
+        "message": "İnsanlar 'ah zavallı' demeye başladı. Linç bitti ama artık herkes performansından çok hastalığını konuşuyor."
       }
     ]
   },
   {
     "id": "room_22",
     "location": "room",
-    "description": "QmlyJTIwaGF5JUM0JUIxciUyMGt1cnVtdSUyMGdlY2VzaW5kZSUyMGhlcmtlcyUyMGJpbmxlcmNlJTIwZG9sYXIlMjBiYSVDNCU5RiVDNCVCMSVDNSU5RiUyMHlhcGFya2VuJTIwc2VuJTIwc2VtYm9saWslMjBiaXIlMjByYWthbWRhJTIwa2FsZCVDNCVCMW4uJTIwJ0NpbXJpJTJDJTIwbWlseW9ubGFyJTIwa2F6YW4lQzQlQjF5b3IlMjBhbWElMjBlbGluaSUyMGNlYmluZSUyMGF0bSVDNCVCMXlvciclMjBkaXllJTIwbGluJUMzJUE3JTIwZWRpbGl5b3JzdW4uJTIwT3lzYSUyMHNlbiUyQyUyMGthemFuYyVDNCVCMW4lQzQlQjFuJTIwJTI1OTAnJUM0JUIxbiVDNCVCMSUyMGtpbXNlbmluJTIwYmlsbWVkaSVDNCU5RmklMjBiaXIlMjBhbm9uaW0lMjBidXJzJTIwZm9udW5hJTIwYWt0YXIlQzQlQjF5b3JzdW4lMjB2ZSUyMG8lMjBnZWNlJTIwY2ViaW5kZSUyMGthbGFuJTIwc29uJTIwcGFyYXklQzQlQjElMjB2ZXJkaW4u",
+    "description": "Bir hayır kurumu gecesinde herkes binlerce dolar bağış yaparken sen sembolik bir rakamda kaldın. 'Cimri, milyonlar kazanıyor ama elini cebine atmıyor' diye linç ediliyorsun. Oysa sen, kazancının %90'ını kimsenin bilmediği bir anonim burs fonuna aktarıyorsun ve o gece cebinde kalan son parayı verdin.",
     "choices": [
       {
-        "text": "JUM0JUIweWlsaSVDNCU5RmluJTIwZ2l6bGklMjBrYWxtYXMlQzQlQjElMjBnZXJla3RpJUM0JTlGaW5lJTIwaW5hbiUyMHZlJTIwJ2NpbXJpJyUyMGV0aWtldGluaSUyMGthYnVsbGVuLg==",
+        "text": "İyiliğin gizli kalması gerektiğine inan ve 'cimri' etiketini kabullen.",
         "effects": {
           "resilience": 35,
           "success": -20,
           "health": 15
         },
-        "message": "VmljZGFuJUM0JUIxbiUyMHJhaGF0JTIwYW1hJTIwaW1haiVDNCVCMW4lMjB6ZWRlbGVuZGkuJTIwS2VuZGklMjBpJUMzJUE3aW5kZWtpJTIwZCVDMyVCQ3IlQzMlQkNzdGwlQzMlQkNrJTJDJTIwZCVDNCVCMSVDNSU5RmFyJUM0JUIxZGFraSUyMGFsayVDNCVCMSVDNSU5RnRhbiUyMGRhaGElMjBhJUM0JTlGJUM0JUIxciUyMGJhc3QlQzQlQjEu"
+        "message": "Vicdanın rahat ama imajın zedelendi. Kendi içindeki dürüstlük, dışarıdaki alkıştan daha ağır bastı."
       },
       {
-        "text": "RGVrb250bGFyJUM0JUIxJTIwcyVDNCVCMXpkJUM0JUIxciUyMHZlJTIwYXNsJUM0JUIxbmRhJTIwbmUlMjBrYWRhciUyMGIlQzMlQkN5JUMzJUJDayUyMGJpciUyMGhheSVDNCVCMXJzZXZlciUyMG9sZHUlQzQlOUZ1bnUlMjBoZXJrZXNlJTIwZyVDMyVCNnN0ZXIu",
+        "text": "Dekontları sızdır ve aslında ne kadar büyük bir hayırsever olduğunu herkese göster.",
         "effects": {
           "success": 40,
           "resilience": -30,
           "talent": -5
         },
-        "message": "QmlyJTIwJ2thaHJhbWFuJyUyMGlsYW4lMjBlZGlsZGluLiUyMEFtYSUyMGl5aWxpJUM0JTlGaW4lMjBvJTIwc2FmbCVDNCVCMSVDNCU5RiVDNCVCMSUyQyUyMHNwb3QlMjAlQzQlQjElQzUlOUYlQzQlQjFrbGFyJUM0JUIxbiVDNCVCMW4lMjBhbHQlQzQlQjFuZGElMjBlcml5aXAlMjBnaXR0aS4="
+        "message": "Bir 'kahraman' ilan edildin. Ama iyiliğin o saflığı, spot ışıklarının altında eriyip gitti."
       }
     ]
   },
   {
     "id": "room_23",
     "location": "room",
-    "description": "SGF2YWxpbWFuJUM0JUIxbmRhJTIwaGF5cmFubGFyJTIwZXRyYWYlQzQlQjFuJUM0JUIxJTIwc2FyZCVDNCVCMSVDNCU5RiVDNCVCMW5kYSUyMGJpcmluaSUyMGhhZmlmJUMzJUE3ZSUyMGl0dGlyaXAlMjBoJUM0JUIxemxhJTIwdXpha2xhJUM1JTlGdCVDNCVCMW4uJTIwJ0hheXJhbmxhciVDNCVCMW4lQzQlQjElMjBkJUMzJUI2diVDMyVCQ3lvciUyQyUyMGthYmElMkMlMjBrZW5kaW5pJTIwbmUlMjBzYW4lQzQlQjF5b3IlM0YnJTIwZGl5ZSUyMHZpZGVvbGFyJUM0JUIxbiUyMGRvbGElQzUlOUYlQzQlQjF5b3IuJTIwT3lzYSUyMG8lMjBhbiUyMGthbGFiYWwlQzQlQjElQzQlOUYlQzQlQjFuJTIwaSVDMyVBN2luZGUlMjBiaXJpbmluJTIwZWxpbmRlJTIwc2FuYSUyMGRvJUM0JTlGcnVsdHVsbXUlQzUlOUYlMjBrZXNpY2klMjBiaXIlMjBhbGV0JTIwZyVDMyVCNnJkJUMzJUJDbiUzQiUyMHBhbmlrJTIwYXRhayUyMGdlJUMzJUE3aXJtZWslMjAlQzMlQkN6ZXJleWRpbiUyMHZlJTIwc2FkZWNlJTIwaGF5YXR0YSUyMGthbG1heWElMjAlQzMlQTdhbCVDNCVCMSVDNSU5RiVDNCVCMXlvcmR1bi4=",
+    "description": "Havalimanında hayranlar etrafını sardığında birini hafifçe ittirip hızla uzaklaştın. 'Hayranlarını dövüyor, kaba, kendini ne sanıyor?' diye videoların dolaşıyor. Oysa o an kalabalığın içinde birinin elinde sana doğrultulmuş kesici bir alet gördün; panik atak geçirmek üzereydin ve sadece hayatta kalmaya çalışıyordun.",
     "choices": [
       {
-        "text": "RyVDMyVCQ3ZlbmxpayUyMHphZml5ZXRpbmklMjBhJUMzJUE3JUM0JUIxa2xhbWElMkMlMjBzYWRlY2UlMjAnJUMzJUJDemclQzMlQkNuJUMzJUJDbSclMjBkZSUyMHZlJTIwdHJhdm1hbiVDNCVCMSUyMHRlayUyMGJhJUM1JTlGJUM0JUIxbmElMjBhdGxhdC4=",
+        "text": "Güvenlik zafiyetini açıklama, sadece 'üzgünüm' de ve travmanı tek başına atlat.",
         "effects": {
           "health": -25,
           "resilience": 20,
           "success": -10
         },
-        "message": "T2xheSUyMGthcGFuZCVDNCVCMSUyMGFtYSUyMGtpdGxlZGVraSUyMG8lMjAna2FiYSclMjBpbWFqJUM0JUIxbiUyMHNpbGlubWVkaS4lMjBIZXIlMjBnZWNlJTIwbyUyMGtlc2tpbiUyMHBhciVDNCVCMWx0JUM0JUIxeSVDNCVCMSUyMHIlQzMlQkN5YW5kYSUyMGclQzMlQjZyJUMzJUJDeW9yc3VuLg=="
+        "message": "Olay kapandı ama kitledeki o 'kaba' imajın silinmedi. Her gece o keskin parıltıyı rüyanda görüyorsun."
       },
       {
-        "text": "U2FsZCVDNCVCMXJnYW4lQzQlQjFuJTIwZyVDMyVCNnIlQzMlQkNudCVDMyVCQ3MlQzMlQkNuJUMzJUJDJTIwYnVsdXAlMjB5YXklQzQlQjFubGElMjB2ZSUyMGluc2FubGFyYSUyMG5lZGVuJTIwa2ElQzMlQTd0JUM0JUIxJUM0JTlGJUM0JUIxbiVDNCVCMSUyMGJhJUM0JTlGJUM0JUIxcmFyYWslMjBhbmxhdC4=",
+        "text": "Saldırganın görüntüsünü bulup yayınla ve insanlara neden kaçtığını bağırarak anlat.",
         "effects": {
           "success": 30,
           "resilience": -15,
           "health": -20
         },
-        "message": "SGFrbCVDNCVCMWwlQzQlQjElQzQlOUYlQzQlQjFuJTIwYW5sYSVDNSU5RiVDNCVCMWxkJUM0JUIxLiUyMEFuY2FrJTIwYXJ0JUM0JUIxayUyMGhlciUyMGhheXJhbiUyMGJ1bHUlQzUlOUZtYXMlQzQlQjFuZGElMjBpbnNhbmxhcmElMjBzZXZnaXlsZSUyMGRlJUM0JTlGaWwlMkMlMjBiaXIlMjBrb3JrdXlsYSUyMGJhayVDNCVCMXlvcnN1bi4="
+        "message": "Haklılığın anlaşıldı. Ancak artık her hayran buluşmasında insanlara sevgiyle değil, bir korkuyla bakıyorsun."
       }
     ]
   }
