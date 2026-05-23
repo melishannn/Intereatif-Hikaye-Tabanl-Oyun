@@ -3,6 +3,10 @@ export interface Stats {
   resilience: number;
   success: number;
   talent: number;
+  lynchCount?: number;
+  vocalMinigameCount?: number;
+  danceMinigameCount?: number;
+  avoidedReset?: boolean;
 }
 
 export interface Character {
@@ -20,7 +24,14 @@ export interface Character {
   background: string;
 }
 
-export type LocationId = 'room' | 'common' | 'vocal' | 'dance' | 'interview' | 'stage' | 'phone';
+export type LocationId =
+  | "room"
+  | "common"
+  | "vocal"
+  | "dance"
+  | "interview"
+  | "stage"
+  | "phone";
 
 export interface Choice {
   text: string;
@@ -42,7 +53,7 @@ export interface BookQuote {
   author?: string;
   book?: string;
   choices: Choice[];
-  difficulty?: 'easy' | 'medium' | 'hard';
+  difficulty?: "easy" | "medium" | "hard";
 }
 
 export interface SocialComment {
@@ -54,7 +65,7 @@ export interface SocialComment {
   time: string;
   analysisNote?: string;
   replied?: boolean;
-  actionTaken?: 'blocked' | 'calmed' | 'replied';
+  actionTaken?: "blocked" | "calmed" | "replied";
   liked?: boolean;
   fanReply?: string;
 }

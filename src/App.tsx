@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  lazy,
+  Suspense,
+} from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { VocalMinigame } from "./components/VocalMinigame";
 import { DanceMinigame } from "./components/DanceMinigame";
@@ -31,6 +38,8 @@ import {
   Vibrate,
   VibrateOff,
   Sparkles,
+  RefreshCw,
+  Download,
 } from "lucide-react";
 import {
   Stats,
@@ -58,12 +67,21 @@ import {
   FAN_REPLY_ALTERNATIVES,
 } from "./data";
 import { LYNCH_REASONS } from "./data/lynchReasons";
-import { randomItem } from "./lib/utils";
+import { randomItem, filterProfanity } from "./lib/utils";
 import { CinematicType } from "./data/cinematics";
-
+import { EndingCard } from "./components/EndingCard";
 import { db, auth } from "./firebase";
 import { handleFirestoreError, OperationType } from "./firebaseUtils";
-import { collection, onSnapshot, addDoc, query, orderBy, limit, serverTimestamp, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  serverTimestamp,
+  where,
+} from "firebase/firestore";
 
 const CinematicPlayer = lazy(() => import("./components/CinematicPlayer"));
 
@@ -144,6 +162,9 @@ const ENDINGS = {
 
 export default function App() {
   const [gameState, setGameState] = useState<GameState>("START");
+  const [selectedGender, setSelectedGender] = useState<
+    "Kadın" | "Erkek" | null
+  >(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [stats, setStats] = useState<Stats>(() => ({
     health: Math.floor(Math.random() * 31) + 70, // 70-100
@@ -161,9 +182,11 @@ export default function App() {
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [tasksCompletedInLevel, setTasksCompletedInLevel] = useState(0);
   const [level, setLevel] = useState(1);
-  const [fanGifts, setFanGifts] = useState<{name: string, icon: string}[]>([]);
+  const [fanGifts, setFanGifts] = useState<{ name: string; icon: string }[]>(
+    [],
+  );
   const [isGeneratingLetter, setIsGeneratingLetter] = useState(false);
-  const [letters, setLetters] = useState<{text: string, user: string}[]>([]);
+  const [letters, setLetters] = useState<{ text: string; user: string }[]>([]);
   const [socialComments, setSocialComments] = useState<SocialComment[]>([]);
   const [activeLynchComments, setActiveLynchComments] = useState<
     { id: number; text: string; x: number; y: number; scale: number }[]
@@ -180,11 +203,13 @@ export default function App() {
   >(null);
   const [isLoadingEvent, setIsLoadingEvent] = useState(false);
   const [showWarning, setShowWarning] = useState<string | null>(null);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [levelUpMsg, setLevelUpMsg] = useState<string | null>(null);
   const [playerName, setPlayerName] = useState("");
   const [score, setScore] = useState(0);
   const [fanCount, setFanCount] = useState(0);
   const fanCountRef = useRef(0);
+
   const setFanCountSafe = useCallback(
     (updater: number | ((prev: number) => number)) => {
       setFanCount((prev) => {
@@ -202,11 +227,18 @@ export default function App() {
   >([]);
   const [winEnding, setWinEnding] =
     useState<keyof typeof ENDINGS>("GROUP_MEMBER");
+  const [finalStats, setFinalStats] = useState<Stats | null>(null);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [lynchCount, setLynchCount] = useState(0);
   const [lynchInteractions, setLynchInteractions] = useState(0);
-  const [currentCinematic, setCurrentCinematic] = useState<CinematicType | null>(null);
-  const [postCinematicCallback, setPostCinematicCallback] = useState<(() => void) | null>(null);
+  const [vocalMinigameCount, setVocalMinigameCount] = useState(0);
+  const [danceMinigameCount, setDanceMinigameCount] = useState(0);
+  const [avoidedReset, setAvoidedReset] = useState(true);
+  const [currentCinematic, setCurrentCinematic] =
+    useState<CinematicType | null>(null);
+  const [postCinematicCallback, setPostCinematicCallback] = useState<
+    (() => void) | null
+  >(null);
   const [isMuted, setIsMuted] = useState(false);
   const [isVibrationEnabled, setIsVibrationEnabled] = useState(true);
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false);
@@ -219,11 +251,14 @@ export default function App() {
   // FIX 1: useRef ile score'u stale closure'dan koruyoruz
   const scoreRef = useRef(0);
 
-  const playCinematic = useCallback((type: CinematicType, callback: () => void) => {
-    setCurrentCinematic(type);
-    setPostCinematicCallback(() => callback);
-    setGameState("CINEMATIC");
-  }, []);
+  const playCinematic = useCallback(
+    (type: CinematicType, callback: () => void) => {
+      setCurrentCinematic(type);
+      setPostCinematicCallback(() => callback);
+      setGameState("CINEMATIC");
+    },
+    [],
+  );
 
   const setScoreSafe = useCallback(
     (updater: number | ((prev: number) => number)) => {
@@ -239,24 +274,39 @@ export default function App() {
 
   useEffect(() => {
     if (!db) return;
-    const q = query(collection(db, "leaderboard"), where("score", ">=", 0), orderBy("score", "desc"), limit(10));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const board = snapshot.docs.map((doc) => ({
-        name: doc.data().name as string,
-        score: doc.data().score as number,
-        status: doc.data().status as string,
-      }));
-      setLeaderboard(board);
-    }, (error) => {
-      handleFirestoreError(error, OperationType.LIST, "leaderboard");
-    });
+    const q = query(
+      collection(db, "leaderboard"),
+      orderBy("score", "desc"),
+    );
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const board = snapshot.docs.map((doc) => ({
+          name: filterProfanity(doc.data().name as string),
+          score: doc.data().score as number,
+          status: filterProfanity(doc.data().status as string),
+        }));
+        setLeaderboard(board);
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.LIST, "leaderboard");
+      },
+    );
     return () => unsubscribe();
   }, []);
 
   const toggleLike = (id: string) => {
     setFanCountSafe((prev) => prev + 10);
     setSocialComments((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, liked: !c.liked, likes: c.liked ? (c.likes || 1) - 1 : (c.likes || 0) + 1 } : c)),
+      prev.map((c) =>
+        c.id === id
+          ? {
+              ...c,
+              liked: !c.liked,
+              likes: c.liked ? (c.likes || 1) - 1 : (c.likes || 0) + 1,
+            }
+          : c,
+      ),
     );
   };
 
@@ -286,30 +336,57 @@ export default function App() {
       0,
       calculatedScore !== undefined ? calculatedScore : scoreRef.current,
     );
-    
+
     if (db) {
-        addDoc(collection(db, "leaderboard"), {
-          name: (playerName || "Anonim").substring(0, 100),
-          score: Math.min(Math.max(0, Math.round(finalScore)), 1000000),
-          status: reasonText.substring(0, 200),
-          createdAt: serverTimestamp(),
-        }).catch((err) => handleFirestoreError(err, OperationType.CREATE, "leaderboard"));
+      addDoc(collection(db, "leaderboard"), {
+        name: filterProfanity((playerName || "Anonim").substring(0, 50)),
+        score: Math.min(Math.max(0, Math.round(finalScore)), 1000000),
+        status: filterProfanity(reasonText.substring(0, 200)),
+        createdAt: serverTimestamp(),
+      }).catch((err) =>
+        handleFirestoreError(err, OperationType.CREATE, "leaderboard"),
+      );
     }
 
     if (calculatedScore !== undefined) {
       setScoreSafe(Math.max(0, calculatedScore));
     }
+    
+    // Calculate new ending stats for display
+    const finalStats: Stats = {
+      ...stats,
+      lynchCount,
+      vocalMinigameCount,
+      danceMinigameCount,
+      avoidedReset,
+    };
+    
+    // Set the final stats for EndingCard
+    setFinalStats(finalStats);
 
     if (endingType) {
       setWinEnding(endingType);
     } else {
-      if (reasonText.includes("FİZİKSEL") || reasonText.includes("TÜKENMİŞLİK") || reasonText.includes("ÇÖKÜŞ") && reasonText.includes("FİZİKSEL")) {
+      if (
+        reasonText.includes("FİZİKSEL") ||
+        reasonText.includes("TÜKENMİŞLİK") ||
+        (reasonText.includes("ÇÖKÜŞ") && reasonText.includes("FİZİKSEL"))
+      ) {
         setWinEnding("LOSER_HEALTH");
-      } else if (reasonText.includes("PSİKOLOJİK") || (reasonText.includes("ÇÖKÜŞ") && reasonText.includes("PSİKOLOJİK"))) {
+      } else if (
+        reasonText.includes("PSİKOLOJİK") ||
+        (reasonText.includes("ÇÖKÜŞ") && reasonText.includes("PSİKOLOJİK"))
+      ) {
         setWinEnding("LOSER_MIND");
-      } else if (reasonText.includes("VAZGEÇTİN") || reasonText.includes("İNTİHARI")) {
+      } else if (
+        reasonText.includes("VAZGEÇTİN") ||
+        reasonText.includes("İNTİHARI")
+      ) {
         setWinEnding("LOSER_SUCCESS");
-      } else if (reasonText.includes("YETENEĞİNİ") || reasonText.includes("YETERSİZLİĞİ")) {
+      } else if (
+        reasonText.includes("YETENEĞİNİ") ||
+        reasonText.includes("YETERSİZLİĞİ")
+      ) {
         setWinEnding("LOSER_TALENT");
       } else {
         setWinEnding("LOSER_DEFAULT");
@@ -322,13 +399,22 @@ export default function App() {
     } else if (!isWin) {
       if (endingType) {
         cinematicKey = endingType as CinematicType;
-      } else if (reasonText.includes("FİZİKSEL") || reasonText.includes("TÜKENMİŞLİK")) {
+      } else if (
+        reasonText.includes("FİZİKSEL") ||
+        reasonText.includes("TÜKENMİŞLİK")
+      ) {
         cinematicKey = "LOSER_HEALTH";
       } else if (reasonText.includes("PSİKOLOJİK")) {
         cinematicKey = "LOSER_MIND";
-      } else if (reasonText.includes("VAZGEÇTİN") || reasonText.includes("İNTİHARI")) {
+      } else if (
+        reasonText.includes("VAZGEÇTİN") ||
+        reasonText.includes("İNTİHARI")
+      ) {
         cinematicKey = "LOSER_SUCCESS";
-      } else if (reasonText.includes("YETENEĞİNİ") || reasonText.includes("YETERSİZLİĞİ")) {
+      } else if (
+        reasonText.includes("YETENEĞİNİ") ||
+        reasonText.includes("YETERSİZLİĞİ")
+      ) {
         cinematicKey = "LOSER_TALENT";
       }
     }
@@ -351,7 +437,8 @@ export default function App() {
 
   useEffect(() => {
     if (gameState === "LYNCH") {
-      if ("vibrate" in navigator && isVibrationEnabled) navigator.vibrate([200, 100, 200]);
+      if ("vibrate" in navigator && isVibrationEnabled)
+        navigator.vibrate([200, 100, 200]);
 
       const resInterval = setInterval(() => {
         // FIX 3: applyStatChanges içindeki setState karışıklığını önlemek için
@@ -363,7 +450,8 @@ export default function App() {
       }, 1000);
 
       const commentInterval = setInterval(() => {
-        if ("vibrate" in navigator && isVibrationEnabled) navigator.vibrate([100, 50, 100]);
+        if ("vibrate" in navigator && isVibrationEnabled)
+          navigator.vibrate([100, 50, 100]);
         const nextComment = randomItem(COMMENT_TEMPLATES.lynch_scrolling);
 
         setActiveLynchComments((prev) => {
@@ -412,21 +500,21 @@ export default function App() {
       "Gece Mavisi": "gece_mavisi.png",
       "Gümüş Gri": "gumus_gri.png",
       "Platin Sarı": "platin_sari.png",
-      "Kızıl": "kizil.png",
+      Kızıl: "kizil.png",
       "Kömür Siyahı": "siyah.png",
-      "Kahve": "kahve.png",
+      Kahve: "kahve.png",
       "Pastel Pembe": "pastel_pembe.png",
       "Neon Yeşil": "neon_yesil.png",
     },
     "Giyim Tarzı": {
       "Sokak Modası": "sokak_modasi.png",
-      "Kawaii": "kawaii.png",
-      "Gotik": "gotik.png",
-      "Minimalist": "Minimalist.png",
-      "Spor": "Spor.png",
-      "Avangart": "Avangart.png",
-      "Y2K": "Y2k.png",
-      "Oversize": "Oversize.png",
+      Kawaii: "kawaii.png",
+      Gotik: "gotik.png",
+      Minimalist: "Minimalist.png",
+      Spor: "Spor.png",
+      Avangart: "Avangart.png",
+      Y2K: "Y2k.png",
+      Oversize: "Oversize.png",
     },
     "Vokal Tınısı": {
       "Eşsiz ve Buğulu": "essiz_bugulu.png",
@@ -442,12 +530,12 @@ export default function App() {
       "Güçlü K-Pop": "guclu_kpop.png",
       "Zarif Bale Temelli": "bale_temelli.png",
       "Serbest Stil": "serbest_stil.png",
-      "Freestyle": "tembel.png",
+      Freestyle: "tembel.png",
     },
     "Fiziksel Özellik": {
       "Keskin Yüz Hatlı": "keskin_yuz_hatli.png",
       "Aura Sahibi": "aura_sahibi.png",
-      "Karizmatik": "karizmatik.png",
+      Karizmatik: "karizmatik.png",
       "Dövme Kaplı": "dovme_kapli.png",
       "Soğuk Bakışlı": "soguk_bakisli.png",
       "Şirin Görünümlü": "sirin_goronumlu.png",
@@ -459,21 +547,16 @@ export default function App() {
   };
 
   const initializeRandomCharacter = () => {
-    const char: Character = {
-      name: randomItem(NAMES),
-      gender: randomItem(GENDERS),
-      hairColor: randomItem(HAIR_COLORS),
-      clothingStyle: randomItem(CLOTHING_STYLES),
-      physicalTrait: randomItem(PHYSICAL_TRAITS),
-      vocalTone: randomItem(VOCAL_TONES),
-      danceStyle: randomItem(DANCE_STYLES),
-      trait: randomItem(PERSONALITY_TRAITS),
-      height: randomItem(HEIGHTS),
-      bodyType: randomItem(BODY_TYPES),
-      background: "",
-    };
-    setCharacter(char);
-    setGameState("CUSTOMIZE");
+    import("./data/predefinedCharacters").then((mod) => {
+      let chars = mod.ALL_PREDEFINED_CHARACTERS;
+      if (selectedGender === "Kadın") {
+        chars = mod.PREDEFINED_GIRLS;
+      } else if (selectedGender === "Erkek") {
+        chars = mod.PREDEFINED_BOYS;
+      }
+      setCharacter(chars[Math.floor(Math.random() * chars.length)]);
+      setGameState("CUSTOMIZE");
+    });
   };
 
   const updateCharacterTrait = (
@@ -518,6 +601,10 @@ export default function App() {
       resilience: Math.floor(Math.random() * 41) + 50, // 50-90
       success: Math.floor(Math.random() * 21) + 10, // 10-30
       talent: Math.max(0, Math.min(100, initialTalent)),
+      lynchCount: 0,
+      vocalMinigameCount: 0,
+      danceMinigameCount: 0,
+      avoidedReset: true,
     });
     generateSocialComments(60, 50);
     setGameState("HUB");
@@ -770,31 +857,35 @@ export default function App() {
   };
 
   const eventModules: Record<string, () => Promise<{ EVENTS: GameEvent[] }>> = {
-    stage: () => import('./data/events/stage'),
-    interview: () => import('./data/events/interview'),
-    room: () => import('./data/events/room'),
-    dance: () => import('./data/events/dance'),
-    vocal: () => import('./data/events/vocal'),
-    common: () => import('./data/events/common'),
+    stage: () => import("./data/events/stage"),
+    interview: () => import("./data/events/interview"),
+    room: () => import("./data/events/room"),
+    dance: () => import("./data/events/dance"),
+    vocal: () => import("./data/events/vocal"),
+    common: () => import("./data/events/common"),
   };
 
   const loadEvents = async (locId: string): Promise<GameEvent[]> => {
     try {
-      if (locId === 'interview') {
-        const { collection, getDocs } = await import('firebase/firestore');
-        const { db } = await import('./firebase');
-        const { handleFirestoreError, OperationType } = await import('./firebaseUtils');
-        
+      if (locId === "interview") {
+        const { collection, getDocs } = await import("firebase/firestore");
+        const { db } = await import("./firebase");
+        const { handleFirestoreError, OperationType } =
+          await import("./firebaseUtils");
+
         try {
           if (db) {
-              const { query, where } = await import('firebase/firestore');
-              const q = query(collection(db, 'events'), where('location', '==', 'interview'));
-              const snapshot = await getDocs(q);
-              return snapshot.docs.map((d) => d.data() as GameEvent);
+            const { query, where } = await import("firebase/firestore");
+            const q = query(
+              collection(db, "events"),
+              where("location", "==", "interview"),
+            );
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map((d) => d.data() as GameEvent);
           }
           return [];
         } catch (error) {
-          handleFirestoreError(error, OperationType.GET, 'events');
+          handleFirestoreError(error, OperationType.GET, "events");
           return [];
         }
       }
@@ -866,7 +957,12 @@ export default function App() {
   };
 
   const goToLocation = async (locId: string) => {
-    console.log("Navigating to:", locId, "tasksCompletedInLevel:", tasksCompletedInLevel);
+    console.log(
+      "Navigating to:",
+      locId,
+      "tasksCompletedInLevel:",
+      tasksCompletedInLevel,
+    );
     if (tasksCompletedInLevel >= 4 && locId !== "stage") {
       console.log("Navigation blocked by tasksCompletedInLevel >= 4");
       return;
@@ -1188,12 +1284,12 @@ export default function App() {
         setLevel(nextLevel);
         setTasksCompletedInLevel(0);
         setStageFails({ health: 0, resilience: 0, success: 0, talent: 0 });
-        
+
         let cinematicType: CinematicType | null = null;
         if (nextLevel === 2) cinematicType = "LEVEL_2";
         else if (nextLevel === 3) cinematicType = "LEVEL_3";
         else if (nextLevel === 4) cinematicType = "LEVEL_4";
-        
+
         if (cinematicType) {
           playCinematic(cinematicType, () => setGameState("RESULT"));
           return;
@@ -1212,22 +1308,22 @@ export default function App() {
 
         setEventMessage(
           finalMessage +
-            `\n\n[BAŞARISIZ SAHNE]\nPerformansını tamamladın ancak jürinin gözünde yeterli eşiği geçemedin. (Gereken: En az ${reqPoints} Başarı). Ancak şirketin kararıyla bir sonraki aşamaya güç bela geçirildin!\n\n(Ceza Puanı uygulandı ve hayran kitleni kaybettin)`
+            `\n\n[BAŞARISIZ SAHNE]\nPerformansını tamamladın ancak jürinin gözünde yeterli eşiği geçemedin. (Gereken: En az ${reqPoints} Başarı). Ancak şirketin kararıyla bir sonraki aşamaya güç bela geçirildin!\n\n(Ceza Puanı uygulandı ve hayran kitleni kaybettin)`,
         );
 
         // Başarısızlık ceza puanı
         setScoreSafe((s) => Math.max(0, s - 300));
-        
+
         const nextLevel = level + 1;
         setLevel(nextLevel);
         setTasksCompletedInLevel(0);
         setStageFails({ health: 0, resilience: 0, success: 0, talent: 0 });
-        
+
         let cinematicType: CinematicType | null = null;
         if (nextLevel === 2) cinematicType = "LEVEL_2";
         else if (nextLevel === 3) cinematicType = "LEVEL_3";
         else if (nextLevel === 4) cinematicType = "LEVEL_4";
-        
+
         if (cinematicType) {
           playCinematic(cinematicType, () => setGameState("RESULT"));
           return;
@@ -1319,6 +1415,7 @@ export default function App() {
 
   const takeBreak = () => {
     setRecoveryCount((prev) => ({ ...prev, health: prev.health + 1 }));
+    setAvoidedReset(false);
     applyStatChanges({
       health: 100,
       resilience: 20,
@@ -1327,7 +1424,7 @@ export default function App() {
     });
     setFanCountSafe((prev) => Math.max(0, prev - 2000));
     setEventMessage(
-      "Aşırı yorgunluktan dolayı hastaneye kaldırıldın. Serumlar ve yoğun tedaviyle sağlığın tamamen doldu! Ancak haftalarca sahneden uzak kaldığın için sözleşmelerin iptal edildi ve başarı puanından sert bir düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'"
+      "Aşırı yorgunluktan dolayı hastaneye kaldırıldın. Serumlar ve yoğun tedaviyle sağlığın tamamen doldu! Ancak haftalarca sahneden uzak kaldığın için sözleşmelerin iptal edildi ve başarı puanından sert bir düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'",
     );
     setIsResting(false);
     setGameState("RESULT");
@@ -1343,7 +1440,7 @@ export default function App() {
     });
     setFanCountSafe((prev) => Math.max(0, prev - 2000));
     setEventMessage(
-      "Ağır bir sinir krizi geçirdin ve mecburi olarak ruhsal inzivaya çekildin. Zihnin tamamen arındı ve psikolojin %100 yenilendi! Ancak bu süreçte dedikodular alıp başını gitti ve markan ciddi zarar gördü.\n\n💡 Kafaya Takmama Sanatı: 'Zihnini susturmak her şeyden önemlidir. Dünyayı kaçırdığını sanırsın ama aslında kendini bulursun.'"
+      "Ağır bir sinir krizi geçirdin ve mecburi olarak ruhsal inzivaya çekildin. Zihnin tamamen arındı ve psikolojin %100 yenilendi! Ancak bu süreçte dedikodular alıp başını gitti ve markan ciddi zarar gördü.\n\n💡 Kafaya Takmama Sanatı: 'Zihnini susturmak her şeyden önemlidir. Dünyayı kaçırdığını sanırsın ama aslında kendini bulursun.'",
     );
     setIsMentalBreakdown(false);
     setGameState("RESULT");
@@ -1398,7 +1495,10 @@ export default function App() {
     };
     window.addEventListener("unhandledrejection", handleUnhandledRejection);
     return () => {
-      window.removeEventListener("unhandledrejection", handleUnhandledRejection);
+      window.removeEventListener(
+        "unhandledrejection",
+        handleUnhandledRejection,
+      );
     };
   }, []);
 
@@ -1446,11 +1546,15 @@ export default function App() {
         trackUrl = "/music/lynch_music.mp3";
       } else if (gameState === "CINEMATIC") {
         if (currentCinematic?.includes("LEVEL")) {
-           trackUrl = "/music/stage_music.mp3";
-        } else if (currentCinematic?.includes("LOSER") || currentCinematic === "SCANDAL_VICTIM" || currentCinematic === "CONTRACT_PRISON") {
-           trackUrl = "/music/gameover_music.mp3";
+          trackUrl = "/music/stage_music.mp3";
+        } else if (
+          currentCinematic?.includes("LOSER") ||
+          currentCinematic === "SCANDAL_VICTIM" ||
+          currentCinematic === "CONTRACT_PRISON"
+        ) {
+          trackUrl = "/music/gameover_music.mp3";
         } else {
-           trackUrl = "/music/win_music.mp3";
+          trackUrl = "/music/win_music.mp3";
         }
       }
 
@@ -1481,7 +1585,73 @@ export default function App() {
     }
 
     return () => clearInterval(fadeInterval);
-  }, [gameState, currentEvent, isMuted, audio, hasInteracted, currentCinematic]);
+  }, [
+    gameState,
+    currentEvent,
+    isMuted,
+    audio,
+    hasInteracted,
+    currentCinematic,
+  ]);
+
+  const downloadCardImage = async (cardElementId: string) => {
+    try {
+      const el = document.getElementById(cardElementId);
+      if (!el) return;
+      const { toPng } = await import("html-to-image");
+      const url = await toPng(el, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "transparent",
+      });
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "idols-path-kart.png";
+      a.click();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const shareCardImage = async (cardElementId: string) => {
+    try {
+      const el = document.getElementById(cardElementId);
+      if (!el) return;
+      const { toBlob } = await import("html-to-image");
+      const blob = await toBlob(el, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "transparent",
+      });
+      if (!blob) return;
+      const file = new File([blob], "idols-path-kart.png", {
+        type: "image/png",
+      });
+      if (
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare({ files: [file] })
+      ) {
+        navigator
+          .share({
+            title: "Idol's Path",
+            text: `Skor: ${Math.round(score)}`,
+            files: [file],
+          })
+          .catch(console.error);
+      } else {
+        // fallback to download
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "idols-path-kart.png";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const shareApp = async () => {
     try {
@@ -1504,11 +1674,35 @@ export default function App() {
     <>
       <div className="fixed top-6 right-6 z-[110] flex gap-3">
         <button
+          onClick={() =>
+            endGame(true, "Test Win", scoreRef.current, "WIN_SOLO")
+          }
+          className="px-4 py-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-purple-500/50 text-purple-400 font-bold hover:bg-slate-800 transition-all shadow-lg flex items-center gap-2"
+          title="Son Bölüme Git (Deneme)"
+        >
+          <Sparkles size={20} />
+          <span>Win Sonu Gör</span>
+        </button>
+        <button
+          onClick={() =>
+            endGame(false, "Test Lose", scoreRef.current, "LOSER_TALENT")
+          }
+          className="px-4 py-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-rose-500/50 text-rose-400 font-bold hover:bg-slate-800 transition-all shadow-lg flex items-center gap-2"
+          title="Kaybetme Sonunu Gör (Deneme)"
+        >
+          <AlertCircle size={20} />
+          <span>Lose Sonu Gör</span>
+        </button>
+        <button
           onClick={() => setIsVibrationEnabled(!isVibrationEnabled)}
           className="p-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-slate-800 transition-all shadow-lg"
           title={isVibrationEnabled ? "Titreşimi Kapat" : "Titreşimi Aç"}
         >
-          {isVibrationEnabled ? <Vibrate size={20} /> : <VibrateOff size={20} />}
+          {isVibrationEnabled ? (
+            <Vibrate size={20} />
+          ) : (
+            <VibrateOff size={20} />
+          )}
         </button>
         <button
           onClick={toggleMute}
@@ -1528,68 +1722,28 @@ export default function App() {
           >
             <button
               onClick={() => setIsAvatarModalOpen(false)}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white bg-slate-800 rounded-full transition-colors"
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white bg-slate-800 rounded-full z-10 transition-colors"
             >
               <X size={20} />
             </button>
-            <h3 className="text-xl font-bold text-white mb-6 text-center">Avatarını Güncelle</h3>
-            
-            <div className="w-full flex flex-col items-center gap-4">
-              <div 
-                className={`relative w-48 h-48 rounded-2xl overflow-hidden bg-slate-800 border-2 border-purple-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.2)] ${character.imageUrl ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
-                onClick={() => character.imageUrl && window.open(character.imageUrl, '_blank')}
-                title="Büyütmek için tıkla"
-              >
+
+            <div className="w-full flex flex-col items-center">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden bg-slate-800 border-2 border-purple-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.2)]">
                 {character.imageUrl ? (
-                  <img src={character.imageUrl} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                  <img
+                    src={character.imageUrl}
+                    alt="Avatar"
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                  />
                 ) : (
                   <div className="text-slate-500 flex flex-col items-center text-center p-4">
-                    <User size={48} className="mb-2 opacity-50" />
+                    <User size={64} className="mb-2 opacity-50" />
                   </div>
                 )}
-{/* Removed isGeneratingAvatar overlay */}              </div>
-              
-              <div className="w-full space-y-2 mt-4">
-
-
-{/* AI ile Avatar Oluştur removed */}
-                <div className="relative">
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                           setCharacter({...character, imageUrl: e.target?.result as string});
-                           setSocialComments(prev => [
-                            {
-                              id: `avatar-${Date.now()}`,
-                              user: "fanclub_president",
-                              text: "AMAN TANRIM! Yeni profil fotoğrafını gördünüz mü? Mükemmel görünüyor! 😍🔥",
-                              likes: Math.floor(Math.random() * 500) + 1000,
-                              isPositive: true,
-                              time: "Şimdi"
-                            },
-                            ...prev
-                          ]);
-                          alert("Profil güncellendi! Hayranların fark etti.");
-                        };
-                        reader.readAsDataURL(file);
-                      }
-                    }}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    title="Kendi fotoğrafını yükle"
-                  />
-                  <button className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold text-purple-200 transition-all flex items-center justify-center gap-2 text-sm border border-slate-600">
-                    <Camera size={16} />
-                    Kendi Fotoğrafını Yükle
-                  </button>
-                </div>
               </div>
             </div>
-            
           </motion.div>
         </div>
       )}
@@ -1641,6 +1795,7 @@ export default function App() {
                 src="/logo.png"
                 alt="Logo"
                 className="w-24 h-24 mb-6 rounded-full mx-auto border-2 border-purple-500/50"
+                loading="lazy"
               />
               <h1
                 className="text-4xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-200 to-amber-200"
@@ -1658,18 +1813,33 @@ export default function App() {
                 value={playerName}
                 onChange={(e) => setPlayerName(e.target.value)}
                 placeholder="İsmini Gir..."
-                className="w-full md:w-2/3 px-6 py-4 mb-8 bg-slate-800/80 border border-purple-500/50 rounded-2xl text-white text-center font-bold text-xl focus:outline-none focus:ring-2 focus:ring-purple-500/80 placeholder:text-slate-500 transition-all shadow-inner"
+                className="w-full md:w-2/3 px-6 py-4 mb-6 bg-slate-800/80 border border-purple-500/50 rounded-2xl text-white text-center font-bold text-xl focus:outline-none focus:ring-2 focus:ring-purple-500/80 placeholder:text-slate-500 transition-all shadow-inner"
                 maxLength={20}
               />
 
+              <div className="flex gap-4 mb-8 justify-center w-full md:w-2/3 mx-auto">
+                <button
+                  onClick={() => setSelectedGender("Kadın")}
+                  className={`flex-1 py-3 rounded-2xl font-bold transition-all border-2 flex items-center justify-center gap-2 ${selectedGender === "Kadın" ? "bg-pink-600/20 border-pink-500 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.3)]" : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500"}`}
+                >
+                  <User size={18} /> Kız
+                </button>
+                <button
+                  onClick={() => setSelectedGender("Erkek")}
+                  className={`flex-1 py-3 rounded-2xl font-bold transition-all border-2 flex items-center justify-center gap-2 ${selectedGender === "Erkek" ? "bg-blue-600/20 border-blue-500 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.3)]" : "bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-500"}`}
+                >
+                  <User size={18} /> Erkek
+                </button>
+              </div>
+
               <button
                 onClick={initializeRandomCharacter}
-                disabled={!playerName.trim()}
-                className={`w-full md:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-bold text-white text-base md:text-lg transition-all ${playerName.trim() ? "hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(219,39,119,0.5)]" : "opacity-50 cursor-not-allowed"}`}
+                disabled={!playerName.trim() || !selectedGender}
+                className={`w-full md:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full font-bold text-white text-base md:text-lg transition-all ${playerName.trim() && selectedGender ? "hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(219,39,119,0.5)]" : "opacity-50 cursor-not-allowed"}`}
               >
                 Karakterini Yarat ve Başla
               </button>
-              
+
               <button
                 onClick={() => setIsLeaderboardOpen(true)}
                 className="mt-4 px-6 py-2 bg-slate-800 text-purple-200 rounded-full font-semibold border border-purple-500/30 hover:bg-slate-700 transition"
@@ -1680,23 +1850,40 @@ export default function App() {
               {isLeaderboardOpen && (
                 <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">
                   <div className="bg-slate-900 border border-purple-500/30 p-6 rounded-3xl w-full max-w-md shadow-2xl">
-                    <h2 className="text-2xl font-bold text-white mb-4 text-center">Puan Tablosu</h2>
+                    <h2 className="text-2xl font-bold text-white mb-4 text-center">
+                      Puan Tablosu
+                    </h2>
                     <div className="space-y-3 mb-6 max-h-[50vh] overflow-y-auto pr-2 custom-scrollbar">
-                      {leaderboard.length > 0 ? leaderboard.map((entry, idx) => (
-                        <div key={idx} className="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl border border-white/5">
-                           <div className="flex items-center gap-3">
-                             <span className={`font-bold ${idx === 0 ? "text-amber-400" : idx === 1 ? "text-slate-300" : idx === 2 ? "text-amber-700" : "text-slate-500"}`}>
-                               #{idx + 1}
-                             </span>
-                             <div className="flex flex-col">
-                               <span className="text-purple-100 font-bold text-sm">{entry.name}</span>
-                               <span className="text-slate-400 text-[10px]">{entry.status}</span>
-                             </div>
-                           </div>
-                           <span className="text-purple-300 font-mono font-bold text-sm">{entry.score} Puan</span>
+                      {leaderboard.length > 0 ? (
+                        leaderboard.map((entry, idx) => (
+                          <div
+                            key={idx}
+                            className="flex justify-between items-center bg-slate-800/50 p-3 rounded-xl border border-white/5"
+                          >
+                            <div className="flex items-center gap-3">
+                              <span
+                                className={`font-bold ${idx === 0 ? "text-amber-400" : idx === 1 ? "text-slate-300" : idx === 2 ? "text-amber-700" : "text-slate-500"}`}
+                              >
+                                #{idx + 1}
+                              </span>
+                              <div className="flex flex-col">
+                                <span className="text-purple-100 font-bold text-sm">
+                                  {entry.name}
+                                </span>
+                                <span className="text-slate-400 text-[10px]">
+                                  {entry.status}
+                                </span>
+                              </div>
+                            </div>
+                            <span className="text-purple-300 font-mono font-bold text-sm">
+                              {entry.score} Puan
+                            </span>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center text-slate-500 text-sm py-4">
+                          Henüz puan tablosunda kimse yok.
                         </div>
-                      )) : (
-                        <div className="text-center text-slate-500 text-sm py-4">Henüz puan tablosunda kimse yok.</div>
                       )}
                     </div>
                     <button
@@ -1747,158 +1934,118 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="flex flex-col md:flex-row gap-8 w-full mb-8">
+              <div className="flex flex-col md:flex-row gap-8 w-full mb-8 items-center md:items-start justify-center">
                 {/* Sol Taraf: Avatar */}
-                <div className="w-full md:w-1/3 flex flex-col items-center gap-4">
-                  <div 
-                    className={`relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden bg-slate-800 border-2 border-purple-500/30 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.2)] ${character.imageUrl ? 'cursor-pointer hover:scale-105 transition-transform' : ''}`}
-                    onClick={() => character.imageUrl && window.open(character.imageUrl, '_blank')}
-                    title="Büyütmek için tıkla"
+                <div className="w-full md:w-1/3 flex flex-col items-center gap-6">
+                  <div
+                    className={`relative w-48 h-48 md:w-64 md:h-64 rounded-2xl overflow-hidden bg-slate-800 border-2 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.4)] flex items-center justify-center`}
                   >
                     {character.imageUrl ? (
-                      <img src={character.imageUrl} alt="Avatar" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                      <img
+                        src={character.imageUrl}
+                        alt="Avatar"
+                        className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                        loading="lazy"
+                      />
                     ) : (
                       <div className="text-slate-500 flex flex-col items-center text-center p-4">
                         <User size={48} className="mb-2 opacity-50" />
-                        <span className="text-sm">Avatar henüz oluşturulmadı</span>
                       </div>
                     )}
-                    {/* Removed isGeneratingAvatar overlay */}
                   </div>
-                  
-                  <div className="w-full max-w-[256px] space-y-2">
-                    {/* Removed select and generate button */}
-
-                    <div className="relative">
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onload = (e) => setCharacter({...character, imageUrl: e.target?.result as string});
-                            reader.readAsDataURL(file);
-                          }
-                        }}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        title="Kendi fotoğrafını yükle"
-                      />
-                      <button className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold text-purple-200 transition-all flex items-center justify-center gap-2 text-sm border border-slate-600">
-                        <Camera size={16} />
-                        Kendi Fotoğrafını Yükle
-                      </button>
-                    </div>
-                  </div>
-                  <p className="text-xs text-slate-400 text-center px-4">Özel fotoğrafını yükleyebilir veya yapay zekaya ürettirebilirsin!</p>
+                  <button
+                    onClick={initializeRandomCharacter}
+                    className="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold text-white transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20 whitespace-nowrap flex items-center gap-2"
+                  >
+                    <RefreshCw size={18} />
+                    Rastgele Başka Karakter Bul
+                  </button>
                 </div>
 
-                {/* Sağ Taraf: Özellikler */}
-                <div className="w-full md:w-2/3 grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                  <div className="holo-panel flex flex-col items-center justify-center p-3 md:p-6 relative group overflow-hidden hover:border-purple-500/50 transition-all shadow-lg hover:shadow-purple-500/20 rounded-2xl md:rounded-3xl bg-slate-900/50 backdrop-blur-md border border-white/5 col-span-2 lg:col-span-1">
-                    <span className="text-purple-300 font-bold text-[11px] md:text-xs tracking-widest uppercase mb-3 md:mb-4 text-center z-10">İsim</span>
-                    <input 
-                      type="text" 
-                      value={character.name}
-                      onChange={(e) => setCharacter({...character, name: e.target.value})}
-                      className="w-full bg-slate-800/80 border border-slate-700 text-white font-bold text-center py-2 px-3 rounded-xl focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 z-10"
-                      placeholder="Kendi İsmin"
-                    />
-                    <div className="flex gap-2 mt-4 z-10">
-                      <button onClick={() => updateCharacterTrait("name", NAMES, -1)} className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors text-purple-300"><ChevronLeft size={16} /></button>
-                      <button onClick={() => updateCharacterTrait("name", NAMES, 1)} className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors text-purple-300"><ChevronRight size={16} /></button>
+                {/* Sağ Taraf: Özellikler (Read-only) */}
+                <div className="w-full md:w-1/2 grid grid-cols-2 lg:grid-cols-2 gap-4">
+                  <div className="col-span-2 text-center md:text-left mb-2">
+                    <h3 className="text-4xl text-purple-200 font-black drop-shadow-md">
+                      {character.name}
+                    </h3>
+                    <p className="text-slate-400 italic text-sm">
+                      {character.background}
+                    </p>
+                  </div>
+
+                  <div className="bg-slate-900/60 p-4 rounded-2xl border border-white/5 shadow-md flex items-center gap-3">
+                    <User className="text-purple-400" size={20} />
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+                        Cinsiyet
+                      </p>
+                      <p className="text-sm text-slate-200 font-semibold">
+                        {character.gender}
+                      </p>
                     </div>
                   </div>
 
-                  <InteractiveTraitCard
-                    label="Cinsiyet"
-                    value={character.gender}
-                    onNext={() => updateCharacterTrait("gender", GENDERS, 1)}
-                    onPrev={() => updateCharacterTrait("gender", GENDERS, -1)}
-                    icon={User}
-                  />
-                  <InteractiveTraitCard
-                    label="Fiziksel Özellik"
-                  value={character.physicalTrait}
-                  onNext={() =>
-                    updateCharacterTrait("physicalTrait", PHYSICAL_TRAITS, 1)
-                  }
-                  onPrev={() =>
-                    updateCharacterTrait("physicalTrait", PHYSICAL_TRAITS, -1)
-                  }
-                  icon={User}
-                />
-                <InteractiveTraitCard
-                  label="Saç Rengi"
-                  value={character.hairColor}
-                  onNext={() =>
-                    updateCharacterTrait("hairColor", HAIR_COLORS, 1)
-                  }
-                  onPrev={() =>
-                    updateCharacterTrait("hairColor", HAIR_COLORS, -1)
-                  }
-                />
-                <InteractiveTraitCard
-                  label="Kişilik Özelliği"
-                  value={character.trait}
-                  onNext={() =>
-                    updateCharacterTrait("trait", PERSONALITY_TRAITS, 1)
-                  }
-                  onPrev={() =>
-                    updateCharacterTrait("trait", PERSONALITY_TRAITS, -1)
-                  }
-                  icon={Smile}
-                />
-                <InteractiveTraitCard
-                  label="Vokal Tınısı"
-                  value={character.vocalTone}
-                  onNext={() =>
-                    updateCharacterTrait("vocalTone", VOCAL_TONES, 1)
-                  }
-                  onPrev={() =>
-                    updateCharacterTrait("vocalTone", VOCAL_TONES, -1)
-                  }
-                  icon={Mic}
-                />
-                <InteractiveTraitCard
-                  label="Dans Stili"
-                  value={character.danceStyle}
-                  onNext={() =>
-                    updateCharacterTrait("danceStyle", DANCE_STYLES, 1)
-                  }
-                  onPrev={() =>
-                    updateCharacterTrait("danceStyle", DANCE_STYLES, -1)
-                  }
-                  icon={Activity}
-                />
-                <InteractiveTraitCard
-                  label="Giyim Tarzı"
-                  value={character.clothingStyle}
-                  onNext={() =>
-                    updateCharacterTrait("clothingStyle", CLOTHING_STYLES, 1)
-                  }
-                  onPrev={() =>
-                    updateCharacterTrait("clothingStyle", CLOTHING_STYLES, -1)
-                  }
-                  icon={Activity}
-                />
-                <InteractiveTraitCard
-                  label="Boy"
-                  value={character.height}
-                  onNext={() => updateCharacterTrait("height", HEIGHTS, 1)}
-                  onPrev={() => updateCharacterTrait("height", HEIGHTS, -1)}
-                  icon={Ruler}
-                />
-                <InteractiveTraitCard
-                  label="Vücut Yapısı"
-                  value={character.bodyType}
-                  onNext={() => updateCharacterTrait("bodyType", BODY_TYPES, 1)}
-                  onPrev={() =>
-                    updateCharacterTrait("bodyType", BODY_TYPES, -1)
-                  }
-                  icon={User}
-                />
-              </div>
+                  <div className="bg-slate-900/60 p-4 rounded-2xl border border-white/5 shadow-md flex items-center gap-3">
+                    <User className="text-cyan-400" size={20} />
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+                        Görünüm
+                      </p>
+                      <p className="text-sm text-slate-200 font-semibold">
+                        {character.physicalTrait}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/60 p-4 rounded-2xl border border-white/5 shadow-md flex items-center gap-3">
+                    <Smile className="text-pink-400" size={20} />
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+                        Kişilik
+                      </p>
+                      <p className="text-sm text-slate-200 font-semibold">
+                        {character.trait}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/60 p-4 rounded-2xl border border-white/5 shadow-md flex items-center gap-3">
+                    <Mic className="text-yellow-400" size={20} />
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+                        Vokal
+                      </p>
+                      <p className="text-sm text-slate-200 font-semibold">
+                        {character.vocalTone}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/60 p-4 rounded-2xl border border-white/5 shadow-md flex items-center gap-3">
+                    <Activity className="text-rose-400" size={20} />
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+                        Dans
+                      </p>
+                      <p className="text-sm text-slate-200 font-semibold">
+                        {character.danceStyle}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-slate-900/60 p-4 rounded-2xl border border-white/5 shadow-md flex items-center gap-3">
+                    <Ruler className="text-emerald-400" size={20} />
+                    <div>
+                      <p className="text-xs text-slate-500 uppercase font-bold tracking-wider">
+                        Fizik
+                      </p>
+                      <p className="text-sm text-slate-200 font-semibold">
+                        {character.height} / {character.bodyType}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="fixed md:sticky bottom-6 z-50 flex justify-center w-full px-4">
@@ -1918,9 +2065,18 @@ export default function App() {
             {gameState === "HUB" && (
               <div className="bg-slate-900/40 backdrop-blur-md rounded-3xl p-4 md:p-8 border border-white/5 shadow-inner shadow-white/5 mb-6 md:mb-8">
                 <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
-                  <div className="relative group cursor-pointer shrink-0 w-16 h-16 md:w-24 md:h-24 mx-auto md:mx-0" onClick={() => setIsAvatarModalOpen(true)}>
+                  <div
+                    className="relative group cursor-pointer shrink-0 w-16 h-16 md:w-24 md:h-24 mx-auto md:mx-0"
+                    onClick={() => setIsAvatarModalOpen(true)}
+                  >
                     {character.imageUrl ? (
-                      <img src={character.imageUrl} alt="Avatar" className="w-full h-full rounded-full object-cover shadow-xl shadow-purple-900/20 ring-4 ring-white/10" referrerPolicy="no-referrer" />
+                      <img
+                        src={character.imageUrl}
+                        alt="Avatar"
+                        className="w-full h-full rounded-full object-cover shadow-xl shadow-purple-900/20 ring-4 ring-white/10"
+                        referrerPolicy="no-referrer"
+                        loading="lazy"
+                      />
                     ) : (
                       <div className="w-full h-full rounded-full bg-gradient-to-tr from-purple-600 to-indigo-400 flex items-center justify-center text-2xl md:text-3xl font-bold text-white shadow-xl shadow-purple-900/20 ring-4 ring-white/10">
                         {character.name[0]}
@@ -2030,27 +2186,31 @@ export default function App() {
                 attempts={Math.max(0, 2 - recoveryCount.talent)}
               />
             </div>
-            
+
             {gameState === "HUB" && (
               <div className="flex flex-col gap-2 mb-6">
                 {warningsShown.health && (
                   <div className="bg-rose-900/40 border border-rose-500/50 text-rose-200 text-xs md:text-sm p-3 rounded-xl text-center shadow-lg shadow-rose-900/20 animate-pulse font-semibold">
-                    ⚠️ SAĞLIK TÜKENDİ! Bedenini çok zorladın. Sahnede bunun bedelini ödeyeceksin.
+                    ⚠️ SAĞLIK TÜKENDİ! Bedenini çok zorladın. Sahnede bunun
+                    bedelini ödeyeceksin.
                   </div>
                 )}
                 {warningsShown.resilience && (
                   <div className="bg-indigo-900/40 border border-indigo-500/50 text-indigo-200 text-xs md:text-sm p-3 rounded-xl text-center shadow-lg shadow-indigo-900/20 animate-pulse font-semibold">
-                    ⚠️ PSİKOLOJİN ÇÖKTÜ! Zihnin bulanık. Sahnede bunun bedelini ödeyeceksin.
+                    ⚠️ PSİKOLOJİN ÇÖKTÜ! Zihnin bulanık. Sahnede bunun bedelini
+                    ödeyeceksin.
                   </div>
                 )}
                 {warningsShown.success && (
                   <div className="bg-amber-900/40 border border-amber-500/50 text-amber-200 text-xs md:text-sm p-3 rounded-xl text-center shadow-lg shadow-amber-900/20 animate-pulse font-semibold">
-                    ⚠️ BAŞARIN SIFIRLANDI! İtibarın sarsıldı. Sahnede bunun bedelini ödeyeceksin.
+                    ⚠️ BAŞARIN SIFIRLANDI! İtibarın sarsıldı. Sahnede bunun
+                    bedelini ödeyeceksin.
                   </div>
                 )}
                 {warningsShown.talent && (
                   <div className="bg-emerald-900/40 border border-emerald-500/50 text-emerald-200 text-xs md:text-sm p-3 rounded-xl text-center shadow-lg shadow-emerald-900/20 animate-pulse font-semibold">
-                    ⚠️ YETENEĞİN KÖRELDİ! Performansın düştü. Sahnede bunun bedelini ödeyeceksin.
+                    ⚠️ YETENEĞİN KÖRELDİ! Performansın düştü. Sahnede bunun
+                    bedelini ödeyeceksin.
                   </div>
                 )}
               </div>
@@ -2099,9 +2259,11 @@ export default function App() {
                           Tükendin!
                         </h3>
                         <p className="text-rose-200 mb-8 leading-relaxed max-w-md mx-auto text-xs md:text-base">
-                          Vücudun sinyal veriyor. Daha fazla devam edemezsin. Eğer hiçbir şey yapmazsan, bir sonraki sahnede sonuçlarına katlanacaksın.
+                          Vücudun sinyal veriyor. Daha fazla devam edemezsin.
+                          Eğer hiçbir şey yapmazsan, bir sonraki sahnede
+                          sonuçlarına katlanacaksın.
                         </p>
-                        
+
                         <div className="flex justify-center mb-4">
                           <button
                             onClick={takeBreak}
@@ -2110,11 +2272,14 @@ export default function App() {
                             <Activity size={20} /> Tedavi Ol ve Dinlen
                           </button>
                         </div>
-                        
+
                         <div className="flex justify-center items-center mt-6">
                           <button
                             onClick={() => {
-                              setWarningsShown(prev => ({ ...prev, health: true }));
+                              setWarningsShown((prev) => ({
+                                ...prev,
+                                health: true,
+                              }));
                               setIsResting(false);
                               setGameState("HUB");
                             }}
@@ -2136,9 +2301,11 @@ export default function App() {
                           Psikolojik Çöküş!
                         </h3>
                         <p className="text-indigo-200 mb-8 leading-relaxed max-w-md mx-auto text-xs md:text-base">
-                          Zihnin ve ruhun artık gelen baskıyı kaldıramıyor. Eğer zihnine iyi bakmazsan, sahnede bunun sonuçlarını göreceksin.
+                          Zihnin ve ruhun artık gelen baskıyı kaldıramıyor. Eğer
+                          zihnine iyi bakmazsan, sahnede bunun sonuçlarını
+                          göreceksin.
                         </p>
-                        
+
                         <div className="flex justify-center mb-4">
                           <button
                             onClick={takeMentalBreak}
@@ -2147,11 +2314,14 @@ export default function App() {
                             <Heart size={20} /> Terapiye Gir
                           </button>
                         </div>
-                        
+
                         <div className="flex justify-center items-center mt-6">
                           <button
                             onClick={() => {
-                              setWarningsShown(prev => ({ ...prev, resilience: true }));
+                              setWarningsShown((prev) => ({
+                                ...prev,
+                                resilience: true,
+                              }));
                               setIsMentalBreakdown(false);
                               setGameState("HUB");
                             }}
@@ -2170,25 +2340,32 @@ export default function App() {
                           Kariyer Dipleri!
                         </h3>
                         <p className="text-amber-200 mb-8 leading-relaxed max-w-md mx-auto text-xs md:text-base">
-                          Başarın tamamen sıfırlandı. Kimse seni hatırlamıyor. Eğer kurtarmak için bir şey yapmazsan unutulup gideceksin.
+                          Başarın tamamen sıfırlandı. Kimse seni hatırlamıyor.
+                          Eğer kurtarmak için bir şey yapmazsan unutulup
+                          gideceksin.
                         </p>
-                        
+
                         <div className="flex justify-center mb-4">
                           <button
                             onClick={takeSuccessRecovery}
                             disabled={recoveryCount.success >= 2}
-                            className={`px-8 py-3 md:px-10 md:py-4 ${recoveryCount.success >= 2 ? 'bg-amber-900 opacity-50 cursor-not-allowed' : 'bg-amber-600 hover:bg-amber-500'} text-white rounded-full font-bold transition-all shadow-lg shadow-amber-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95`}
+                            className={`px-8 py-3 md:px-10 md:py-4 ${recoveryCount.success >= 2 ? "bg-amber-900 opacity-50 cursor-not-allowed" : "bg-amber-600 hover:bg-amber-500"} text-white rounded-full font-bold transition-all shadow-lg shadow-amber-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95`}
                           >
                             <Activity size={20} />
-                            {recoveryCount.success >= 2 ? "Bütün şanslarını tükettin" : `İmaj Kurtarma Çalışmalarına Başla (${2 - recoveryCount.success} hak kaldı)`}
+                            {recoveryCount.success >= 2
+                              ? "Bütün şanslarını tükettin"
+                              : `İmaj Kurtarma Çalışmalarına Başla (${2 - recoveryCount.success} hak kaldı)`}
                           </button>
                         </div>
-                        
+
                         {recoveryCount.success >= 2 && (
                           <div className="flex justify-center items-center mt-6">
                             <button
                               onClick={() => {
-                                setWarningsShown(prev => ({ ...prev, success: true }));
+                                setWarningsShown((prev) => ({
+                                  ...prev,
+                                  success: true,
+                                }));
                                 setIsSuccessDrop(false);
                                 setGameState("HUB");
                               }}
@@ -2208,25 +2385,32 @@ export default function App() {
                           Yetenek Tutulması!
                         </h3>
                         <p className="text-emerald-200 mb-8 leading-relaxed max-w-md mx-auto text-xs md:text-base">
-                          Sahnede ne yapacağını unuttun. Yeteneğin köreldi. Eğer eğitim almazsan, bir dahaki performansında sahnede rezil olabilirsin.
+                          Sahnede ne yapacağını unuttun. Yeteneğin köreldi. Eğer
+                          eğitim almazsan, bir dahaki performansında sahnede
+                          rezil olabilirsin.
                         </p>
-                        
+
                         <div className="flex justify-center mb-4">
                           <button
                             onClick={takeTalentRecovery}
                             disabled={recoveryCount.talent >= 2}
-                            className={`px-8 py-3 md:px-10 md:py-4 ${recoveryCount.talent >= 2 ? 'bg-emerald-900 opacity-50 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-500'} text-white rounded-full font-bold transition-all shadow-lg shadow-emerald-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95`}
+                            className={`px-8 py-3 md:px-10 md:py-4 ${recoveryCount.talent >= 2 ? "bg-emerald-900 opacity-50 cursor-not-allowed" : "bg-emerald-600 hover:bg-emerald-500"} text-white rounded-full font-bold transition-all shadow-lg shadow-emerald-900/50 flex items-center gap-3 transform hover:scale-105 active:scale-95`}
                           >
                             <Ruler size={20} />
-                            {recoveryCount.talent >= 2 ? "Bütün şanslarını tükettin" : `Kampa Gir ve Çok Çalış (${2 - recoveryCount.talent} hak kaldı)`}
+                            {recoveryCount.talent >= 2
+                              ? "Bütün şanslarını tükettin"
+                              : `Kampa Gir ve Çok Çalış (${2 - recoveryCount.talent} hak kaldı)`}
                           </button>
                         </div>
-                        
+
                         {recoveryCount.talent >= 2 && (
                           <div className="flex justify-center items-center mt-6">
                             <button
                               onClick={() => {
-                                setWarningsShown(prev => ({ ...prev, talent: true }));
+                                setWarningsShown((prev) => ({
+                                  ...prev,
+                                  talent: true,
+                                }));
                                 setIsTalentDrop(false);
                                 setGameState("HUB");
                               }}
@@ -2263,7 +2447,12 @@ export default function App() {
                               <button
                                 key={loc.id}
                                 onClick={() => {
-                                  console.log("Button clicked:", loc.id, "isDisabled:", isDisabled);
+                                  console.log(
+                                    "Button clicked:",
+                                    loc.id,
+                                    "isDisabled:",
+                                    isDisabled,
+                                  );
                                   if (isDisabled) {
                                     setShowWarning(tooltipMsg);
                                     setTimeout(
@@ -2281,7 +2470,12 @@ export default function App() {
                               >
                                 {loc.imageUrl && (
                                   <div className="absolute inset-0 z-0">
-                                    <img src={loc.imageUrl} alt={loc.name} className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                    <img
+                                      src={loc.imageUrl}
+                                      alt={loc.name}
+                                      className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                                      loading="lazy"
+                                    />
                                   </div>
                                 )}
                                 {!isDisabled && (
@@ -2311,7 +2505,11 @@ export default function App() {
                                 {loc.id === "room" && fanGifts.length > 0 && (
                                   <div className="absolute top-2 right-2 flex flex-wrap gap-1 max-w-[80%] justify-end z-20 pointer-events-none">
                                     {fanGifts.slice(-6).map((gift, idx) => (
-                                      <div key={idx} className="bg-black/60 rounded-full p-1 text-sm shadow-md" title={gift.name}>
+                                      <div
+                                        key={idx}
+                                        className="bg-black/60 rounded-full p-1 text-sm shadow-md"
+                                        title={gift.name}
+                                      >
                                         {gift.icon}
                                       </div>
                                     ))}
@@ -2364,90 +2562,158 @@ export default function App() {
                     className="flex flex-col h-full bg-slate-900/40 p-6 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden"
                   >
                     <div className="absolute inset-0 opacity-20 pointer-events-none">
-                       {selectedLocation === "room" && <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80" alt="room" className="w-full h-full object-cover" />}
-                       {selectedLocation === "vocal" && <img src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80" alt="vocal" className="w-full h-full object-cover" />}
-                       {selectedLocation === "dance" && <img src="https://images.unsplash.com/photo-1547153760-18fc86324498?w=800&q=80" alt="dance" className="w-full h-full object-cover" />}
-                       {selectedLocation === "interview" && <img src="https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=800&q=80" alt="interview" className="w-full h-full object-cover" />}
+                      {selectedLocation === "room" && (
+                        <img
+                          src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80"
+                          alt="room"
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                      {selectedLocation === "vocal" && (
+                        <img
+                          src="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=800&q=80"
+                          alt="vocal"
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                      {selectedLocation === "dance" && (
+                        <img
+                          src="https://images.unsplash.com/photo-1547153760-18fc86324498?w=800&q=80"
+                          alt="dance"
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                      {selectedLocation === "interview" && (
+                        <img
+                          src="https://images.unsplash.com/photo-1626544827763-d516dce335e2?w=800&q=80"
+                          alt="interview"
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
                     </div>
-                    
+
                     <div className="relative z-10 flex flex-col items-center justify-center h-full gap-8">
-                       <h2 className="text-3xl md:text-5xl font-bold text-white tracking-widest uppercase drop-shadow-md">
-                         {LOCATIONS.find(l => l.id === selectedLocation)?.name}
-                       </h2>
-                       
-                       <div className="bg-slate-950/60 p-6 md:p-8 rounded-3xl backdrop-blur-md border border-white/10 w-full max-w-2xl text-center shadow-xl">
-                         {selectedLocation === "room" && (
-                           <div className="flex flex-col items-center gap-6">
-                              <p className="text-slate-300 italic text-sm md:text-base">Kendi alanındasın. Dinlenebilir, yeteneğini veya psikolojini toparlayabilirsin.</p>
-                              {fanGifts.length > 0 && (
-                                <div className="flex flex-col gap-2 bg-pink-900/10 p-4 rounded-2xl w-full">
-                                  <span className="text-pink-300 font-bold text-xs uppercase">Hayranlarından Gelenler</span>
-                                  <div className="flex justify-center gap-4 text-2xl flex-wrap">
-                                    {fanGifts.map((gift, i) => (
-                                      <span key={i} title={gift.name}>{gift.icon}</span>
-                                    ))}
-                                  </div>
+                      <h2 className="text-3xl md:text-5xl font-bold text-white tracking-widest uppercase drop-shadow-md">
+                        {LOCATIONS.find((l) => l.id === selectedLocation)?.name}
+                      </h2>
+
+                      <div className="bg-slate-950/60 p-6 md:p-8 rounded-3xl backdrop-blur-md border border-white/10 w-full max-w-2xl text-center shadow-xl">
+                        {selectedLocation === "room" && (
+                          <div className="flex flex-col items-center gap-6">
+                            <p className="text-slate-300 italic text-sm md:text-base">
+                              Kendi alanındasın. Dinlenebilir, yeteneğini veya
+                              psikolojini toparlayabilirsin.
+                            </p>
+                            {fanGifts.length > 0 && (
+                              <div className="flex flex-col gap-2 bg-pink-900/10 p-4 rounded-2xl w-full">
+                                <span className="text-pink-300 font-bold text-xs uppercase">
+                                  Hayranlarından Gelenler
+                                </span>
+                                <div className="flex justify-center gap-4 text-2xl flex-wrap">
+                                  {fanGifts.map((gift, i) => (
+                                    <span key={i} title={gift.name}>
+                                      {gift.icon}
+                                    </span>
+                                  ))}
                                 </div>
-                              )}
-                              <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
-                                <button onClick={() => triggerLocationEvent('room')} className="flex-1 min-w-[200px] py-4 px-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-purple-900/50 flex items-center justify-center gap-2">
-                                  <Activity size={20} />
-                                  Etkinlik Yap / Odayı Topla
-                                </button>
                               </div>
-                           </div>
-                         )}
+                            )}
+                            <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                              <button
+                                onClick={() => triggerLocationEvent("room")}
+                                className="flex-1 min-w-[200px] py-4 px-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-purple-900/50 flex items-center justify-center gap-2"
+                              >
+                                <Activity size={20} />
+                                Etkinlik Yap / Odayı Topla
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
-                         {selectedLocation === "vocal" && (
-                           <div className="flex flex-col items-center gap-6">
-                             <p className="text-slate-300 italic text-sm md:text-base">Vokal stüdyosundasın. Ses tellerin ısınsın!</p>
-                             <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
-                               <button onClick={() => setGameState('MINIGAME_VOCAL')} className="flex-1 min-w-[200px] py-4 px-6 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-cyan-900/50 flex items-center justify-center gap-2">
-                                 <Zap size={20} />
-                                 Başarı & Yetenek Çalıştır
-                               </button>
-                               <button onClick={() => triggerLocationEvent('vocal')} className="flex-1 min-w-[200px] py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2">
-                                 <Mic size={20} />
-                                 Eğitmenin Sorusunu Cevapla
-                               </button>
-                             </div>
-                           </div>
-                         )}
+                        {selectedLocation === "vocal" && (
+                          <div className="flex flex-col items-center gap-6">
+                            <p className="text-slate-300 italic text-sm md:text-base">
+                              Vokal stüdyosundasın. Ses tellerin ısınsın!
+                            </p>
+                            <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                              <button
+                                onClick={() => setGameState("MINIGAME_VOCAL")}
+                                className="flex-1 min-w-[200px] py-4 px-6 bg-cyan-600 hover:bg-cyan-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-cyan-900/50 flex items-center justify-center gap-2"
+                              >
+                                <Zap size={20} />
+                                Başarı & Yetenek Çalıştır
+                              </button>
+                              <button
+                                onClick={() => triggerLocationEvent("vocal")}
+                                className="flex-1 min-w-[200px] py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2"
+                              >
+                                <Mic size={20} />
+                                Eğitmenin Sorusunu Cevapla
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
-                         {selectedLocation === "dance" && (
-                           <div className="flex flex-col items-center gap-6">
-                             <p className="text-slate-300 italic text-sm md:text-base">Dans stüdyosundasın. Aynaların önünde koreografini çalış.</p>
-                             <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
-                               <button onClick={() => setGameState('MINIGAME_DANCE')} className="flex-1 min-w-[200px] py-4 px-6 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-rose-900/50 flex items-center justify-center gap-2">
-                                 <Zap size={20} />
-                                 Başarı & Yetenek Çalıştır
-                               </button>
-                               <button onClick={() => triggerLocationEvent('dance')} className="flex-1 min-w-[200px] py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2">
-                                 <Activity size={20} />
-                                 Eğitmenin Sorusunu Cevapla
-                               </button>
-                             </div>
-                           </div>
-                         )}
+                        {selectedLocation === "dance" && (
+                          <div className="flex flex-col items-center gap-6">
+                            <p className="text-slate-300 italic text-sm md:text-base">
+                              Dans stüdyosundasın. Aynaların önünde koreografini
+                              çalış.
+                            </p>
+                            <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                              <button
+                                onClick={() => setGameState("MINIGAME_DANCE")}
+                                className="flex-1 min-w-[200px] py-4 px-6 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-rose-900/50 flex items-center justify-center gap-2"
+                              >
+                                <Zap size={20} />
+                                Başarı & Yetenek Çalıştır
+                              </button>
+                              <button
+                                onClick={() => triggerLocationEvent("dance")}
+                                className="flex-1 min-w-[200px] py-4 px-6 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2"
+                              >
+                                <Activity size={20} />
+                                Eğitmenin Sorusunu Cevapla
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
-                         {selectedLocation === "interview" && (
-                           <div className="flex flex-col items-center gap-6">
-                             <p className="text-slate-300 italic text-sm md:text-base">Kamera önündesin. Tüm gözler senin üzerinde!</p>
-                             <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
-                               <button onClick={() => triggerLocationEvent('interview')} className="flex-1 min-w-[200px] py-4 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-amber-900/50 flex items-center justify-center gap-2">
-                                 <Camera size={20} />
-                                 Kayıt Başlasın (Mülakat)
-                               </button>
-                             </div>
-                           </div>
-                         )}
+                        {selectedLocation === "interview" && (
+                          <div className="flex flex-col items-center gap-6">
+                            <p className="text-slate-300 italic text-sm md:text-base">
+                              Kamera önündesin. Tüm gözler senin üzerinde!
+                            </p>
+                            <div className="flex gap-4 flex-wrap justify-center w-full mt-4">
+                              <button
+                                onClick={() =>
+                                  triggerLocationEvent("interview")
+                                }
+                                className="flex-1 min-w-[200px] py-4 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-amber-900/50 flex items-center justify-center gap-2"
+                              >
+                                <Camera size={20} />
+                                Kayıt Başlasın (Mülakat)
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
-                         <div className="mt-8 border-t border-white/10 pt-6">
-                           <button onClick={() => { setGameState("HUB"); setSelectedLocation(null); }} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600 hover:scale-105 active:scale-95">
-                             Lobiye Geri Dön
-                           </button>
-                         </div>
-                       </div>
+                        <div className="mt-8 border-t border-white/10 pt-6">
+                          <button
+                            onClick={() => {
+                              setGameState("HUB");
+                              setSelectedLocation(null);
+                            }}
+                            className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-full font-semibold transition-all border border-slate-600 hover:scale-105 active:scale-95"
+                          >
+                            Lobiye Geri Dön
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 )}
@@ -2461,17 +2727,26 @@ export default function App() {
                   >
                     <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
                     <div className="relative z-10 w-full max-w-md">
-                      <VocalMinigame onComplete={(success) => {
-                        if (success) {
-                          applyStatChanges({ success: 10, talent: 15 });
-                          setEventMessage("Vokal antrenmanı harikaydı! Sesin günden güne güzelleşiyor.");
-                        } else {
-                          applyStatChanges({ health: -10, talent: -5 });
-                          setEventMessage("Vokal çalışırken boğazını zorladın. Biraz detone oldun.");
-                        }
-                        setTasksCompletedInLevel((prev) => Math.min(4, prev + 1));
-                        setGameState("RESULT");
-                      }} />
+                      <VocalMinigame
+                        onComplete={(success) => {
+                          if (success) {
+                            applyStatChanges({ success: 10, talent: 15 });
+                            setEventMessage(
+                              "Vokal antrenmanı harikaydı! Sesin günden güne güzelleşiyor.",
+                            );
+                          } else {
+                            applyStatChanges({ health: -10, talent: -5 });
+                            setEventMessage(
+                              "Vokal çalışırken boğazını zorladın. Biraz detone oldun.",
+                            );
+                          }
+                          setTasksCompletedInLevel((prev) =>
+                            Math.min(4, prev + 1),
+                          );
+                          setVocalMinigameCount((prev) => prev + 1);
+                          setGameState("RESULT");
+                        }}
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -2485,17 +2760,26 @@ export default function App() {
                   >
                     <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
                     <div className="relative z-10 w-full max-w-md">
-                      <DanceMinigame onComplete={(success) => {
-                        if (success) {
-                          applyStatChanges({ success: 10, talent: 15 });
-                          setEventMessage("Harika bir koreografi ezberi! Seyirciler sahnede büyülenecek.");
-                        } else {
-                          applyStatChanges({ health: -10, talent: -5 });
-                          setEventMessage("Ayakların birbirine dolandı! Koreografi üzerinde daha çok çalışmalısın.");
-                        }
-                        setTasksCompletedInLevel((prev) => Math.min(4, prev + 1));
-                        setGameState("RESULT");
-                      }} />
+                      <DanceMinigame
+                        onComplete={(success) => {
+                          if (success) {
+                            applyStatChanges({ success: 10, talent: 15 });
+                            setEventMessage(
+                              "Harika bir koreografi ezberi! Seyirciler sahnede büyülenecek.",
+                            );
+                          } else {
+                            applyStatChanges({ health: -10, talent: -5 });
+                            setEventMessage(
+                              "Ayakların birbirine dolandı! Koreografi üzerinde daha çok çalışmalısın.",
+                            );
+                          }
+                          setTasksCompletedInLevel((prev) =>
+                            Math.min(4, prev + 1),
+                          );
+                          setDanceMinigameCount((prev) => prev + 1);
+                          setGameState("RESULT");
+                        }}
+                      />
                     </div>
                   </motion.div>
                 )}
@@ -2723,15 +3007,21 @@ export default function App() {
                               "
                             </span>
                             <div className="flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 mt-6 relative z-10 font-sans not-italic uppercase tracking-widest">
-                               {currentQuote.author && (
-                                 <span className="text-xs text-indigo-400 font-bold">— {currentQuote.author}</span>
-                               )}
-                               {currentQuote.author && currentQuote.book && (
-                                 <span className="text-indigo-400/50 hidden sm:inline">|</span>
-                               )}
-                               {currentQuote.book && (
-                                 <span className="text-[10px] text-slate-500 font-semibold">{currentQuote.book}</span>
-                               )}
+                              {currentQuote.author && (
+                                <span className="text-xs text-indigo-400 font-bold">
+                                  — {currentQuote.author}
+                                </span>
+                              )}
+                              {currentQuote.author && currentQuote.book && (
+                                <span className="text-indigo-400/50 hidden sm:inline">
+                                  |
+                                </span>
+                              )}
+                              {currentQuote.book && (
+                                <span className="text-[10px] text-slate-500 font-semibold">
+                                  {currentQuote.book}
+                                </span>
+                              )}
                             </div>
                           </div>
 
@@ -2747,18 +3037,19 @@ export default function App() {
                                       ([key, val]) => [
                                         key,
                                         val && val < 0
-                                          ? Math.floor(val * difficultyMultiplier)
+                                          ? Math.floor(
+                                              val * difficultyMultiplier,
+                                            )
                                           : val,
                                       ],
                                     ),
                                   );
 
-                                  applyStatChanges(
-                                    scaledEffects,
-                                    choice.text,
-                                  );
+                                  applyStatChanges(scaledEffects, choice.text);
                                   setEventMessage(choice.message);
-                                  setTasksCompletedInLevel((prev) => Math.min(4, prev + 1));
+                                  setTasksCompletedInLevel((prev) =>
+                                    Math.min(4, prev + 1),
+                                  );
                                   setGameState("RESULT");
                                 }}
                                 className="w-full text-left p-5 rounded-2xl bg-rose-900/30 hover:bg-rose-600/40 border border-rose-800 hover:border-rose-500 transition-all hover:scale-[1.02] text-rose-100 shadow-sm"
@@ -2816,68 +3107,96 @@ export default function App() {
                     className="absolute inset-0 flex items-center justify-center z-50"
                   >
                     <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-md"></div>
-                    <div className="relative z-10 max-w-2xl w-[95%]">
+                    <div className="relative z-10 max-w-4xl w-[95%] max-h-screen overflow-y-auto py-8">
                       <div className="bg-slate-900/90 p-8 rounded-3xl border border-slate-700/50 text-center shadow-xl">
-                        <h2 className="text-4xl md:text-5xl font-bold text-slate-200 mb-6 font-serif tracking-widest uppercase drop-shadow-md">
-                          <span className="text-rose-500 block text-2xl mb-2">OYUN BİTTİ</span>
-                          {ENDINGS[winEnding as keyof typeof ENDINGS]?.title || "MÜCADELE SONA ERDİ"}
-                        </h2>
-                        <p className="text-xl text-slate-300 mb-4 leading-relaxed">
-                          {ENDINGS[winEnding as keyof typeof ENDINGS]?.desc || "Sosyal medyanın ve müzik sektörünün nefes kesici hızında kayboldun. Ne yazık ki bu zorlu yolculuğa daha fazla dayanamadın..."}
-                        </p>
-                        <div className="text-3xl font-bold text-amber-400 mb-2 font-mono border-y border-white/10 py-4">
-                          Skor: {Math.round(score)}
-                        </div>
-                        <div className="text-xl text-rose-300 font-mono mb-6">
-                          👥 {fanCount.toLocaleString()} takipçi
-                          <div className="text-sm mt-1 text-slate-400 font-sans">
-                            {fanCount > 10000
-                              ? "🏆 Gerçek bir fenomen oldun"
-                              : fanCount < 1000
-                                ? "Kimse seni tanımıyordu..."
-                                : "Ortalama bir iz bıraktın..."}
-                          </div>
+                        <div
+                          id="gameover-card-wrapper"
+                          className="mb-8 rounded-[2rem] overflow-hidden"
+                        >
+                          {character && (
+                            <EndingCard
+                              type="LOSE"
+                              character={character}
+                              playerName={playerName || "Anonim"}
+                              score={score}
+                              fanCount={fanCount}
+                              endingTitle={
+                                ENDINGS[winEnding as keyof typeof ENDINGS]
+                                  ?.title || "MÜCADELE SONA ERDİ"
+                              }
+                              endingDesc={
+                                ENDINGS[winEnding as keyof typeof ENDINGS]?.desc
+                              }
+                              stats={stats}
+                            />
+                          )}
                         </div>
 
-                        <div className="bg-black/30 rounded-2xl p-4 mb-6 max-h-48 overflow-y-auto">
-                          <h3 className="text-xl font-bold mb-4 text-white">
-                            Liderlik Tablosu
-                          </h3>
-                          <div className="flex flex-col gap-2">
-                            {leaderboard.map((u, i) => (
-                              <div
-                                key={i}
-                                className={`flex justify-between items-center p-2 rounded-lg ${u.name === (playerName || "Anonim") ? "bg-purple-900/50 border border-purple-500/50" : "bg-slate-800/50"}`}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <span className="font-bold text-slate-400 w-4">
-                                    {i + 1}.
-                                  </span>
-                                  <span className="font-bold text-slate-100">
-                                    {u.name}
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                  <span className="text-xs text-slate-400 truncate max-w-[100px]">
-                                    {u.status}
-                                  </span>
-                                  <span className="font-mono text-amber-400 font-bold">
-                                    {u.score}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                        <div className="flex justify-center mb-6">
+                          <button
+                            onClick={() => setShowLeaderboard(!showLeaderboard)}
+                            className="px-6 py-2 bg-slate-800 rounded-full text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-2 border border-slate-700 font-semibold"
+                          >
+                            🏆{" "}
+                            {showLeaderboard ? "Tabloyu Gizle" : "Puan Tablosu"}
+                          </button>
                         </div>
+
+                        {showLeaderboard && (
+                          <div className="bg-black/30 rounded-2xl p-4 mb-6 max-h-48 overflow-y-auto">
+                            <h3 className="text-xl font-bold mb-4 text-white">
+                              Liderlik Tablosu
+                            </h3>
+                            <div className="flex flex-col gap-2">
+                              {leaderboard.length > 0 ? (
+                                leaderboard.map((u, i) => (
+                                  <div
+                                    key={i}
+                                    className={`flex justify-between items-center p-2 rounded-lg ${u.name === (playerName || "Anonim") ? "bg-purple-900/50 border border-purple-500/50" : "bg-slate-800/50"}`}
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <span className="font-bold text-slate-400 w-4">
+                                        {i + 1}.
+                                      </span>
+                                      <span className="font-bold text-slate-100">
+                                        {u.name}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                      <span className="text-xs text-slate-400 truncate max-w-[100px]">
+                                        {u.status}
+                                      </span>
+                                      <span className="font-mono text-amber-400 font-bold">
+                                        {u.score}
+                                      </span>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-white/50 text-sm py-4">
+                                  Tablo henüz boş...
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
                           <button
                             onClick={() =>
-                              window.open("https://youtube.com", "_blank")
+                              downloadCardImage("gameover-card-wrapper")
                             }
-                            className="px-6 py-3 bg-red-600 rounded-full font-bold text-white hover:bg-red-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+                            className="px-6 py-3 bg-purple-600 rounded-full font-bold text-white hover:bg-purple-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg shadow-purple-500/20"
                           >
-                            <Youtube size={18} /> Kanala Abone Ol
+                            <Download size={18} /> Görsel Olarak İndir
+                          </button>
+                          <button
+                            onClick={() =>
+                              shareCardImage("gameover-card-wrapper")
+                            }
+                            className="px-6 py-3 bg-blue-600 rounded-full font-bold text-white hover:bg-blue-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg shadow-blue-500/20"
+                          >
+                            <Share2 size={18} /> Sosyal Medyada Paylaş
                           </button>
                           <button
                             onClick={() => window.location.reload()}
@@ -2885,29 +3204,6 @@ export default function App() {
                           >
                             Yeniden Başla
                           </button>
-                          <button
-                            onClick={shareApp}
-                            className="px-6 py-3 rounded-full font-bold text-white bg-blue-600 hover:bg-blue-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
-                          >
-                            <Share2 size={18} /> Arkadaşlarınla Paylaş
-                          </button>
-                        </div>
-
-                        <div className="mt-8 pt-6 border-t border-white/10">
-                          <a
-                            href="https://youtube.com/@muhendisinkitapligi?si=_KaPFhwIrFYRvrlx"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 text-white/60 hover:text-rose-400 transition-colors group"
-                          >
-                            <Youtube
-                              size={20}
-                              className="group-hover:scale-110 transition-transform"
-                            />
-                            <span className="text-sm font-medium">
-                              Bize Destek Ol (YouTube)
-                            </span>
-                          </a>
                         </div>
                       </div>
                     </div>
@@ -2922,80 +3218,101 @@ export default function App() {
                     className="absolute inset-0 flex items-center justify-center z-50"
                   >
                     <div className="absolute inset-0 bg-emerald-950/90 backdrop-blur-md"></div>
-                    <div className="relative z-10 max-w-2xl w-[95%]">
+                    <div className="relative z-10 max-w-4xl w-[95%] max-h-screen overflow-y-auto py-8">
                       <div className="bg-emerald-900/90 p-8 rounded-3xl border border-emerald-700/50 text-center shadow-xl">
-                        <h2 className="text-4xl md:text-5xl font-bold text-emerald-100 mb-6 font-serif tracking-widest uppercase drop-shadow-md">
-                          <span className="text-emerald-400 block text-2xl mb-2">KAZANDIN</span>
-                          {ENDINGS[winEnding as keyof typeof ENDINGS]?.title || "HİKAYENİN SONU"}
-                        </h2>
-                        <p className="text-xl text-emerald-200 mb-4 leading-relaxed">
-                          {ENDINGS[winEnding as keyof typeof ENDINGS]?.desc}
-                        </p>
-                        <div className="text-3xl font-bold text-yellow-400 mb-2 font-mono border-y border-emerald-700/50 py-4">
-                          Skor: {Math.round(score)}
-                        </div>
-                        <div className="text-xl text-rose-200 font-mono mb-6">
-                          👥 {fanCount.toLocaleString()} takipçi
-                          <div className="text-sm mt-1 text-emerald-200/70 font-sans">
-                            {fanCount > 10000
-                              ? "🏆 Gerçek bir fenomen oldun"
-                              : fanCount < 1000
-                                ? "Kimse seni tanımıyordu ama başardın..."
-                                : "Takipçilerin seni çok seviyor!"}
-                          </div>
+                        <div
+                          id="win-card-wrapper"
+                          className="mb-8 rounded-[2rem] overflow-hidden"
+                        >
+                          {character && (
+                            <EndingCard
+                              type="WIN"
+                              character={character}
+                              playerName={playerName || "Anonim"}
+                              score={score}
+                              fanCount={fanCount}
+                              endingTitle={
+                                ENDINGS[winEnding as keyof typeof ENDINGS]
+                                  ?.title || "HİKAYENİN SONU"
+                              }
+                              endingDesc={
+                                ENDINGS[winEnding as keyof typeof ENDINGS]?.desc
+                              }
+                              stats={finalStats || stats}
+                              leaderboard={leaderboard}
+                            />
+                          )}
                         </div>
 
-                        <div className="bg-black/30 rounded-2xl p-4 mb-6 max-h-48 overflow-y-auto border border-emerald-900/30">
-                          <h3 className="text-xl font-bold mb-4 text-white">
-                            Liderlik Tablosu
-                          </h3>
-                          <div className="flex flex-col gap-2">
-                            {leaderboard.map((u, i) => (
-                              <div
-                                key={i}
-                                className={`flex justify-between items-center p-2 rounded-lg ${u.name === (playerName || "Anonim") ? "bg-purple-900/50 border border-purple-500/50" : "bg-emerald-950/50"}`}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <span className="font-bold text-emerald-600/50 w-4">
-                                    {i + 1}.
-                                  </span>
-                                  <span className="font-bold text-emerald-100">
-                                    {u.name}
-                                  </span>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                  <span className="text-xs text-emerald-400 truncate max-w-[100px]">
-                                    {u.status}
-                                  </span>
-                                  <span className="font-mono text-yellow-400 font-bold">
-                                    {u.score}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
+                        <div className="flex justify-center mb-6">
+                          <button
+                            onClick={() => setShowLeaderboard(!showLeaderboard)}
+                            className="px-6 py-2 bg-emerald-800/80 rounded-full text-emerald-100 hover:text-white hover:bg-emerald-700 transition-colors flex items-center gap-2 border border-emerald-600 font-semibold"
+                          >
+                            🏆{" "}
+                            {showLeaderboard ? "Tabloyu Gizle" : "Puan Tablosu"}
+                          </button>
                         </div>
+
+                        {showLeaderboard && (
+                          <div className="bg-black/30 rounded-2xl p-4 mb-6 max-h-48 overflow-y-auto border border-emerald-900/30">
+                            <h3 className="text-xl font-bold mb-4 text-white">
+                              Liderlik Tablosu
+                            </h3>
+                            <div className="flex flex-col gap-2">
+                              {leaderboard.length > 0 ? (
+                                leaderboard.map((u, i) => (
+                                  <div
+                                    key={i}
+                                    className={`flex justify-between items-center p-2 rounded-lg ${u.name === (playerName || "Anonim") ? "bg-purple-900/50 border border-purple-500/50" : "bg-emerald-950/50"}`}
+                                  >
+                                    <div className="flex items-center gap-3">
+                                      <span className="font-bold text-emerald-600/50 w-4">
+                                        {i + 1}.
+                                      </span>
+                                      <span className="font-bold text-emerald-100">
+                                        {u.name}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center gap-4">
+                                      <span className="text-xs text-emerald-400 truncate max-w-[100px]">
+                                        {u.status}
+                                      </span>
+                                      <span className="font-mono text-yellow-400 font-bold">
+                                        {u.score}
+                                      </span>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-white/50 text-sm py-4">
+                                  Tablo henüz boş...
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center flex-wrap">
                           <button
                             onClick={() =>
-                              window.open("https://youtube.com", "_blank")
+                              downloadCardImage("win-card-wrapper")
                             }
-                            className="px-6 py-3 bg-red-600 rounded-full font-bold text-white hover:bg-red-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
+                            className="px-6 py-3 bg-purple-600 rounded-full font-bold text-white hover:bg-purple-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg shadow-purple-500/20"
                           >
-                            <Youtube size={18} /> Kanala Abone Ol
+                            <Download size={18} /> Görsel Olarak İndir
+                          </button>
+                          <button
+                            onClick={() => shareCardImage("win-card-wrapper")}
+                            className="px-6 py-3 bg-blue-600 rounded-full font-bold text-white hover:bg-blue-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto shadow-lg shadow-blue-500/20"
+                          >
+                            <Share2 size={18} /> Sosyal Medyada Paylaş
                           </button>
                           <button
                             onClick={() => window.location.reload()}
                             className="px-8 py-3 bg-emerald-700 rounded-full font-bold text-white hover:bg-emerald-600 transition-colors w-full sm:w-auto"
                           >
                             Yeniden Başla
-                          </button>
-                          <button
-                            onClick={shareApp}
-                            className="px-6 py-3 rounded-full font-bold text-white bg-blue-600 hover:bg-blue-500 transition-colors flex items-center justify-center gap-2 w-full sm:w-auto"
-                          >
-                            <Share2 size={18} /> Arkadaşlarınla Paylaş
                           </button>
                         </div>
 
@@ -3046,23 +3363,53 @@ export default function App() {
 
                       <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-20">
                         <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 p-4 rounded-3xl flex flex-col items-center justify-center text-center shadow-lg mb-4">
-                          <p className="text-sm font-semibold text-indigo-200 mb-3">Hayranlarından posta kutunda yeni bir mektup olabilir!</p>
+                          <p className="text-sm font-semibold text-indigo-200 mb-3">
+                            Hayranlarından posta kutunda yeni bir mektup
+                            olabilir!
+                          </p>
                           <button
                             onClick={async () => {
                               setIsGeneratingLetter(true);
                               try {
-                                const response = await fetch('/api/generate-fan-letter', {
-                                  method: 'POST',
-                                  headers: { 'Content-Type': 'application/json' },
-                                  body: JSON.stringify({ characterName: character?.name, trait: character?.trait, level })
-                                });
+                                const response = await fetch(
+                                  "/api/generate-fan-letter",
+                                  {
+                                    method: "POST",
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                      characterName: character?.name,
+                                      trait: character?.trait,
+                                      level,
+                                    }),
+                                  },
+                                );
                                 if (response.ok) {
-                                  const contentType = response.headers.get("content-type");
-                                  if (contentType && contentType.includes("application/json")) {
+                                  const contentType =
+                                    response.headers.get("content-type");
+                                  if (
+                                    contentType &&
+                                    contentType.includes("application/json")
+                                  ) {
                                     const data = await response.json();
-                                    setLetters(prev => [{ text: data.letter, user: "Anonim Hayran" }, ...prev]);
-                                    setFanGifts(prev => [...prev, { name: data.giftName, icon: data.giftEmoji }]);
-                                    alert(`Yeni bir hediye aldın: ${data.giftEmoji} ${data.giftName}\nOdadan görebilirsin!`);
+                                    setLetters((prev) => [
+                                      {
+                                        text: data.letter,
+                                        user: "Anonim Hayran",
+                                      },
+                                      ...prev,
+                                    ]);
+                                    setFanGifts((prev) => [
+                                      ...prev,
+                                      {
+                                        name: data.giftName,
+                                        icon: data.giftEmoji,
+                                      },
+                                    ]);
+                                    alert(
+                                      `Yeni bir hediye aldın: ${data.giftEmoji} ${data.giftName}\nOdadan görebilirsin!`,
+                                    );
                                   }
                                 }
                               } catch (err) {
@@ -3074,13 +3421,19 @@ export default function App() {
                             disabled={isGeneratingLetter}
                             className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-full text-sm transition-all shadow-md active:scale-95 disabled:opacity-50"
                           >
-                            {isGeneratingLetter ? "Mektup Açılıyor..." : "💌 Mektubu Oku (AI)"}
+                            {isGeneratingLetter
+                              ? "Mektup Açılıyor..."
+                              : "💌 Mektubu Oku (AI)"}
                           </button>
-                          
+
                           {letters.length > 0 && (
                             <div className="mt-4 p-3 bg-white/5 rounded-2xl text-left border border-white/5 w-full">
-                              <p className="text-xs text-indigo-300 font-bold mb-1">Son Gelen Mektup:</p>
-                              <p className="text-sm text-slate-300 italic">" {letters[0].text} "</p>
+                              <p className="text-xs text-indigo-300 font-bold mb-1">
+                                Son Gelen Mektup:
+                              </p>
+                              <p className="text-sm text-slate-300 italic">
+                                " {letters[0].text} "
+                              </p>
                             </div>
                           )}
                         </div>
@@ -3121,9 +3474,15 @@ export default function App() {
                                 <div className="mt-3 flex gap-2">
                                   <button
                                     onClick={() => {
-                                        applyStatChanges({ resilience: -5 });
-                                        setFanCountSafe((prev) => prev - 30);
-                                        setSocialComments(prev => prev.map(c => c.id === comment.id ? { ...c, actionTaken: 'blocked' } : c));
+                                      applyStatChanges({ resilience: -5 });
+                                      setFanCountSafe((prev) => prev - 30);
+                                      setSocialComments((prev) =>
+                                        prev.map((c) =>
+                                          c.id === comment.id
+                                            ? { ...c, actionTaken: "blocked" }
+                                            : c,
+                                        ),
+                                      );
                                     }}
                                     className="text-[10px] bg-rose-900 border border-rose-700 text-white px-2 py-1 rounded hover:bg-rose-800"
                                   >
@@ -3131,9 +3490,15 @@ export default function App() {
                                   </button>
                                   <button
                                     onClick={() => {
-                                        applyStatChanges({ success: 5 });
-                                        setFanCountSafe((prev) => prev + 20);
-                                        setSocialComments(prev => prev.map(c => c.id === comment.id ? { ...c, actionTaken: 'calmed' } : c));
+                                      applyStatChanges({ success: 5 });
+                                      setFanCountSafe((prev) => prev + 20);
+                                      setSocialComments((prev) =>
+                                        prev.map((c) =>
+                                          c.id === comment.id
+                                            ? { ...c, actionTaken: "calmed" }
+                                            : c,
+                                        ),
+                                      );
                                     }}
                                     className="text-[10px] bg-sky-900 border border-sky-700 text-white px-2 py-1 rounded hover:bg-sky-800"
                                   >
@@ -3141,10 +3506,12 @@ export default function App() {
                                   </button>
                                 </div>
                               )}
-                              
+
                               {!comment.isPositive && comment.actionTaken && (
                                 <div className="mt-3 text-[10px] font-bold px-2 py-1 rounded bg-slate-800 inline-block text-slate-400 border border-slate-700">
-                                  {comment.actionTaken === 'blocked' ? '🚫 Engellendi' : '✨ Baş Edildi!'}
+                                  {comment.actionTaken === "blocked"
+                                    ? "🚫 Engellendi"
+                                    : "✨ Baş Edildi!"}
                                 </div>
                               )}
 
@@ -3154,17 +3521,23 @@ export default function App() {
                                   className={`cursor-pointer ${comment.liked ? "text-rose-500 fill-rose-500" : "text-white"}`}
                                   onClick={() => toggleLike(comment.id)}
                                 />
-                                <span className="text-xs">{comment.likes || 0}</span>
+                                <span className="text-xs">
+                                  {comment.likes || 0}
+                                </span>
                                 {comment.isPositive && !comment.replied && (
                                   <div className="flex gap-2 ml-4">
                                     <button
-                                      onClick={() => handleReply(comment.id, true)}
+                                      onClick={() =>
+                                        handleReply(comment.id, true)
+                                      }
                                       className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
                                     >
                                       Teşekkürler
                                     </button>
                                     <button
-                                      onClick={() => handleReply(comment.id, true)}
+                                      onClick={() =>
+                                        handleReply(comment.id, true)
+                                      }
                                       className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
                                     >
                                       Sevgiler
@@ -3175,8 +3548,11 @@ export default function App() {
                               {comment.replied && (
                                 <div className="mt-3 p-3 bg-purple-950/40 rounded-xl border border-purple-500/30">
                                   <p className="text-xs text-purple-300 italic">
-                                    <span className="font-bold text-purple-400">{comment.user}: </span>
-                                    {comment.fanReply || "Oha yorumumu beğendi! Seni çok seviyorum!"}
+                                    <span className="font-bold text-purple-400">
+                                      {comment.user}:{" "}
+                                    </span>
+                                    {comment.fanReply ||
+                                      "Oha yorumumu beğendi! Seni çok seviyorum!"}
                                   </p>
                                 </div>
                               )}
@@ -3201,19 +3577,29 @@ export default function App() {
                     </div>
                   </motion.div>
                 )}
-                
-                {gameState === "CINEMATIC" && currentCinematic && postCinematicCallback && (
-                  <Suspense fallback={<div className="absolute inset-0 bg-black z-50 flex items-center justify-center"><div className="animate-spin text-white">Yükleniyor...</div></div>}>
-                    <CinematicPlayer 
-                      type={currentCinematic} 
-                      onComplete={() => {
-                        postCinematicCallback();
-                        setPostCinematicCallback(null);
-                        setCurrentCinematic(null);
-                      }} 
-                    />
-                  </Suspense>
-                )}
+
+                {gameState === "CINEMATIC" &&
+                  currentCinematic &&
+                  postCinematicCallback && (
+                    <Suspense
+                      fallback={
+                        <div className="absolute inset-0 bg-black z-50 flex items-center justify-center">
+                          <div className="animate-spin text-white">
+                            Yükleniyor...
+                          </div>
+                        </div>
+                      }
+                    >
+                      <CinematicPlayer
+                        type={currentCinematic}
+                        onComplete={() => {
+                          postCinematicCallback();
+                          setPostCinematicCallback(null);
+                          setCurrentCinematic(null);
+                        }}
+                      />
+                    </Suspense>
+                  )}
               </AnimatePresence>
             </div>
           </div>
@@ -3343,10 +3729,10 @@ function InteractiveTraitCard({
           <ChevronLeft size={18} />
         </button>
         <div
-          className="flex-1 flex justify-center items-center min-h-[2.5rem] px-1"
+          className="flex-1 flex justify-center items-center px-0.5"
           title={value}
         >
-          <span className="text-slate-100 font-bold text-[10px] sm:text-xs md:text-sm text-center leading-snug line-clamp-2 md:line-clamp-1">
+          <span className="text-slate-100 font-bold text-[11px] sm:text-xs md:text-sm text-center leading-tight">
             {value}
           </span>
         </div>

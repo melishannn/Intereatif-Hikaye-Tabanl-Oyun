@@ -1,3 +1,3 @@
-import { GameEvent } from '../../types';
+import { GameEvent } from "../../types";
 
 export const EVENTS: GameEvent[] = [];

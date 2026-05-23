@@ -1,4 +1,4 @@
-export type CinematicType = 
+export type CinematicType =
   | "LEVEL_2"
   | "LEVEL_3"
   | "LEVEL_4"

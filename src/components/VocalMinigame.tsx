@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Mic, Check, X, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 
-export function VocalMinigame({ 
-  onComplete 
-}: { 
-  onComplete: (success: boolean) => void 
+export function VocalMinigame({
+  onComplete,
+}: {
+  onComplete: (success: boolean) => void;
 }) {
   const [position, setPosition] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -17,7 +17,7 @@ export function VocalMinigame({
   useEffect(() => {
     if (isDone) return;
     const interval = setInterval(() => {
-      setPosition(prev => {
+      setPosition((prev) => {
         let next = prev + direction * 5;
         if (next >= 100) {
           next = 100;
@@ -35,14 +35,14 @@ export function VocalMinigame({
   const handleSing = () => {
     if (isDone) return;
     if (position >= 40 && position <= 60) {
-      setHits(h => h + 1);
+      setHits((h) => h + 1);
       setShowMessage("hit");
       if (hits + 1 >= 3) {
         setIsDone(true);
         setTimeout(() => onComplete(true), 1500);
       }
     } else {
-      setMisses(m => m + 1);
+      setMisses((m) => m + 1);
       setShowMessage("miss");
       if (misses + 1 >= 2) {
         setIsDone(true);
@@ -58,11 +58,14 @@ export function VocalMinigame({
         <Mic size={32} />
       </div>
       <h3 className="text-2xl font-bold text-white mb-2">Vokal Antrenmanı</h3>
-      <p className="text-pink-200/70 mb-8 text-sm">Sesin yeşil alana geldiğinde "Söyle" butonuna bas. 3 kere tutturman lazım!</p>
+      <p className="text-pink-200/70 mb-8 text-sm">
+        Sesin yeşil alana geldiğinde "Söyle" butonuna bas. 3 kere tutturman
+        lazım!
+      </p>
 
       <div className="relative w-full h-12 bg-slate-800 rounded-full overflow-hidden mb-8 border border-white/10">
         <div className="absolute left-[40%] right-[40%] top-0 bottom-0 bg-emerald-500/30 border-x-2 border-emerald-400"></div>
-        <div 
+        <div
           className="absolute top-1 bottom-1 w-2 bg-white rounded-full shadow-[0_0_10px_white]"
           style={{ left: `calc(${position}% - 4px)` }}
         />
@@ -74,8 +77,16 @@ export function VocalMinigame({
       </div>
 
       <div className="h-8 mb-4">
-        {showMessage === "hit" && <span className="text-emerald-400 font-bold animate-bounce block">Mükemmel Nota! 🎵</span>}
-        {showMessage === "miss" && <span className="text-rose-400 font-bold block">Detone Oldun! ❌</span>}
+        {showMessage === "hit" && (
+          <span className="text-emerald-400 font-bold animate-bounce block">
+            Mükemmel Nota! 🎵
+          </span>
+        )}
+        {showMessage === "miss" && (
+          <span className="text-rose-400 font-bold block">
+            Detone Oldun! ❌
+          </span>
+        )}
       </div>
 
       <button

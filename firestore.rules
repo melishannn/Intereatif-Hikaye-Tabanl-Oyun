@@ -24,7 +24,7 @@ service cloud.firestore {
 
     match /leaderboard/{entryId} {
       allow get: if true;
-      allow list: if resource.data.score >= 0;
+      allow list: if true;
 
       allow create: if isValidId(entryId) &&
                     isValidLeaderboardEntry(incoming());
