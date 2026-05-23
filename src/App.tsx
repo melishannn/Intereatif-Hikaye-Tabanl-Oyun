@@ -1417,14 +1417,14 @@ export default function App() {
     setRecoveryCount((prev) => ({ ...prev, health: prev.health + 1 }));
     setAvoidedReset(false);
     applyStatChanges({
-      health: 100,
-      resilience: 20,
+      health: 0,
+      resilience: 40,
       success: -25,
       talent: -5,
     });
     setFanCountSafe((prev) => Math.max(0, prev - 2000));
     setEventMessage(
-      "Aşırı yorgunluktan dolayı hastaneye kaldırıldın. Serumlar ve yoğun tedaviyle sağlığın tamamen doldu! Ancak haftalarca sahneden uzak kaldığın için sözleşmelerin iptal edildi ve başarı puanından sert bir düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'",
+      "Aşırı yorgunluktan dolayı hastaneye kaldırıldın. Yoğun tedaviyle psikolojin %40 iyileşti! Ancak haftalarca sahneden uzak kaldığın için sözleşmelerin iptal edildi ve başarı puanından sert bir düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'",
     );
     setIsResting(false);
     setGameState("RESULT");
@@ -1673,26 +1673,6 @@ export default function App() {
   return (
     <>
       <div className="fixed top-6 right-6 z-[110] flex gap-3">
-        <button
-          onClick={() =>
-            endGame(true, "Test Win", scoreRef.current, "WIN_SOLO")
-          }
-          className="px-4 py-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-purple-500/50 text-purple-400 font-bold hover:bg-slate-800 transition-all shadow-lg flex items-center gap-2"
-          title="Son Bölüme Git (Deneme)"
-        >
-          <Sparkles size={20} />
-          <span>Win Sonu Gör</span>
-        </button>
-        <button
-          onClick={() =>
-            endGame(false, "Test Lose", scoreRef.current, "LOSER_TALENT")
-          }
-          className="px-4 py-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-rose-500/50 text-rose-400 font-bold hover:bg-slate-800 transition-all shadow-lg flex items-center gap-2"
-          title="Kaybetme Sonunu Gör (Deneme)"
-        >
-          <AlertCircle size={20} />
-          <span>Lose Sonu Gör</span>
-        </button>
         <button
           onClick={() => setIsVibrationEnabled(!isVibrationEnabled)}
           className="p-3 bg-slate-900/60 backdrop-blur-md rounded-full border border-white/10 text-white hover:bg-slate-800 transition-all shadow-lg"
