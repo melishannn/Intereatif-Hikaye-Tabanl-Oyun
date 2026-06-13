@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useState, useEffect } from "react";
 import { Character } from "../types";
 import { User, Star, Crown, Heart, HeartPulse, Activity } from "lucide-react";
 
@@ -22,7 +22,6 @@ interface EndingCardProps {
   endingTitle: string;
   endingDesc?: string;
   stats: Stats;
-  leaderboard: { name: string; score: number; status: string }[];
 }
 
 export const EndingCard: React.FC<EndingCardProps> = ({
@@ -34,7 +33,6 @@ export const EndingCard: React.FC<EndingCardProps> = ({
   endingTitle,
   endingDesc,
   stats,
-  leaderboard,
 }) => {
   const isWin = type === "WIN";
   const theme = isWin
@@ -242,19 +240,6 @@ export const EndingCard: React.FC<EndingCardProps> = ({
               }
               theme={theme}
             />
-          </div>
-          
-          {/* Full Leaderboard (Hidden on mobile) */}
-          <div className="hidden md:block mt-4 bg-black/30 rounded-xl p-3 max-h-40 overflow-y-auto">
-            <div className="text-[10px] uppercase text-white/50 mb-2">Liderlik Tablosu</div>
-            <div className="flex flex-col gap-1">
-                {leaderboard.map((entry, idx) => (
-                    <div key={idx} className="flex justify-between text-[10px] font-mono border-b border-white/5 pb-1">
-                        <span>{entry.name}</span>
-                        <span className="text-amber-400">{entry.score}</span>
-                    </div>
-                ))}
-            </div>
           </div>
         </div>
       </div>

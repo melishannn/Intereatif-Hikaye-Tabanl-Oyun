@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useRef,
   useCallback,
+  useMemo,
   lazy,
   Suspense,
 } from "react";
@@ -204,6 +205,7 @@ export default function App() {
   const [isLoadingEvent, setIsLoadingEvent] = useState(false);
   const [showWarning, setShowWarning] = useState<string | null>(null);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showDistribution, setShowDistribution] = useState(false);
   const [levelUpMsg, setLevelUpMsg] = useState<string | null>(null);
   const [playerName, setPlayerName] = useState("");
   const [score, setScore] = useState(0);
@@ -228,9 +230,26 @@ export default function App() {
   const [winEnding, setWinEnding] =
     useState<keyof typeof ENDINGS>("GROUP_MEMBER");
   const [finalStats, setFinalStats] = useState<Stats | null>(null);
+
+  const endingDistribution = useMemo(() => {
+    if (!leaderboard.length) return [];
+    const counts: Record<string, number> = {};
+    leaderboard.forEach((u) => {
+      counts[u.status] = (counts[u.status] || 0) + 1;
+    });
+    return Object.entries(counts)
+      .map(([title, count]) => ({
+        title,
+        percent: Math.round((count / leaderboard.length) * 100),
+      }))
+      .sort((a, b) => b.percent - a.percent);
+  }, [leaderboard]);
+
   const [hasInteracted, setHasInteracted] = useState(false);
   const [lynchCount, setLynchCount] = useState(0);
   const [lynchInteractions, setLynchInteractions] = useState(0);
+  const [positiveRepliesCount, setPositiveRepliesCount] = useState(0);
+  const [consecutiveLynchFails, setConsecutiveLynchFails] = useState(0);
   const [vocalMinigameCount, setVocalMinigameCount] = useState(0);
   const [danceMinigameCount, setDanceMinigameCount] = useState(0);
   const [avoidedReset, setAvoidedReset] = useState(true);
@@ -311,6 +330,7 @@ export default function App() {
   };
 
   const handleReply = (id: string, isPositive: boolean) => {
+    if (isPositive) setPositiveRepliesCount((p) => p + 1);
     setFanCountSafe((prev) => prev + (isPositive ? 30 : 10));
     setSocialComments((prev) =>
       prev.map((c) =>
@@ -417,6 +437,10 @@ export default function App() {
       ) {
         cinematicKey = "LOSER_TALENT";
       }
+    }
+
+    if (cinematicKey && character?.gender === "Kadın") {
+      cinematicKey = `${cinematicKey}_F` as CinematicType;
     }
 
     if (cinematicKey) {
@@ -631,25 +655,34 @@ export default function App() {
     );
 
     if (type === "insult") {
-      if (stats.resilience < 20) {
-        applyStatChanges({ resilience: -15, success: -20 });
-        setEventMessage(
-          "Bir yorum bardağı taşıran son damla oldu. Zaten psikolojik olarak tükenmiştin, verdiğin sert tepkiyi basın anında büyüttü.\n\n[KRİTİK HATA!]\nMedya kampanyası seni yok etti ve tüm şirket anlaşmaların iptal edildi.",
+      setConsecutiveLynchFails((prev) => {
+        const next = prev + 1;
+        if (next >= 3 || stats.resilience < 20) {
+          setTimeout(() => {
+            applyStatChanges({ resilience: -15, success: -20 });
+            setEventMessage(
+              "Art arda verdiğin sert tepkiler veya tükenmişlik bardağı taşıran son damla oldu. Medya kampanyası seni yok etti ve tüm şirket anlaşmaların iptal edildi.\n\n[KRİTİK HATA!]"
+            );
+            endGame(false, "SKANDAL KURBANI", scoreRef.current, "SCANDAL_VICTIM");
+          }, 10);
+        } else {
+          applyStatChanges({ resilience: -15, success: -20 });
+          setFanCountSafe((p) => p - 200);
+        }
+        return next;
+      });
+    } else {
+      setConsecutiveLynchFails(0);
+      if (type === "self_compassion") {
+        applyStatChanges({ resilience: 20 });
+        setFanCountSafe(
+          (prev) => prev + Math.floor(stats.resilience / 10) * 50 * level,
         );
-        endGame(false, "SKANDAL KURBANI", scoreRef.current, "SCANDAL_VICTIM");
-        return;
+      } else if (type === "ignore") {
+        setFanCountSafe(
+          (prev) => prev + Math.floor(stats.resilience / 10) * 50 * level,
+        );
       }
-      applyStatChanges({ resilience: -15, success: -20 });
-      setFanCountSafe((prev) => prev - 200);
-    } else if (type === "self_compassion") {
-      applyStatChanges({ resilience: 20 });
-      setFanCountSafe(
-        (prev) => prev + Math.floor(stats.resilience / 10) * 50 * level,
-      );
-    } else if (type === "ignore") {
-      setFanCountSafe(
-        (prev) => prev + Math.floor(stats.resilience / 10) * 50 * level,
-      );
     }
   };
 
@@ -881,12 +914,11 @@ export default function App() {
               where("location", "==", "interview"),
             );
             const snapshot = await getDocs(q);
-            return snapshot.docs.map((d) => d.data() as GameEvent);
+            const dbDocs = snapshot.docs.map((d) => d.data() as GameEvent);
+            if (dbDocs.length > 0) return dbDocs;
           }
-          return [];
         } catch (error) {
           handleFirestoreError(error, OperationType.GET, "events");
-          return [];
         }
       }
 
@@ -1204,7 +1236,7 @@ export default function App() {
         let finalBonus = 0;
 
         if (newSuccess < reqPoints) {
-          if (fanCountRef.current > 30000 && lynchInteractions > 8) {
+          if (fanCountRef.current > 30000 && (lynchInteractions > 8 || positiveRepliesCount > 10)) {
             ending = "FAN_PHENOMENON";
             finalBonus = 1500;
           } else if (newResilience < 40 && newTalent <= 60) {
@@ -1286,9 +1318,9 @@ export default function App() {
         setStageFails({ health: 0, resilience: 0, success: 0, talent: 0 });
 
         let cinematicType: CinematicType | null = null;
-        if (nextLevel === 2) cinematicType = "LEVEL_2";
-        else if (nextLevel === 3) cinematicType = "LEVEL_3";
-        else if (nextLevel === 4) cinematicType = "LEVEL_4";
+        if (nextLevel === 2) cinematicType = character?.gender === "Kadın" ? "LEVEL_2_F" : "LEVEL_2";
+        else if (nextLevel === 3) cinematicType = character?.gender === "Kadın" ? "LEVEL_3_F" : "LEVEL_3";
+        else if (nextLevel === 4) cinematicType = character?.gender === "Kadın" ? "LEVEL_4_F" : "LEVEL_4";
 
         if (cinematicType) {
           playCinematic(cinematicType, () => setGameState("RESULT"));
@@ -1320,9 +1352,9 @@ export default function App() {
         setStageFails({ health: 0, resilience: 0, success: 0, talent: 0 });
 
         let cinematicType: CinematicType | null = null;
-        if (nextLevel === 2) cinematicType = "LEVEL_2";
-        else if (nextLevel === 3) cinematicType = "LEVEL_3";
-        else if (nextLevel === 4) cinematicType = "LEVEL_4";
+        if (nextLevel === 2) cinematicType = character?.gender === "Kadın" ? "LEVEL_2_F" : "LEVEL_2";
+        else if (nextLevel === 3) cinematicType = character?.gender === "Kadın" ? "LEVEL_3_F" : "LEVEL_3";
+        else if (nextLevel === 4) cinematicType = character?.gender === "Kadın" ? "LEVEL_4_F" : "LEVEL_4";
 
         if (cinematicType) {
           playCinematic(cinematicType, () => setGameState("RESULT"));
@@ -1334,8 +1366,8 @@ export default function App() {
       const adjustedEffects: Partial<Stats> = { ...effects };
       Object.keys(adjustedEffects).forEach((key) => {
         const val = adjustedEffects[key as keyof Stats];
-        if (val && val < 0) {
-          adjustedEffects[key as keyof Stats] = Math.floor(
+        if (typeof val === "number" && val < 0) {
+          (adjustedEffects as any)[key] = Math.floor(
             val * levelMultiplier,
           );
         }
@@ -1347,7 +1379,7 @@ export default function App() {
       let negativeImpact = 0;
       Object.keys(adjustedEffects).forEach((key) => {
         const val = adjustedEffects[key as keyof Stats];
-        if (val && val < 0) negativeImpact += Math.abs(val);
+        if (typeof val === "number" && val < 0) negativeImpact += Math.abs(val);
       });
 
       const lynchChance = 0.1 + negativeImpact / 100 + level * 0.05;
@@ -1417,14 +1449,14 @@ export default function App() {
     setRecoveryCount((prev) => ({ ...prev, health: prev.health + 1 }));
     setAvoidedReset(false);
     applyStatChanges({
-      health: 0,
-      resilience: 40,
-      success: -25,
-      talent: -5,
+      health: 30,
+      resilience: 0,
+      success: -20,
+      talent: -20,
     });
     setFanCountSafe((prev) => Math.max(0, prev - 2000));
     setEventMessage(
-      "Aşırı yorgunluktan dolayı hastaneye kaldırıldın. Yoğun tedaviyle psikolojin %40 iyileşti! Ancak haftalarca sahneden uzak kaldığın için sözleşmelerin iptal edildi ve başarı puanından sert bir düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'",
+      "Aşırı yorgunluktan dolayı biraz dinlenmeye çekildin. Sağlığın %30 toparlandı! Ancak haftalarca sahneden uzak kaldığın için başarı ve yetenek puanından düşüş yaşadın.\n\n💡 Kafaya Takmama Sanatı: 'Bedenin iflas ettiğinde dinlenmeyi seçmezsen, bedenin senin yerine seçer.'",
     );
     setIsResting(false);
     setGameState("RESULT");
@@ -1433,14 +1465,14 @@ export default function App() {
   const takeMentalBreak = () => {
     setRecoveryCount((prev) => ({ ...prev, resilience: prev.resilience + 1 }));
     applyStatChanges({
-      resilience: 100,
+      resilience: 30,
       health: 20,
       success: -25,
       talent: -5,
     });
     setFanCountSafe((prev) => Math.max(0, prev - 2000));
     setEventMessage(
-      "Ağır bir sinir krizi geçirdin ve mecburi olarak ruhsal inzivaya çekildin. Zihnin tamamen arındı ve psikolojin %100 yenilendi! Ancak bu süreçte dedikodular alıp başını gitti ve markan ciddi zarar gördü.\n\n💡 Kafaya Takmama Sanatı: 'Zihnini susturmak her şeyden önemlidir. Dünyayı kaçırdığını sanırsın ama aslında kendini bulursun.'",
+      "Ağır bir sinir krizi geçirdin ve mecburi olarak ruhsal inzivaya çekildin. Zihnin biraz arındı ve psikolojin %30 yenilendi! Ancak bu süreçte dedikodular alıp başını gitti ve markan ciddi zarar gördü.\n\n💡 Kafaya Takmama Sanatı: 'Zihnini susturmak her şeyden önemlidir. Dünyayı kaçırdığını sanırsın ama aslında kendini bulursun.'",
     );
     setIsMentalBreakdown(false);
     setGameState("RESULT");
@@ -2708,16 +2740,17 @@ export default function App() {
                     <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
                     <div className="relative z-10 w-full max-w-md">
                       <VocalMinigame
+                        level={level}
                         onComplete={(success) => {
                           if (success) {
-                            applyStatChanges({ success: 10, talent: 15 });
+                            applyStatChanges({ success: 10, talent: 15, health: -5, resilience: -5 });
                             setEventMessage(
-                              "Vokal antrenmanı harikaydı! Sesin günden güne güzelleşiyor.",
+                              "Vokal antrenmanı harikaydı! Sesin günden güne güzelleşiyor. Ancak bu çalışma seni yordu.",
                             );
                           } else {
-                            applyStatChanges({ health: -10, talent: -5 });
+                            applyStatChanges({ health: -15, talent: -5, resilience: -10 });
                             setEventMessage(
-                              "Vokal çalışırken boğazını zorladın. Biraz detone oldun.",
+                              "Vokal çalışırken boğazını zorladın. Biraz detone oldun, canın çok sıkkın.",
                             );
                           }
                           setTasksCompletedInLevel((prev) =>
@@ -2741,16 +2774,17 @@ export default function App() {
                     <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
                     <div className="relative z-10 w-full max-w-md">
                       <DanceMinigame
+                        level={level}
                         onComplete={(success) => {
                           if (success) {
-                            applyStatChanges({ success: 10, talent: 15 });
+                            applyStatChanges({ success: 10, talent: 15, health: -10, resilience: -5 });
                             setEventMessage(
-                              "Harika bir koreografi ezberi! Seyirciler sahnede büyülenecek.",
+                              "Harika bir koreografi ezberi! Seyirciler sahnede büyülenecek. Ancak vücudunun her yeri ağrıyor.",
                             );
                           } else {
-                            applyStatChanges({ health: -10, talent: -5 });
+                            applyStatChanges({ health: -20, talent: -5, resilience: -5 });
                             setEventMessage(
-                              "Ayakların birbirine dolandı! Koreografi üzerinde daha çok çalışmalısın.",
+                              "Ayakların birbirine dolandı! Koreografi üzerinde daha çok çalışmalısın. Vücudun zorlandı ve moralin bozuldu.",
                             );
                           }
                           setTasksCompletedInLevel((prev) =>
@@ -3016,7 +3050,7 @@ export default function App() {
                                     Object.entries(choice.effects).map(
                                       ([key, val]) => [
                                         key,
-                                        val && val < 0
+                                        typeof val === "number" && val < 0
                                           ? Math.floor(
                                               val * difficultyMultiplier,
                                             )
@@ -3024,6 +3058,25 @@ export default function App() {
                                       ],
                                     ),
                                   );
+
+                                  const effectSum = Object.values(scaledEffects).reduce((sum, v) => (typeof v === "number" ? sum + v : sum), 0);
+
+                                  if (effectSum < -5) {
+                                    setConsecutiveLynchFails((prev) => {
+                                      const next = prev + 1;
+                                      if (next >= 3) {
+                                        setTimeout(() => {
+                                          setEventMessage(
+                                            "Üst üste verdiğin yanlış cevaplar bardağı taşıran son damla oldu. Medya kampanyası seni yok etti ve tüm şirket anlaşmaların iptal edildi.\n\n[KRİTİK HATA!]"
+                                          );
+                                          endGame(false, "SKANDAL KURBANI", scoreRef.current, "SCANDAL_VICTIM");
+                                        }, 10);
+                                      }
+                                      return next;
+                                    });
+                                  } else {
+                                    setConsecutiveLynchFails(0);
+                                  }
 
                                   applyStatChanges(scaledEffects, choice.text);
                                   setEventMessage(choice.message);
@@ -3112,7 +3165,7 @@ export default function App() {
                           )}
                         </div>
 
-                        <div className="flex justify-center mb-6">
+                        <div className="flex justify-center gap-4 mb-6">
                           <button
                             onClick={() => setShowLeaderboard(!showLeaderboard)}
                             className="px-6 py-2 bg-slate-800 rounded-full text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-2 border border-slate-700 font-semibold"
@@ -3120,7 +3173,44 @@ export default function App() {
                             🏆{" "}
                             {showLeaderboard ? "Tabloyu Gizle" : "Puan Tablosu"}
                           </button>
+                          <button
+                            onClick={() => setShowDistribution(!showDistribution)}
+                            className="px-6 py-2 bg-slate-800 rounded-full text-slate-300 hover:text-white hover:bg-slate-700 transition-colors flex items-center gap-2 border border-slate-700 font-semibold"
+                          >
+                            📊{" "}
+                            {showDistribution ? "Dağılımı Gizle" : "Sonuç Dağılımı"}
+                          </button>
                         </div>
+
+                        {showDistribution && (
+                          <div className="bg-black/30 rounded-2xl p-6 mb-6">
+                            <h3 className="text-xl font-bold mb-6 text-white text-center">
+                              Oyuncuların Sonuç Dağılımı ({leaderboard.length} Oyuncu)
+                            </h3>
+                            <div className="flex flex-col gap-3">
+                              {endingDistribution.length > 0 ? (
+                                endingDistribution.map((dist, i) => (
+                                  <div key={i} className="flex flex-col gap-1">
+                                    <div className="flex justify-between text-xs font-bold text-white/80 uppercase">
+                                      <span className="truncate pr-2">{dist.title}</span>
+                                      <span>{dist.percent}%</span>
+                                    </div>
+                                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                                      <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${dist.percent}%` }}
+                                        transition={{ duration: 1, ease: "easeOut" }}
+                                        className="h-full bg-purple-500 rounded-full"
+                                      />
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-white/50 text-sm py-4">Veri bulunamadı.</div>
+                              )}
+                            </div>
+                          </div>
+                        )}
 
                         {showLeaderboard && (
                           <div className="bg-black/30 rounded-2xl p-4 mb-6 max-h-48 overflow-y-auto">
@@ -3219,12 +3309,11 @@ export default function App() {
                                 ENDINGS[winEnding as keyof typeof ENDINGS]?.desc
                               }
                               stats={finalStats || stats}
-                              leaderboard={leaderboard}
                             />
                           )}
                         </div>
 
-                        <div className="flex justify-center mb-6">
+                        <div className="flex justify-center gap-4 mb-6">
                           <button
                             onClick={() => setShowLeaderboard(!showLeaderboard)}
                             className="px-6 py-2 bg-emerald-800/80 rounded-full text-emerald-100 hover:text-white hover:bg-emerald-700 transition-colors flex items-center gap-2 border border-emerald-600 font-semibold"
@@ -3232,7 +3321,44 @@ export default function App() {
                             🏆{" "}
                             {showLeaderboard ? "Tabloyu Gizle" : "Puan Tablosu"}
                           </button>
+                          <button
+                            onClick={() => setShowDistribution(!showDistribution)}
+                            className="px-6 py-2 bg-emerald-800/80 rounded-full text-emerald-100 hover:text-white hover:bg-emerald-700 transition-colors flex items-center gap-2 border border-emerald-600 font-semibold"
+                          >
+                            📊{" "}
+                            {showDistribution ? "Dağılımı Gizle" : "Sonuç Dağılımı"}
+                          </button>
                         </div>
+
+                        {showDistribution && (
+                          <div className="bg-black/30 rounded-2xl p-6 mb-6 border border-emerald-900/30">
+                            <h3 className="text-xl font-bold mb-6 text-white text-center">
+                              Oyuncuların Sonuç Dağılımı ({leaderboard.length} Oyuncu)
+                            </h3>
+                            <div className="flex flex-col gap-3">
+                              {endingDistribution.length > 0 ? (
+                                endingDistribution.map((dist, i) => (
+                                  <div key={i} className="flex flex-col gap-1">
+                                    <div className="flex justify-between text-xs font-bold text-white/80 uppercase">
+                                      <span className="truncate pr-2">{dist.title}</span>
+                                      <span>{dist.percent}%</span>
+                                    </div>
+                                    <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                                      <motion.div
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${dist.percent}%` }}
+                                        transition={{ duration: 1, ease: "easeOut" }}
+                                        className="h-full bg-emerald-500 rounded-full"
+                                      />
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center text-white/50 text-sm py-4">Veri bulunamadı.</div>
+                              )}
+                            </div>
+                          </div>
+                        )}
 
                         {showLeaderboard && (
                           <div className="bg-black/30 rounded-2xl p-4 mb-6 max-h-48 overflow-y-auto border border-emerald-900/30">
@@ -3342,81 +3468,6 @@ export default function App() {
                       </div>
 
                       <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-20">
-                        <div className="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/20 p-4 rounded-3xl flex flex-col items-center justify-center text-center shadow-lg mb-4">
-                          <p className="text-sm font-semibold text-indigo-200 mb-3">
-                            Hayranlarından posta kutunda yeni bir mektup
-                            olabilir!
-                          </p>
-                          <button
-                            onClick={async () => {
-                              setIsGeneratingLetter(true);
-                              try {
-                                const response = await fetch(
-                                  "/api/generate-fan-letter",
-                                  {
-                                    method: "POST",
-                                    headers: {
-                                      "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                      characterName: character?.name,
-                                      trait: character?.trait,
-                                      level,
-                                    }),
-                                  },
-                                );
-                                if (response.ok) {
-                                  const contentType =
-                                    response.headers.get("content-type");
-                                  if (
-                                    contentType &&
-                                    contentType.includes("application/json")
-                                  ) {
-                                    const data = await response.json();
-                                    setLetters((prev) => [
-                                      {
-                                        text: data.letter,
-                                        user: "Anonim Hayran",
-                                      },
-                                      ...prev,
-                                    ]);
-                                    setFanGifts((prev) => [
-                                      ...prev,
-                                      {
-                                        name: data.giftName,
-                                        icon: data.giftEmoji,
-                                      },
-                                    ]);
-                                    alert(
-                                      `Yeni bir hediye aldın: ${data.giftEmoji} ${data.giftName}\nOdadan görebilirsin!`,
-                                    );
-                                  }
-                                }
-                              } catch (err) {
-                                console.error(err);
-                              } finally {
-                                setIsGeneratingLetter(false);
-                              }
-                            }}
-                            disabled={isGeneratingLetter}
-                            className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded-full text-sm transition-all shadow-md active:scale-95 disabled:opacity-50"
-                          >
-                            {isGeneratingLetter
-                              ? "Mektup Açılıyor..."
-                              : "💌 Mektubu Oku (AI)"}
-                          </button>
-
-                          {letters.length > 0 && (
-                            <div className="mt-4 p-3 bg-white/5 rounded-2xl text-left border border-white/5 w-full">
-                              <p className="text-xs text-indigo-300 font-bold mb-1">
-                                Son Gelen Mektup:
-                              </p>
-                              <p className="text-sm text-slate-300 italic">
-                                " {letters[0].text} "
-                              </p>
-                            </div>
-                          )}
-                        </div>
 
                         {socialComments.length === 0 ? (
                           <div className="text-center text-purple-300/50 mt-10">
