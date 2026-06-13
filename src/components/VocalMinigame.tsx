@@ -10,6 +10,20 @@ const LYNCH_COMMENTS = [
   "Playback yapsaydın keşke...",
 ];
 
+const LEVEL_LYRICS: Record<number, string[]> = {
+  1: ["Hayallerim...", "Çok uzak değil...", "Yolun başındayım...", "Parlamaya hazırım!"],
+  2: ["Ritim kalbimde!", "Dans et bu gece!", "Kimse durduramaz!", "Zirve benim!"],
+  3: ["Yıldızlar altında...", "Sessizce ağladım...", "Ama şimdi buradayım!", "Işığım sönmeyecek..."],
+  4: ["DÜNYA BENİ BEKLİYOR!", "SAHNE BİZİM!", "KORKU YOK!", "SONSUZA KADAR..."]
+};
+
+const LEVEL_COLORS: Record<number, string> = {
+  1: "from-blue-600 to-cyan-500",
+  2: "from-purple-600 to-pink-500",
+  3: "from-amber-500 to-orange-600",
+  4: "from-rose-600 via-purple-600 to-indigo-600"
+};
+
 export function VocalMinigame({
   onComplete,
   level = 1,
@@ -26,37 +40,33 @@ export function VocalMinigame({
   const [targetCenter, setTargetCenter] = useState(50);
   const [distractions, setDistractions] = useState<{ id: number; text: string; x: number; y: number }[]>([]);
 
-  // Mic features
-  const [useMic, setUseMic] = useState(false);
-  const [micVolume, setMicVolume] = useState(0);
-  const requestRef = useRef<number | undefined>(undefined);
-  const analyserRef = useRef<AnalyserNode | null>(null);
-  
   // Game parameters based on level
-  const speed = level === 1 ? 2 : level === 2 ? 5 : level === 3 ? 4 : 7;
-  const targetArea = level === 1 ? 30 : level === 2 ? 20 : level === 3 ? 15 : 15;
-  const requiredHits = level === 1 ? 3 : level === 2 ? 4 : level === 3 ? 4 : 5;
-  const allowedMisses = 2;
+  const speed = level === 1 ? 2 : level === 2 ? 4 : level === 3 ? 5 : 6.5;
+  const targetArea = level === 1 ? 30 : level === 2 ? 22 : level === 3 ? 18 : 16;
+  const requiredHits = level === 1 ? 4 : level === 2 ? 4 : level === 3 ? 4 : 4;
+  const allowedMisses = 3;
+
+  const currentLyric = LEVEL_LYRICS[level]?.[hits] || LEVEL_LYRICS[level]?.[LEVEL_LYRICS[level].length-1];
 
   // Level titles
   const levelTitle = 
     level === 1 ? "Level 1: Ton Tutturma" : 
-    level === 2 ? "Level 2: Artan Tempo" : 
-    level === 3 ? "Level 3: Yüksek Nota Atışı" : 
-    "Level 4: Sahne Baskısı";
+    level === 2 ? "Level 2: Pop Rüzgarı" : 
+    level === 3 ? "Level 3: Duygusal Ballad" : 
+    "Level 4: Epik Final";
 
   const levelDesc = 
-    level === 1 ? "Yeşil alan sabit. İmleç yeşil alana geldiğinde 'Söyle'ye tıkla." :
-    level === 2 ? "Tempo arttı! İmleç hızlandı, odaklan." :
-    level === 3 ? "Rastgele yüksek notalar çıkacak (yeşil alan hareket edecek)! Takip et." :
-    "Linç yorumları ve kaos! Hedefe ulaşmaya çalış!";
+    level === 1 ? "Yeşil alan sabit. Ritmi yakala!" :
+    level === 2 ? "Tempo arttı! Şarkıya odaklan." :
+    level === 3 ? "Nota geçişleri hızlanıyor! Takip et." :
+    "Tüm dünya seni dinliyor! Linçlere rağmen şarkını söyle!";
 
   // For level 3 and 4, target center moves randomly every hit or every 2 seconds
   useEffect(() => {
     if (isDone || level < 3) return;
     const interval = setInterval(() => {
       setTargetCenter(20 + Math.random() * 60);
-    }, level === 4 ? 1500 : 2500);
+    }, level === 4 ? 1200 : 2000);
     return () => clearInterval(interval);
   }, [level, isDone]);
 
@@ -78,46 +88,6 @@ export function VocalMinigame({
   }, [level, isDone]);
 
   useEffect(() => {
-    if (isDone || !useMic) return;
-    const updateVolume = () => {
-      if (analyserRef.current) {
-        const array = new Uint8Array(analyserRef.current.frequencyBinCount);
-        analyserRef.current.getByteFrequencyData(array);
-        let sum = 0;
-        for (let i = 0; i < array.length; i++) {
-          sum += array[i];
-        }
-        const avg = sum / array.length;
-        setMicVolume(avg);
-        
-        if (avg > 50) {
-           handleSing(true);
-        }
-      }
-      requestRef.current = requestAnimationFrame(updateVolume);
-    };
-    requestRef.current = requestAnimationFrame(updateVolume);
-    return () => {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-    };
-  }, [useMic, isDone, position, targetCenter]); 
-
-  const initMic = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const source = audioCtx.createMediaStreamSource(stream);
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      source.connect(analyser);
-      analyserRef.current = analyser;
-      setUseMic(true);
-    } catch(err) {
-      alert("Mikrofon izni alınamadı.");
-    }
-  };
-
-  useEffect(() => {
     if (isDone) return;
     const interval = setInterval(() => {
       setPosition((prev) => {
@@ -137,15 +107,12 @@ export function VocalMinigame({
 
   const lastSingRef = useRef<number>(0);
 
-  const handleSing = (isVoice = false) => {
+  const handleSing = () => {
     if (isDone) return;
     const now = Date.now();
-    if (now - lastSingRef.current < 600) return; 
+    if (now - lastSingRef.current < 400) return; 
     
-    // In L3 and L4 target area moves
     const isHit = position >= targetCenter - targetArea/2 && position <= targetCenter + targetArea/2;
-    
-    if (isVoice && !isHit) return; 
 
     lastSingRef.current = now;
 
@@ -160,7 +127,7 @@ export function VocalMinigame({
         setIsDone(true);
         setTimeout(() => onComplete(true), 1500);
       }
-    } else if (!isVoice) { 
+    } else { 
       const newMisses = misses + 1;
       setMisses(newMisses);
       setShowMessage("miss");
@@ -184,7 +151,8 @@ export function VocalMinigame({
   }, [isDone, position, hits, targetCenter]);
 
   return (
-    <div className="bg-slate-950 p-8 rounded-3xl border border-pink-500/30 text-center w-full max-w-md mx-auto shadow-[0_0_50px_rgba(236,72,153,0.2)] relative overflow-hidden">
+    <div className={`bg-slate-950 p-8 rounded-3xl border border-white/10 text-center w-full max-w-md mx-auto shadow-2xl relative overflow-hidden`}>
+      <div className={`absolute inset-0 bg-gradient-to-b ${LEVEL_COLORS[level]} opacity-10`} />
       
       {/* Distractions for Level 4 */}
       <AnimatePresence>
@@ -194,7 +162,7 @@ export function VocalMinigame({
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute text-xs md:text-sm font-bold text-white bg-rose-600 px-3 py-1 rounded-full shadow-lg z-10 whitespace-nowrap pointer-events-none border border-rose-400"
+            className="absolute text-[10px] font-bold text-white bg-rose-600 px-3 py-1 rounded-full shadow-lg z-10 whitespace-nowrap pointer-events-none border border-rose-400"
             style={{ left: `${d.x}%`, top: `${d.y}%` }}
           >
             {d.text}
@@ -202,76 +170,75 @@ export function VocalMinigame({
         ))}
       </AnimatePresence>
 
-      <div className="w-16 h-16 bg-pink-500/20 text-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 relative z-20">
+      <div className="w-16 h-16 bg-white/5 text-white rounded-full flex items-center justify-center mx-auto mb-4 relative z-20 border border-white/10">
         <Mic size={32} />
       </div>
-      <h3 className="text-xl md:text-2xl font-bold text-white mb-2 relative z-20">{levelTitle}</h3>
-      <p className="text-pink-200/70 mb-8 text-[10px] md:text-xs relative z-20 h-8">
+      <h3 className="text-xl md:text-2xl font-bold text-white mb-1 relative z-20">{levelTitle}</h3>
+      <p className="text-white/60 mb-6 text-[10px] md:text-xs relative z-20 h-4">
         {levelDesc}
       </p>
 
-      <div className="relative w-full h-12 bg-slate-800 rounded-full overflow-hidden mb-8 border border-white/10 z-20">
-        {/* Dynamic target area */}
+      {/* Karaoke Lyrics Screen */}
+      <div className="bg-black/40 border border-white/10 rounded-xl p-4 mb-6 relative z-20 min-h-[60px] flex items-center justify-center overflow-hidden">
+         <AnimatePresence mode="wait">
+            <motion.p
+              key={currentLyric}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              className="text-lg md:text-xl font-bold bg-gradient-to-r from-white to-white/70 bg-clip-text text-transparent italic"
+            >
+              {currentLyric}
+            </motion.p>
+         </AnimatePresence>
+      </div>
+
+      <div className="relative w-full h-10 bg-slate-900/60 rounded-full overflow-hidden mb-6 border border-white/5 z-20">
         <motion.div 
           animate={{ left: `${targetCenter - targetArea/2}%`, width: `${targetArea}%` }}
-          transition={{ duration: level >= 3 ? 0.3 : 0 }}
-          className="absolute top-0 bottom-0 bg-emerald-500/30 border-x-2 border-emerald-400"
+          transition={{ duration: 0.3 }}
+          className="absolute top-0 bottom-0 bg-emerald-500/20 border-x-2 border-emerald-400/50"
         />
         <div
-          className="absolute top-1 bottom-1 w-2 bg-white rounded-full shadow-[0_0_10px_white]"
-          style={{ left: `calc(${position}% - 4px)` }}
+          className="absolute top-1 bottom-1 w-1.5 bg-white rounded-full shadow-[0_0_15px_rgba(255,255,255,0.8)] transition-all duration-75"
+          style={{ left: `calc(${position}% - 3px)` }}
         />
       </div>
 
-      <div className="flex justify-center gap-4 mb-4 text-sm font-bold relative z-20">
-        <span className="text-emerald-400">Başarılı: {hits}/{requiredHits}</span>
+      <div className="flex justify-center gap-6 mb-4 text-xs font-bold relative z-20 tracking-wider uppercase opacity-80">
+        <span className="text-emerald-400">Nota: {hits}/{requiredHits}</span>
         <span className="text-rose-400">Hata: {misses}/{allowedMisses}</span>
       </div>
 
-      <div className="h-8 mb-4 relative z-20 flex justify-center items-center">
+      <div className="h-6 mb-4 relative z-20 flex justify-center items-center">
         <AnimatePresence mode="popLayout">
           {showMessage === "hit" && (
             <motion.span 
-              initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-              className="text-emerald-400 font-bold block"
+              initial={{ scale: 0, y: 10 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0, y: -10 }}
+              className="text-emerald-400 font-black text-sm drop-shadow-sm"
             >
-              Mükemmel Nota! 🎵
+              MÜKEMMEL! 🎵
             </motion.span>
           )}
           {showMessage === "miss" && (
             <motion.span 
-              initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-              className="text-rose-400 font-bold block"
+              initial={{ scale: 0, y: 10 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0, y: -10 }}
+              className="text-rose-400 font-black text-sm drop-shadow-sm"
             >
-              Detone Oldun! ❌
+              KAÇIRDIN! ❌
             </motion.span>
           )}
         </AnimatePresence>
       </div>
 
-      {!useMic && (
-        <button
-          onClick={initMic}
-          className="mb-4 text-[10px] text-pink-300 underline hover:text-pink-200 relative z-20"
-        >
-          Mikrofonla Şarkı Söyle (İzin İster)
-        </button>
-      )}
-      {useMic && (
-        <div className="mb-4 h-2 w-full bg-slate-900 rounded-full overflow-hidden relative z-20">
-          <div className="h-full bg-pink-500 transition-all duration-75" style={{ width: `${Math.min(100, micVolume)}%` }} />
-        </div>
-      )}
-
       <button
-        onClick={() => handleSing(false)}
+        onClick={() => handleSing()}
         disabled={isDone}
-        className="w-full py-4 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 disabled:opacity-50 text-white rounded-xl font-bold text-lg md:text-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2 relative z-20"
+        className={`w-full py-4 bg-gradient-to-r ${LEVEL_COLORS[level]} hover:brightness-110 disabled:opacity-30 text-white rounded-2xl font-black text-lg shadow-xl transition-all active:scale-95 flex items-center justify-center gap-3 relative z-20 border border-white/10`}
       >
-        <Play size={24} />
-        SÖYLE (Boşluk/Enter)
+        <Play size={20} fill="currentColor" />
+        SÖYLE
       </button>
     </div>
   );
 }
-

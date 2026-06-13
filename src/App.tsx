@@ -10,6 +10,8 @@ import React, {
 import { motion, AnimatePresence } from "motion/react";
 import { VocalMinigame } from "./components/VocalMinigame";
 import { DanceMinigame } from "./components/DanceMinigame";
+import { HeadlineMontage } from "./components/HeadlineMontage";
+import { FanInteractions } from "./components/FanInteractions";
 
 import {
   Heart,
@@ -99,7 +101,9 @@ type GameState =
   | "CINEMATIC"
   | "MINIGAME_VOCAL"
   | "MINIGAME_DANCE"
-  | "LOCATION_VIEW";
+  | "LOCATION_VIEW"
+  | "MONTAGE"
+  | "FAN_INTERACTION";
 
 // Endings Definition
 const ENDINGS = {
@@ -245,6 +249,8 @@ export default function App() {
       .sort((a, b) => b.percent - a.percent);
   }, [leaderboard]);
 
+  const [socialTab, setSocialTab] = useState<"comments" | "news">("comments");
+
   const [hasInteracted, setHasInteracted] = useState(false);
   const [lynchCount, setLynchCount] = useState(0);
   const [lynchInteractions, setLynchInteractions] = useState(0);
@@ -320,10 +326,10 @@ export default function App() {
       prev.map((c) =>
         c.id === id
           ? {
-              ...c,
-              liked: !c.liked,
-              likes: c.liked ? (c.likes || 1) - 1 : (c.likes || 0) + 1,
-            }
+            ...c,
+            liked: !c.liked,
+            likes: c.liked ? (c.likes || 1) - 1 : (c.likes || 0) + 1,
+          }
           : c,
       ),
     );
@@ -336,10 +342,10 @@ export default function App() {
       prev.map((c) =>
         c.id === id
           ? {
-              ...c,
-              replied: true,
-              fanReply: randomItem(FAN_REPLY_ALTERNATIVES),
-            }
+            ...c,
+            replied: true,
+            fanReply: randomItem(FAN_REPLY_ALTERNATIVES),
+          }
           : c,
       ),
     );
@@ -371,7 +377,7 @@ export default function App() {
     if (calculatedScore !== undefined) {
       setScoreSafe(Math.max(0, calculatedScore));
     }
-    
+
     // Calculate new ending stats for display
     const finalStats: Stats = {
       ...stats,
@@ -380,7 +386,7 @@ export default function App() {
       danceMinigameCount,
       avoidedReset,
     };
-    
+
     // Set the final stats for EndingCard
     setFinalStats(finalStats);
 
@@ -635,9 +641,21 @@ export default function App() {
     setLevel(1);
     setTasksCompletedInLevel(0);
     setStageFails({ health: 0, resilience: 0, success: 0, talent: 0 });
-    // Skoru sıfırla
     setScoreSafe(0);
     setFanCountSafe(0);
+  };
+
+  const handleMontageComplete = () => {
+    // Advanced montage complete: move to next level hub
+    setGameState("HUB");
+  };
+
+  const handleFanInteractionComplete = (reward: { type: string; value: number } | null) => {
+    if (reward) {
+      applyStatChanges({ [reward.type]: reward.value });
+    }
+    setSocialTab("news");
+    setGameState("SOCIAL_MEDIA");
   };
 
   const handleLynchResponse = (
@@ -657,7 +675,7 @@ export default function App() {
     if (type === "insult") {
       setConsecutiveLynchFails((prev) => {
         const next = prev + 1;
-        if (next >= 3 || stats.resilience < 20) {
+        if (next >= 4 || stats.resilience < 15) {
           setTimeout(() => {
             applyStatChanges({ resilience: -15, success: -20 });
             setEventMessage(
@@ -763,16 +781,16 @@ export default function App() {
         isPositive,
         likes: Math.floor(
           Math.random() *
-            (isPositive ? successVal * 10 : (100 - successVal) * 5),
+          (isPositive ? successVal * 10 : (100 - successVal) * 5),
         ),
         time: `${Math.floor(Math.random() * 23)}s önce`,
         analysisNote: !isPositive
           ? randomItem([
-              "Kendi başarısızlığını örtmeye çalışıyor.",
-              "Bu kişi muhtemelen gündemden düşmekten korkuyor.",
-              "Sadece ilgi çekmek için yazılmış bir tür nefret söylemi.",
-              "Kendi hayatındaki mutsuzluğu yansıtıyor.",
-            ])
+            "Kendi başarısızlığını örtmeye çalışıyor.",
+            "Bu kişi muhtemelen gündemden düşmekten korkuyor.",
+            "Sadece ilgi çekmek için yazılmış bir tür nefret söylemi.",
+            "Kendi hayatındaki mutsuzluğu yansıtıyor.",
+          ])
           : undefined,
         replied: false,
       });
@@ -1112,7 +1130,7 @@ export default function App() {
         applyStatChanges(effects, choiceText, choiceSocialFeedback);
         setEventMessage(
           finalMessage +
-            `\n\n[KRİTİK DURUM!]\nSahnede mükemmeldin ama bedenin ve zihnin iflas etti. Ancak şirket seni bırakmıyor. Sahneye çıkmaya devam edemiyorsun, sözleşmeni de feshedemiyorsun.\n\nKONTRAT HAPSİ NEDENİYLE KARİYERİN DONDU.`,
+          `\n\n[KRİTİK DURUM!]\nSahnede mükemmeldin ama bedenin ve zihnin iflas etti. Ancak şirket seni bırakmıyor. Sahneye çıkmaya devam edemiyorsun, sözleşmeni de feshedemiyorsun.\n\nKONTRAT HAPSİ NEDENİYLE KARİYERİN DONDU.`,
         );
         endGame(false, "KONTRAT HAPSİ", newTotalScore, "CONTRACT_PRISON");
         return;
@@ -1135,7 +1153,7 @@ export default function App() {
                 : "YETENEK YETERSİZLİĞİ";
         setEventMessage(
           finalMessage +
-            `\n\n[KRİTİK HATA!]\nSahnede performans sergilemeye çalışırken zaten tamamen bitmiştin. Kendini zorladın ve her şey sona erdi.\n\n${reason} NEDENİYLE KARİYERİN SONA ERDİ.`,
+          `\n\n[KRİTİK HATA!]\nSahnede performans sergilemeye çalışırken zaten tamamen bitmiştin. Kendini zorladın ve her şey sona erdi.\n\n${reason} NEDENİYLE KARİYERİN SONA ERDİ.`,
         );
         endGame(false, reason, newTotalScore);
         return;
@@ -1177,7 +1195,7 @@ export default function App() {
                   : "YETENEK YETERSİZLİĞİ";
           setEventMessage(
             finalMessage +
-              `\n\n[KRİTİK HATA!]\nAynı hatayı sahnede ikinci kez yaptın. Verilen şansı değerlendiremedin.\n\n${reason} NEDENİYLE KARİYERİN SONA ERDİ.`,
+            `\n\n[KRİTİK HATA!]\nAynı hatayı sahnede ikinci kez yaptın. Verilen şansı değerlendiremedin.\n\n${reason} NEDENİYLE KARİYERİN SONA ERDİ.`,
           );
           endGame(false, reason, newTotalScore);
           return;
@@ -1207,7 +1225,7 @@ export default function App() {
 
           setEventMessage(
             finalMessage +
-              `\n\n[DİKKAT!]\nSahne sonrasında ${statName} sıfırlandı. Seviyeyi geçemedin. Ancak pes etmek yok, sana toparlanman için BİR ŞANS DAHA VERİLİYOR.${quote}\n\nEğitim merkezine dön ve kendini geliştir!`,
+            `\n\n[DİKKAT!]\nSahne sonrasında ${statName} sıfırlandı. Seviyeyi geçemedin. Ancak pes etmek yok, sana toparlanman için BİR ŞANS DAHA VERİLİYOR.${quote}\n\nEğitim merkezine dön ve kendini geliştir!`,
           );
 
           const adjustedEffects = { ...effects };
@@ -1236,48 +1254,48 @@ export default function App() {
         let finalBonus = 0;
 
         if (newSuccess < reqPoints) {
-          if (fanCountRef.current > 30000 && (lynchInteractions > 8 || positiveRepliesCount > 10)) {
+          if (fanCountRef.current > 20000 && (lynchInteractions >= 2 || positiveRepliesCount >= 4)) {
             ending = "FAN_PHENOMENON";
-            finalBonus = 1500;
-          } else if (newResilience < 40 && newTalent <= 60) {
-            ending = "RETIREMENT";
-            finalBonus = 500;
+            finalBonus = 2000;
           } else if (newTalent > 60) {
             ending = "SOLO_CAREER";
-            finalBonus = 2000;
-          } else if (newSuccess < 40 && lynchCount === 0) {
+            finalBonus = 2500;
+          } else if (newSuccess < 45 && lynchCount <= 1) {
             ending = "QUIET_RETIREMENT";
             finalBonus = 0;
-          } else {
-            ending = "INFLUENCER";
-            finalBonus = 1000;
-          }
-
-          setEventMessage(
-            finalMessage +
-              `\n\n💫 Okyanusları aşamadın belki ama, kendine yeni bir yol çizdin! ${ENDINGS[ending].desc}`,
-          );
-        } else {
-          if (fanCountRef.current > 50000) {
-            ending = "INTERNATIONAL";
-            finalBonus = 4000;
-          } else if (newResilience < 40) {
-            ending = "SOLO_CAREER";
-            finalBonus = 2000;
-          } else if (newHealth < 40) {
+          } else if (newResilience < 30 && newTalent <= 50) {
             ending = "RETIREMENT";
             finalBonus = 500;
-          } else if (newTalent < 50) {
-            ending = "INFLUENCER";
-            finalBonus = 1000;
           } else {
-            ending = "GROUP_MEMBER";
-            finalBonus = 3000;
+            ending = "INFLUENCER";
+            finalBonus = 1200;
           }
 
           setEventMessage(
             finalMessage +
-              `\n\n💫 TEBRİKLER! Okyanusları Aştın! ${ENDINGS[ending].desc}`,
+            `\n\n💫 Okyanusları aşamadın belki ama, kendine yeni bir yol çizdin! ${ENDINGS[ending].desc}`,
+          );
+        } else {
+          if (fanCountRef.current > 80000) {
+            ending = "INTERNATIONAL";
+            finalBonus = 5000;
+          } else if (newResilience < 35) {
+            ending = "SOLO_CAREER";
+            finalBonus = 3000;
+          } else if (newHealth < 35) {
+            ending = "RETIREMENT";
+            finalBonus = 1000;
+          } else if (newTalent < 50) {
+            ending = "INFLUENCER";
+            finalBonus = 1500;
+          } else {
+            ending = "GROUP_MEMBER";
+            finalBonus = 4000;
+          }
+
+          setEventMessage(
+            finalMessage +
+            `\n\n💫 TEBRİKLER! Okyanusları Aştın! ${ENDINGS[ending].desc}`,
           );
         }
 
@@ -1306,10 +1324,9 @@ export default function App() {
 
         setEventMessage(
           finalMessage +
-            `\n\n🌟 Muhteşem bir performans! ${level}. Leveli başarıyla geçtin! (Level Atlama Komisyonu: Başarı +15, Psikoloji +10)\nKarşılandığın coşku sana ${stageFans.toLocaleString()} yeni takipçi kazandırdı!`,
+          `\n\n🌟 Muhteşem bir performans! ${level}. Leveli başarıyla geçtin! (Level Atlama Komisyonu: Başarı +15, Psikoloji +10)\nKarşılandığın coşku sana ${stageFans.toLocaleString()} yeni takipçi kazandırdı!`,
         );
 
-        // Level atlama bonus puanı
         setScoreSafe((s) => s + 500 * level);
 
         const nextLevel = level + 1;
@@ -1323,7 +1340,13 @@ export default function App() {
         else if (nextLevel === 4) cinematicType = character?.gender === "Kadın" ? "LEVEL_4_F" : "LEVEL_4";
 
         if (cinematicType) {
-          playCinematic(cinematicType, () => setGameState("RESULT"));
+          playCinematic(cinematicType, () => {
+            if (nextLevel === 3) setGameState("FAN_INTERACTION");
+            else {
+              setSocialTab("news");
+              setGameState("SOCIAL_MEDIA");
+            }
+          });
           return;
         }
       } else {
@@ -1340,7 +1363,7 @@ export default function App() {
 
         setEventMessage(
           finalMessage +
-            `\n\n[BAŞARISIZ SAHNE]\nPerformansını tamamladın ancak jürinin gözünde yeterli eşiği geçemedin. (Gereken: En az ${reqPoints} Başarı). Ancak şirketin kararıyla bir sonraki aşamaya güç bela geçirildin!\n\n(Ceza Puanı uygulandı ve hayran kitleni kaybettin)`,
+          `\n\n[BAŞARISIZ SAHNE]\nPerformansını tamamladın ancak jürinin gözünde yeterli eşiği geçemedin. (Gereken: En az ${reqPoints} Başarı). Ancak şirketin kararıyla bir sonraki aşamaya güç bela geçirildin!\n\n(Ceza Puanı uygulandı ve hayran kitleni kaybettin)`,
         );
 
         // Başarısızlık ceza puanı
@@ -1357,7 +1380,13 @@ export default function App() {
         else if (nextLevel === 4) cinematicType = character?.gender === "Kadın" ? "LEVEL_4_F" : "LEVEL_4";
 
         if (cinematicType) {
-          playCinematic(cinematicType, () => setGameState("RESULT"));
+          playCinematic(cinematicType, () => {
+            if (nextLevel === 3) setGameState("FAN_INTERACTION");
+            else {
+              setSocialTab("news");
+              setGameState("SOCIAL_MEDIA");
+            }
+          });
           return;
         }
       }
@@ -1599,14 +1628,14 @@ export default function App() {
             audio
               .play()
               .then(() => fade(0.4))
-              .catch(() => {});
+              .catch(() => { });
           }
         } else {
           if (audio.paused && hasInteracted) {
             audio
               .play()
               .then(() => fade(0.4))
-              .catch(() => {});
+              .catch(() => { });
           } else {
             fade(0.4);
           }
@@ -2743,12 +2772,12 @@ export default function App() {
                         level={level}
                         onComplete={(success) => {
                           if (success) {
-                            applyStatChanges({ success: 10, talent: 15, health: -5, resilience: -5 });
+                            applyStatChanges({ success: 12, talent: 18, health: -4, resilience: -4 });
                             setEventMessage(
-                              "Vokal antrenmanı harikaydı! Sesin günden güne güzelleşiyor. Ancak bu çalışma seni yordu.",
+                              "Vokal antrenmanı harikaydı! Şarkı sözlerini yüreğinde hissettin ve mükemmel bir performans sergiledin.",
                             );
                           } else {
-                            applyStatChanges({ health: -15, talent: -5, resilience: -10 });
+                            applyStatChanges({ health: -12, talent: -4, resilience: -8 });
                             setEventMessage(
                               "Vokal çalışırken boğazını zorladın. Biraz detone oldun, canın çok sıkkın.",
                             );
@@ -2777,14 +2806,14 @@ export default function App() {
                         level={level}
                         onComplete={(success) => {
                           if (success) {
-                            applyStatChanges({ success: 10, talent: 15, health: -10, resilience: -5 });
+                            applyStatChanges({ success: 15, talent: 20, health: -7, resilience: -4 });
                             setEventMessage(
-                              "Harika bir koreografi ezberi! Seyirciler sahnede büyülenecek. Ancak vücudunun her yeri ağrıyor.",
+                              "Koreografiyi başarıyla tamamladın! Vücudun ritimle bütünleşti, harika bir kombo yaptın.",
                             );
                           } else {
-                            applyStatChanges({ health: -20, talent: -5, resilience: -5 });
+                            applyStatChanges({ health: -15, resilience: -10, success: -5 });
                             setEventMessage(
-                              "Ayakların birbirine dolandı! Koreografi üzerinde daha çok çalışmalısın. Vücudun zorlandı ve moralin bozuldu.",
+                              "Dans ederken adımların birbirine dolandı. Biraz yoruldun ve moralin bozuldu.",
                             );
                           }
                           setTasksCompletedInLevel((prev) =>
@@ -2854,6 +2883,14 @@ export default function App() {
                       )}
                     </div>
                   </motion.div>
+                )}
+
+                {gameState === "FAN_INTERACTION" && (
+                  <FanInteractions
+                    playerName={character?.name || playerName}
+                    avatarUrl={character?.imageUrl}
+                    onComplete={handleFanInteractionComplete}
+                  />
                 )}
 
                 {gameState === "RESULT" && (
@@ -2941,11 +2978,11 @@ export default function App() {
                           (() => {
                             const lastComment =
                               activeLynchComments[
-                                activeLynchComments.length - 1
+                              activeLynchComments.length - 1
                               ];
                             const rawName =
                               MOCK_USERS[
-                                activeLynchComments.length % MOCK_USERS.length
+                              activeLynchComments.length % MOCK_USERS.length
                               ];
                             const dName = rawName.startsWith("@")
                               ? rawName
@@ -2954,7 +2991,7 @@ export default function App() {
                             const shortText =
                               lastComment.text.length > 55
                                 ? lastComment.text.substring(0, 55).trim() +
-                                  "..."
+                                "..."
                                 : lastComment.text;
 
                             return (
@@ -3052,16 +3089,16 @@ export default function App() {
                                         key,
                                         typeof val === "number" && val < 0
                                           ? Math.floor(
-                                              val * difficultyMultiplier,
-                                            )
+                                            val * difficultyMultiplier,
+                                          )
                                           : val,
                                       ],
                                     ),
                                   );
 
-                                  const effectSum = Object.values(scaledEffects).reduce((sum, v) => (typeof v === "number" ? sum + v : sum), 0);
+                                  const effectSum = (Object.values(scaledEffects) as (number | boolean)[]).reduce<number>((sum, v) => (typeof v === "number" ? sum + v : sum), 0);
 
-                                  if (effectSum < -5) {
+                                  if (effectSum < -10) {
                                     setConsecutiveLynchFails((prev) => {
                                       const next = prev + 1;
                                       if (next >= 3) {
@@ -3451,144 +3488,178 @@ export default function App() {
                     className="absolute inset-0 flex flex-col items-center justify-center z-40 p-2 md:p-4"
                   >
                     <div className="w-full max-w-md h-full max-h-[90vh] bg-slate-950 rounded-[2.5rem] border-[6px] md:border-[8px] border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col relative text-slate-50">
-                      <div className="bg-slate-900/80 backdrop-blur-md p-4 flex items-center justify-between border-b border-white/5 z-10 sticky top-0">
-                        <button
-                          onClick={() => setGameState("HUB")}
-                          className="text-purple-300 hover:text-white transition-colors p-2 bg-white/5 rounded-full hover:bg-white/10"
-                        >
-                          <ChevronLeft size={20} />
-                        </button>
-                        <div className="font-bold text-slate-100 flex items-center gap-2 tracking-wide">
-                          <Smartphone size={16} /> Akış
-                          <span className="text-xs bg-slate-800 px-2 py-0.5 rounded-full text-purple-300">
-                            {fanCount.toLocaleString()} t.
-                          </span>
+                      <div className="bg-slate-900/80 backdrop-blur-md flex flex-col border-b border-white/5 z-10 sticky top-0">
+                        <div className="p-4 flex items-center justify-between">
+                          <button
+                            onClick={() => setGameState("HUB")}
+                            className="text-purple-300 hover:text-white transition-colors p-2 bg-white/5 rounded-full hover:bg-white/10"
+                          >
+                            <ChevronLeft size={20} />
+                          </button>
+                          <div className="font-bold text-slate-100 flex items-center gap-2 tracking-wide">
+                            <Smartphone size={16} /> Sosyal Medya
+                            <span className="text-xs bg-slate-800 px-2 py-0.5 rounded-full text-purple-300">
+                              {fanCount.toLocaleString()} t.
+                            </span>
+                          </div>
+                          <div className="w-8 h-8"></div>
                         </div>
-                        <div className="w-8 h-8"></div>
+
+                        <div className="flex border-t border-white/5 bg-slate-950/50">
+                          <button
+                            className={`flex-1 py-3 text-sm font-bold tracking-widest uppercase transition-colors ${socialTab === "comments"
+                                ? "text-purple-300 border-b-2 border-purple-400 bg-purple-900/10"
+                                : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                              }`}
+                            onClick={() => setSocialTab("comments")}
+                          >
+                            Akış
+                          </button>
+                          <button
+                            className={`flex-1 py-3 text-sm font-bold tracking-widest uppercase transition-colors ${socialTab === "news"
+                                ? "text-emerald-300 border-b-2 border-emerald-400 bg-emerald-900/10"
+                                : "text-slate-500 hover:text-slate-300 hover:bg-white/5"
+                              }`}
+                            onClick={() => setSocialTab("news")}
+                          >
+                            Magazin
+                          </button>
+                        </div>
                       </div>
 
                       <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar pb-20">
-
-                        {socialComments.length === 0 ? (
-                          <div className="text-center text-purple-300/50 mt-10">
-                            Henüz yorum yok...
-                          </div>
+                        {socialTab === "news" ? (
+                          <HeadlineMontage
+                            level={level}
+                            stats={{ health: stats.health, resilience: stats.resilience, success: stats.success, talent: stats.talent, fans: fanCount, lynchCount: stats.lynchCount || 0 }}
+                            playerName={character?.name || playerName}
+                            avatarUrl={character?.imageUrl}
+                          />
                         ) : (
-                          socialComments.map((comment) => (
-                            <div
-                              key={comment.id}
-                              className={`p-4 rounded-2xl ${comment.isPositive ? "bg-purple-900/20 border-purple-500/20" : "bg-rose-900/20 border-rose-500/20"} border`}
-                            >
-                              <div className="flex justify-between items-start mb-2">
-                                <span
-                                  className={`font-semibold text-sm ${comment.isPositive ? "text-purple-200" : "text-rose-200"}`}
+                          <>
+
+                            {socialComments.length === 0 ? (
+                              <div className="text-center text-purple-300/50 mt-10">
+                                Henüz yorum yok...
+                              </div>
+                            ) : (
+                              socialComments.map((comment) => (
+                                <div
+                                  key={comment.id}
+                                  className={`p-4 rounded-2xl ${comment.isPositive ? "bg-purple-900/20 border-purple-500/20" : "bg-rose-900/20 border-rose-500/20"} border`}
                                 >
-                                  {comment.user}
-                                </span>
-                                <span className="text-xs opacity-50">
-                                  {comment.time}
-                                </span>
-                              </div>
-                              <p
-                                className={`${comment.isPositive ? "text-purple-50" : "text-rose-50"} text-sm`}
-                              >
-                                {comment.text}
-                              </p>
-
-                              {comment.analysisNote && (
-                                <p className="text-[10px] text-rose-400 mt-2 italic bg-rose-950/50 p-2 rounded border border-rose-800/30">
-                                  Analiz: {comment.analysisNote}
-                                </p>
-                              )}
-
-                              {!comment.isPositive && !comment.actionTaken && (
-                                <div className="mt-3 flex gap-2">
-                                  <button
-                                    onClick={() => {
-                                      applyStatChanges({ resilience: -5 });
-                                      setFanCountSafe((prev) => prev - 30);
-                                      setSocialComments((prev) =>
-                                        prev.map((c) =>
-                                          c.id === comment.id
-                                            ? { ...c, actionTaken: "blocked" }
-                                            : c,
-                                        ),
-                                      );
-                                    }}
-                                    className="text-[10px] bg-rose-900 border border-rose-700 text-white px-2 py-1 rounded hover:bg-rose-800"
-                                  >
-                                    Tepki Göster (-Psikoloji)
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      applyStatChanges({ success: 5 });
-                                      setFanCountSafe((prev) => prev + 20);
-                                      setSocialComments((prev) =>
-                                        prev.map((c) =>
-                                          c.id === comment.id
-                                            ? { ...c, actionTaken: "calmed" }
-                                            : c,
-                                        ),
-                                      );
-                                    }}
-                                    className="text-[10px] bg-sky-900 border border-sky-700 text-white px-2 py-1 rounded hover:bg-sky-800"
-                                  >
-                                    Baş Et (+Başarı)
-                                  </button>
-                                </div>
-                              )}
-
-                              {!comment.isPositive && comment.actionTaken && (
-                                <div className="mt-3 text-[10px] font-bold px-2 py-1 rounded bg-slate-800 inline-block text-slate-400 border border-slate-700">
-                                  {comment.actionTaken === "blocked"
-                                    ? "🚫 Engellendi"
-                                    : "✨ Baş Edildi!"}
-                                </div>
-                              )}
-
-                              <div className="flex items-center gap-1 mt-3 opacity-60 text-xs">
-                                <Heart
-                                  size={16}
-                                  className={`cursor-pointer ${comment.liked ? "text-rose-500 fill-rose-500" : "text-white"}`}
-                                  onClick={() => toggleLike(comment.id)}
-                                />
-                                <span className="text-xs">
-                                  {comment.likes || 0}
-                                </span>
-                                {comment.isPositive && !comment.replied && (
-                                  <div className="flex gap-2 ml-4">
-                                    <button
-                                      onClick={() =>
-                                        handleReply(comment.id, true)
-                                      }
-                                      className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
+                                  <div className="flex justify-between items-start mb-2">
+                                    <span
+                                      className={`font-semibold text-sm ${comment.isPositive ? "text-purple-200" : "text-rose-200"}`}
                                     >
-                                      Teşekkürler
-                                    </button>
-                                    <button
-                                      onClick={() =>
-                                        handleReply(comment.id, true)
-                                      }
-                                      className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
-                                    >
-                                      Sevgiler
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                              {comment.replied && (
-                                <div className="mt-3 p-3 bg-purple-950/40 rounded-xl border border-purple-500/30">
-                                  <p className="text-xs text-purple-300 italic">
-                                    <span className="font-bold text-purple-400">
-                                      {comment.user}:{" "}
+                                      {comment.user}
                                     </span>
-                                    {comment.fanReply ||
-                                      "Oha yorumumu beğendi! Seni çok seviyorum!"}
+                                    <span className="text-xs opacity-50">
+                                      {comment.time}
+                                    </span>
+                                  </div>
+                                  <p
+                                    className={`${comment.isPositive ? "text-purple-50" : "text-rose-50"} text-sm`}
+                                  >
+                                    {comment.text}
                                   </p>
+
+                                  {comment.analysisNote && (
+                                    <p className="text-[10px] text-rose-400 mt-2 italic bg-rose-950/50 p-2 rounded border border-rose-800/30">
+                                      Analiz: {comment.analysisNote}
+                                    </p>
+                                  )}
+
+                                  {!comment.isPositive && !comment.actionTaken && (
+                                    <div className="mt-3 flex gap-2">
+                                      <button
+                                        onClick={() => {
+                                          applyStatChanges({ resilience: -5 });
+                                          setFanCountSafe((prev) => prev - 30);
+                                          setSocialComments((prev) =>
+                                            prev.map((c) =>
+                                              c.id === comment.id
+                                                ? { ...c, actionTaken: "blocked" }
+                                                : c,
+                                            ),
+                                          );
+                                        }}
+                                        className="text-[10px] bg-rose-900 border border-rose-700 text-white px-2 py-1 rounded hover:bg-rose-800"
+                                      >
+                                        Tepki Göster (-Psikoloji)
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          applyStatChanges({ success: 5 });
+                                          setFanCountSafe((prev) => prev + 20);
+                                          setSocialComments((prev) =>
+                                            prev.map((c) =>
+                                              c.id === comment.id
+                                                ? { ...c, actionTaken: "calmed" }
+                                                : c,
+                                            ),
+                                          );
+                                        }}
+                                        className="text-[10px] bg-sky-900 border border-sky-700 text-white px-2 py-1 rounded hover:bg-sky-800"
+                                      >
+                                        Baş Et (+Başarı)
+                                      </button>
+                                    </div>
+                                  )}
+
+                                  {!comment.isPositive && comment.actionTaken && (
+                                    <div className="mt-3 text-[10px] font-bold px-2 py-1 rounded bg-slate-800 inline-block text-slate-400 border border-slate-700">
+                                      {comment.actionTaken === "blocked"
+                                        ? "🚫 Engellendi"
+                                        : "✨ Baş Edildi!"}
+                                    </div>
+                                  )}
+
+                                  <div className="flex items-center gap-1 mt-3 opacity-60 text-xs">
+                                    <Heart
+                                      size={16}
+                                      className={`cursor-pointer ${comment.liked ? "text-rose-500 fill-rose-500" : "text-white"}`}
+                                      onClick={() => toggleLike(comment.id)}
+                                    />
+                                    <span className="text-xs">
+                                      {comment.likes || 0}
+                                    </span>
+                                    {comment.isPositive && !comment.replied && (
+                                      <div className="flex gap-2 ml-4">
+                                        <button
+                                          onClick={() =>
+                                            handleReply(comment.id, true)
+                                          }
+                                          className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
+                                        >
+                                          Teşekkürler
+                                        </button>
+                                        <button
+                                          onClick={() =>
+                                            handleReply(comment.id, true)
+                                          }
+                                          className="text-[10px] bg-purple-900 border border-purple-700 text-white px-2 py-1 rounded"
+                                        >
+                                          Sevgiler
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                  {comment.replied && (
+                                    <div className="mt-3 p-3 bg-purple-950/40 rounded-xl border border-purple-500/30">
+                                      <p className="text-xs text-purple-300 italic">
+                                        <span className="font-bold text-purple-400">
+                                          {comment.user}:{" "}
+                                        </span>
+                                        {comment.fanReply ||
+                                          "Oha yorumumu beğendi! Seni çok seviyorum!"}
+                                      </p>
+                                    </div>
+                                  )}
                                 </div>
-                              )}
-                            </div>
-                          ))
+                              ))
+                            )}
+                          </>
                         )}
                       </div>
 
